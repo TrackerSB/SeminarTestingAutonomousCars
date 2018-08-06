@@ -1,0 +1,11 @@
+# PyCharm
+**/.idea/workspace.xml
+**/.idea/usage.statistics.xml
+**/.idea/tasks.xml
+**/venv/
+
+# BeamNG
+BeamNG/BeamNGUserpath
+!BeamNG/BeamNGUserpath/mods/unpacked
+BeamNG/BeamNG.ini
+BeamNG/output
