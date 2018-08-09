@@ -1,3 +1,6 @@
+"""
+This is basically a copy of the hello-car.py example delivered with AirSim.
+"""
 import os
 import time
 
@@ -78,3 +81,4 @@ for idx in range(3):
 client.reset()
 
 client.enableApiControl(False)
+
