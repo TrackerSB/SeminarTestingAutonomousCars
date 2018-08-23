@@ -22,19 +22,14 @@
             }
         },
         "*": {
-            "playerUsable": false,
-            "goal": {
-               "nomove": {
-                    "msg":"Don´t move?"
-                }
-            }
+            "playerUsable": false
         }
     },
 	
     "whiteListActions": ["default_whitelist_scenario" ],
     "blackListActions": ["default_blacklist_scenario" ],
 	
-    "lapConfig": [""],
+    "lapConfig": ["waypoint0", "waypoint1", "waypoint2", "waypoint3"],
     "prefabs": ["basic_scenario"],
     "radiusMultiplierAI": 2
 }
