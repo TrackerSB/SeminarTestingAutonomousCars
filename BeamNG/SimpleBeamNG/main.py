@@ -72,7 +72,7 @@ if __name__ == '__main__':
         output_dir: Union[Optional[object], Any] = get_user_config('output_dir')
         time.sleep(project_config['delayBeforeFirst'])
         for i in range(project_config['numRequests']):
-            vstate: object = bpy.get_vstate(project_config['widthOfScreenshot'])
+            vstate: dict = bpy.get_vstate(project_config['widthOfScreenshot'])
             with open(os.path.join(output_dir, f'{i:02}.png'), 'wb') as img:
                 vstate['img'].save(img, format="PNG")
             time.sleep(project_config['delay'])
