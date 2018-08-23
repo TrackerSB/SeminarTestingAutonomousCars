@@ -1,0 +1,55 @@
+//--- OBJECT WRITE BEGIN ---
+$ThisPrefab = new SimGroup() {
+   canSave = "1";
+   canSaveDynamicFields = "1";
+      groupPosition = "0.000000 0.000000 0.000000";
+
+   new BeamNGWaypoint(waypoint0) {
+      drawDebug = "0";
+      directionalWaypoint = "0";
+      position = "-46.8353844 529.362732 74.6802444";
+      scale = "1 1 1";
+      rotationMatrix = "1 0 0 0 0.999999762 -0.000690533896 0 0.000690533896 0.999999762";
+      mode = "Ignore";
+      canSave = "1";
+      canSaveDynamicFields = "1";
+   };
+   new BeamNGWaypoint(WayPoint1) {
+      drawDebug = "0";
+      directionalWaypoint = "0";
+      position = "-50.9943314 555.003601 74.6485062";
+      scale = "1 1 1";
+      rotationMatrix = "1 0 0 0 0.999999762 -0.000690533896 0 0.000690533896 0.999999762";
+      mode = "Ignore";
+      canSave = "1";
+      canSaveDynamicFields = "1";
+   };
+   new BeamNGVehicle(scenario_player0) {
+      JBeam = "etk800";
+      color = "1 1 1 1.20000005";
+      colorPalette0 = "White";
+      colorPalette1 = "White";
+      renderDistance = "500";
+      renderFade = "0.100000001";
+      dataBlock = "default_vehicle";
+      position = "-51.8636703 530.282959 74.8293533";
+      scale = "1 1 1";
+      rotationMatrix = "-0.359280348 -0.933229685 0 0.933229685 -0.359280348 0 0 0 1";
+      annotation = "CAR";
+      mode = "Ignore";
+      canSave = "1";
+      canSaveDynamicFields = "1";
+         isAIControlled = "1";
+         licenseText = "ZVI-2239";
+   };
+};
+//--- OBJECT WRITE END ---
+
+
+
+
+
+
+
+
+

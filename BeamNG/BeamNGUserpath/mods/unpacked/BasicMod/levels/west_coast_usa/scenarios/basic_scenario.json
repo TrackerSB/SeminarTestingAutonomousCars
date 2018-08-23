@@ -1,0 +1,41 @@
+[
+{
+    "name": "Basic Scenario",
+    "description": "Represents a minimum required setup for accessing and communicating with BeamNG.research.",
+    "previews": ["basic_scenario.png"],
+    "authors": "Stefan Huber",
+
+    "difficulty": "10",
+	
+	"vehicles": {
+        "scenario_player0": {
+            "playerUsable": true,
+            "driver": {
+                "player": true,
+                "startFocus": true,
+                "required": true
+            },
+            "extensions": {
+                "annotate": {
+                    "text": "This car is driven by source code."
+                },
+            }
+        },
+        "*": {
+            "playerUsable": false,
+            "goal": {
+               "nomove": {
+                    "msg":"Don´t move?"
+                }
+            }
+        }
+    },
+	
+    "whiteListActions": ["default_whitelist_scenario" ],
+    "blackListActions": ["default_blacklist_scenario" ],
+	
+    "lapConfig": [""],
+    "prefabs": ["basic_scenario"],
+    "radiusMultiplierAI": 2
+}
+]
