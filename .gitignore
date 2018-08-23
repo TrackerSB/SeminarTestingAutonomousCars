@@ -5,7 +5,7 @@
 **/venv/
 
 # BeamNG
-BeamNG/BeamNGUserpath
-!BeamNG/BeamNGUserpath/mods/unpacked
+BeamNG/BeamNGUserpath/
+!BeamNG/BeamNGUserpath/mods/unpacked/*
 BeamNG/BeamNG.ini
-BeamNG/output
+BeamNG/output/
