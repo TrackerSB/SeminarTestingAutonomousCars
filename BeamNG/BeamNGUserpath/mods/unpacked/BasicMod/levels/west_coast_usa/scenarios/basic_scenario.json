@@ -4,20 +4,31 @@
     "description": "Represents a minimum required setup for accessing information, automatically drive an AI through waypoints, using image annotation and collecting its data.",
     "previews": ["basic_scenario.png"],
     "authors": "Stefan Huber",
-
-    "difficulty": "10",
 	
-	"vehicles": {"mainAI": {
+	"vehicles": {
+        "fakePlayer": {
             "playerUsable": false,
             "driver": {
-                "player": false,
+                "player": true,
                 "startFocus": true,
-                "required": true,
-                "ModeAI":"random"
+                "required": true
             },
             "extensions": {
                 "annotate": {
-                    "text": "This car is driven by itself through given waypoints."
+                    "text": "fakePlayer"
+                }
+            }
+        },
+        "mainAI": {
+            "playerUsable": false,
+            "driver": {
+                "player": false,
+                "required": false,
+                "ModeAI": "flee"
+            },
+            "extensions": {
+                "annotate": {
+                    "text": "mainAI"
                 }
             }
         },

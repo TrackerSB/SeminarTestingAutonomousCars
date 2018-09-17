@@ -44,6 +44,25 @@ $ThisPrefab = new SimGroup() {
       canSave = "1";
       canSaveDynamicFields = "1";
    };
+   new BeamNGVehicle(fakePlayer) {
+      JBeam = "etk800";
+      color = "1 1 1 1.20000005";
+      colorPalette0 = "White";
+      colorPalette1 = "White";
+      renderDistance = "500";
+      renderFade = "0.100000001";
+      dataBlock = "default_vehicle";
+      position = "-50.8300438 531 74.9191666";
+      scale = "1 1 1";
+      rotationMatrix = "-1 8.74227766e-08 0 -8.74227766e-08 -1 0 0 0 1";
+      annotation = "CAR";
+      mode = "Ignore";
+      canSave = "1";
+      canSaveDynamicFields = "1";
+      isAIControlled = "0";
+      licenseText = "Uni Passau";
+      isAIWaypointControlled = "0";
+   };
    new BeamNGVehicle(mainAI) {
       JBeam = "etk800";
       color = "1 1 1 1.20000005";
