@@ -4,22 +4,64 @@ $ThisPrefab = new SimGroup() {
    canSaveDynamicFields = "1";
       groupPosition = "0.000000 0.000000 0.000000";
 
-   new BeamNGTrigger(changeTimeOfDay) {
-      TriggerType = "Box";
-      TriggerMode = "Center";
-      TriggerTestType = "Race corners";
-      luaFunction = "local function myTodTrigger (data)\n  if data.event == \"enter\" then\n\t    print(\"Enter trigger\")\n    core_environment.setTimeOfDay({time=1})\n  else\n    print(\"Left trigger\")\n  end\nend\n\nreturn myTodTrigger";
-      tickPeriod = "100";
-      debug = "0";
-      ticking = "0";
-      triggerColor = "255 192 0 45";
-      defaultOnLeave = "0";
-      position = "-40.842823 570.06958 74.6596527";
-      scale = "10 10 10";
+   new BeamNGWaypoint(waypoint0) {
+      drawDebug = "0";
+      directionalWaypoint = "0";
+      position = "-49.8780785 660.02594 74.9151993";
+      scale = "1 1 1";
       rotationMatrix = "1 0 0 0 0.999999762 -0.000690533896 0 0.000690533896 0.999999762";
       mode = "Ignore";
       canSave = "1";
       canSaveDynamicFields = "1";
+   };
+   new BeamNGWaypoint(waypoint1) {
+      drawDebug = "0";
+      directionalWaypoint = "0";
+      position = "12.8438511 660.377014 74.6371002";
+      scale = "1 1 1";
+      rotationMatrix = "1 0 0 0 0.999999762 -0.000690533896 0 0.000690533896 0.999999762";
+      mode = "Ignore";
+      canSave = "1";
+      canSaveDynamicFields = "1";
+   };
+   new BeamNGWaypoint(waypoint2) {
+      drawDebug = "0";
+      directionalWaypoint = "0";
+      position = "12.6464615 556.461365 74.7861557";
+      scale = "1 1 1";
+      rotationMatrix = "1 0 0 0 0.999999762 -0.000690533896 0 0.000690533896 0.999999762";
+      mode = "Ignore";
+      canSave = "1";
+      canSaveDynamicFields = "1";
+   };
+   new BeamNGWaypoint(waypoint3) {
+      drawDebug = "0";
+      directionalWaypoint = "0";
+      position = "-85.8816986 543.18335 74.6851501";
+      scale = "1 1 1";
+      rotationMatrix = "1 0 0 0 0.999999762 -0.000690533896 0 0.000690533896 0.999999762";
+      mode = "Ignore";
+      canSave = "1";
+      canSaveDynamicFields = "1";
+   };
+   new BeamNGVehicle(mainAI) {
+      JBeam = "etk800";
+      color = "1 1 1 1.20000005";
+      colorPalette0 = "White";
+      colorPalette1 = "White";
+      renderDistance = "500";
+      renderFade = "0.100000001";
+      dataBlock = "default_vehicle";
+      position = "-50.8300438 541.275635 74.9191666";
+      scale = "1 1 1";
+      rotationMatrix = "-1 8.74227766e-08 0 -8.74227766e-08 -1 0 0 0 1";
+      annotation = "CAR";
+      mode = "Ignore";
+      canSave = "1";
+      canSaveDynamicFields = "1";
+         isAIControlled = "1";
+         licenseText = "Uni Passau";
+         isAIWaypointControlled = "1";
    };
    new BeamNGTrigger(triggerImageAnnotation) {
       TriggerType = "Box";
@@ -38,59 +80,18 @@ $ThisPrefab = new SimGroup() {
       canSave = "1";
       canSaveDynamicFields = "1";
    };
-   new BeamNGVehicle(mainPlayer) {
-      JBeam = "etk800";
-      color = "1 1 1 1.20000005";
-      colorPalette0 = "White";
-      colorPalette1 = "White";
-      renderDistance = "500";
-      renderFade = "0.100000001";
-      dataBlock = "default_vehicle";
-      position = "-50.8300438 541.275635 74.9191666";
-      scale = "1 1 1";
-      rotationMatrix = "-1 8.74227766e-08 0 -8.74227766e-08 -1 0 0 0 1";
-      annotation = "CAR";
-      mode = "Ignore";
-      canSave = "1";
-      canSaveDynamicFields = "1";
-         isAIControlled = "1";
-         licenseText = "ZVI-2239";
-   };
-   new BeamNGWaypoint(waypoint3) {
-      drawDebug = "0";
-      directionalWaypoint = "0";
-      position = "-85.8816986 543.18335 74.6851501";
-      scale = "1 1 1";
-      rotationMatrix = "1 0 0 0 0.999999762 -0.000690533896 0 0.000690533896 0.999999762";
-      mode = "Ignore";
-      canSave = "1";
-      canSaveDynamicFields = "1";
-   };
-   new BeamNGWaypoint(waypoint2) {
-      drawDebug = "0";
-      directionalWaypoint = "0";
-      position = "12.6464615 556.461365 74.7861557";
-      scale = "1 1 1";
-      rotationMatrix = "1 0 0 0 0.999999762 -0.000690533896 0 0.000690533896 0.999999762";
-      mode = "Ignore";
-      canSave = "1";
-      canSaveDynamicFields = "1";
-   };
-   new BeamNGWaypoint(waypoint1) {
-      drawDebug = "0";
-      directionalWaypoint = "0";
-      position = "12.8438511 660.377014 74.6371002";
-      scale = "1 1 1";
-      rotationMatrix = "1 0 0 0 0.999999762 -0.000690533896 0 0.000690533896 0.999999762";
-      mode = "Ignore";
-      canSave = "1";
-      canSaveDynamicFields = "1";
-   };
-   new BeamNGWaypoint(waypoint0) {
-      drawDebug = "0";
-      directionalWaypoint = "0";
-      position = "-49.8780785 660.02594 74.9151993";
-      scale = "1 1 1";
+   new BeamNGTrigger(changeTimeOfDay) {
+      TriggerType = "Box";
+      TriggerMode = "Center";
+      TriggerTestType = "Race corners";
+      luaFunction = "local function myTodTrigger (data)\n  if data.event == \"enter\" then\n\t    print(\"Enter trigger\")\n    core_environment.setTimeOfDay({time=1})\n  else\n    print(\"Left trigger\")\n  end\nend\n\nreturn myTodTrigger";
+      tickPeriod = "100";
+      debug = "0";
+      ticking = "0";
+      triggerColor = "255 192 0 45";
+      defaultOnLeave = "0";
+      position = "-40.842823 570.06958 74.6596527";
+      scale = "10 10 10";
       rotationMatrix = "1 0 0 0 0.999999762 -0.000690533896 0 0.000690533896 0.999999762";
       mode = "Ignore";
       canSave = "1";
@@ -98,6 +99,7 @@ $ThisPrefab = new SimGroup() {
    };
 };
 //--- OBJECT WRITE END ---
+
 
 
 
