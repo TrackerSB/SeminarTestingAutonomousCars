@@ -74,6 +74,7 @@ if __name__ == '__main__':
         #    'gear': 1
         #})
 
+        input("Press enter to start taking screenshots.")
         output_dir: Union[Optional[object], Any] = get_user_config('output_dir')
         time.sleep(project_config['delayBeforeFirst'])
         for i in range(project_config['numRequests']):
