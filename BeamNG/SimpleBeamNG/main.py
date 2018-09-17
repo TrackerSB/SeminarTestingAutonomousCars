@@ -67,7 +67,7 @@ if __name__ == '__main__':
         # attach_cleanup_process(bpy)
         bpy.load_scenario('levels/west_coast_usa/scenarios/basic_scenario.json')
         bpy.start_scenario()  # NOTE This method blocks until the restart button is pressed
-        # bpy.hide_hud()
+        #bpy.hide_hud()
         #bpy.vcontrol({
         #    'throttle': 1.0,
         #    'steering': 0.5,

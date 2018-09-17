@@ -59,9 +59,9 @@ $ThisPrefab = new SimGroup() {
       mode = "Ignore";
       canSave = "1";
       canSaveDynamicFields = "1";
-         isAIControlled = "1";
-         licenseText = "Uni Passau";
-         isAIWaypointControlled = "1";
+      isAIControlled = "1";
+      licenseText = "Uni Passau";
+      isAIWaypointControlled = "1";
    };
    new BeamNGTrigger(triggerImageAnnotation) {
       TriggerType = "Box";
