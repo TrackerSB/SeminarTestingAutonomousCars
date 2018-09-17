@@ -1,35 +1,38 @@
 [
 {
     "name": "Basic Scenario",
-    "description": "Represents a minimum required setup for accessing and communicating with BeamNG.research.",
+    "description": "Represents a minimum required setup for accessing information, automatically drive an AI through waypoints, using image annotation and collecting its data.",
     "previews": ["basic_scenario.png"],
     "authors": "Stefan Huber",
 
     "difficulty": "10",
 	
-	"vehicles": {
-        "scenario_player0": {
-            "playerUsable": true,
+	"vehicles": {"mainAI": {
+            "playerUsable": false,
             "driver": {
-                "player": true,
+                "player": false,
                 "startFocus": true,
-                "required": true
+                "required": true,
+                "ModeAI":"random"
             },
             "extensions": {
                 "annotate": {
-                    "text": "This car is driven by source code."
-                },
+                    "text": "This car is driven by itself through given waypoints."
+                }
             }
         },
         "*": {
             "playerUsable": false
         }
     },
+
+    "uilayout": "annotation_mode",
 	
     "whiteListActions": ["default_whitelist_scenario" ],
     "blackListActions": ["default_blacklist_scenario" ],
 	
     "lapConfig": ["waypoint0", "waypoint1", "waypoint2", "waypoint3"],
+    "lapCount": 1,
     "prefabs": ["basic_scenario"],
     "radiusMultiplierAI": 2
 }
