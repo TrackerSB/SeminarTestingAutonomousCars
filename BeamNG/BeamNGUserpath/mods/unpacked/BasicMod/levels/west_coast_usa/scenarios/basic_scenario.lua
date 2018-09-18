@@ -63,11 +63,11 @@ local function onRaceStart()
     -- helper.setAiMode('mainAI', 'manual')
     -- helper.setAiAggression('mainAI', 8.0)
     -- helper.setAiTarget("mainAI", "waypoint3")
-    -- helper.trackVehicle("mainAI", "The ai")
     
     -- Try 3
     helper.setAiRoute("mainAI", {"waypoint0", "waypoint1", "waypoint2", finalWayPointName})
     
+    helper.trackVehicle("mainAI", "The ai")
     helper.trackVehicle("fakePlayer", "The faked player")
 end
 
