@@ -47,8 +47,10 @@
     * Affordance indicators seem not to be enough (Assumption when it is save to move back to the previous lane)
     * **What about extending direct perception to see cars behind?**
         * When switching to lane back, does the assumption hold?
-        * They may scale
-        * They may overtake
+        * Others may scale
+        * Others may overtake themselve
+        * Checking whether one can change the lane (Toter Winkel)
+        * Driving backwards?
 * Mapping from affordance to action: steerCmd definition
     * Based on doi5
     * What conditions do influence C?
