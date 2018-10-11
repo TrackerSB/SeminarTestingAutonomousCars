@@ -1,0 +1,47 @@
+\documentclass[oneside, notitlepage, twocolumn]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+
+\newcommand{\tableheadline}[1]{\textbf{#1}}
+
+\title{x.y Name of the paper}
+\subtitle{Summary}
+\author{Stefan Huber}
+
+\begin{document}
+
+\maketitle
+
+\section{Summary}
+% What is it all about?
+
+\section{Critical Content}
+% Where is the paper not accurate?
+% Problems not tackled?
+
+\twocolumn[{%
+\section{Related Work}
+% At least 4 not explicitely mentioned other papers
+% How did I find it?
+% Why did I choose it?
+\begin{tabularx}{\textwidth}{XXXX}
+    \tableheadline{Topic} & \tableheadline{Source} & \tableheadline{Search strategy} & \tableheadline{Why chosen?}\\
+    \midrule
+    Name 1 & Source 1 & Strategy 1 & Reasons 1\\
+    \midrule
+    Name 1 & Source 1 & Strategy 1 & Reasons 1\\
+    \midrule
+    Name 1 & Source 1 & Strategy 1 & Reasons 1\\
+    \midrule
+    Name 1 & Source 1 & Strategy 1 & Reasons 1\\
+\end{tabularx}
+
+\section{Critical Questions}
+% At least 2
+}]
+
+\end{document}
