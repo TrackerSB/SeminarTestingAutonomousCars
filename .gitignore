@@ -9,3 +9,11 @@ BeamNG/BeamNGUserpath/
 !BeamNG/BeamNGUserpath/mods/unpacked/*
 BeamNG/BeamNG.ini
 BeamNG/output/
+
+# LaTeX
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.pdf
+*.synctex.gz
