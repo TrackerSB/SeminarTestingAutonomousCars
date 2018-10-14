@@ -5,6 +5,7 @@
 
 \usepackage[printonlyused]{acronym}
 \usepackage{booktabs}
+\usepackage{makecell}
 \usepackage{tabularx}
 \usepackage{url}
 \usepackage{xcolor}
@@ -13,7 +14,9 @@
 \newcommand{\draft}[1]{\textcolor{red}{\textit{#1}}}
 \newcommand{\eg}{e.\,g.}
 
-\title{1.1 - Employing Multi-Objective Search to Enhance Reactive Test Case Generation and Prioritization for Testing Industrial Cyber-Physical Systems}
+\renewcommand\cellalign{lt}
+
+\title{\LARGE 1.1 - Employing Multi-Objective Search to Enhance Reactive Test Case Generation and Prioritization for Testing Industrial Cyber-Physical Systems}
 \subtitle{Summary}
 \author{Stefan Huber}
 
@@ -22,48 +25,42 @@
 \maketitle
 
 \section{Summary}
-The paper concentrates on \ac{CPS}s and simulation-based testing which is currently the most commonly used technique for testing them.
+The paper concentrates on \ac{CPS}s and simulation-based testing \draft{which is currently the most commonly used technique for testing them}.
 Since simulation-based testing is very complex and computationally expensive the paper introduces a search-based approach with focus on cost-effectiveness of generation of test cases and prioritization of the generated test cases.
 To define cost-effectiveness the search considers multiple objectives including \ac{TET}, \ac{RC}, \ac{TCS} and prioritization-aware \ac{TCS} described by a fitness function.
 The definition of prioritization of generated test cases focuses on the objectives \ac{TET} and \ac{FDC}.\\
-%The paper describes theses objectives as follows:\\
-%The \ac{RC} is the number of requirements covered by a test suite divided by the total number of requirements of a \ac{CPS}.
-%[The other objects]
 Each of the initial test suites consists of randomly generated reactive test cases.
 The approach generates new test suites  by applying a crossover operator and two mutation operators which add, remove, modify or exchange test cases within a test suite or interchange parts of test suites with other ones.
 After each generation of a new test suite its cost-effectiveness is measured to assure its quality.\\
 As a result choosing \ac{NSGA-II} as search algorithm (Apart from the defined similarity measures where \ac{MOEA/D} performed best), \(2/N\) as mutation rate where \(N\) is defined in section V.B.2 and 0.2 as crossover rate achieve the best performance for the approach.
 
-
 \section{Critical Content}
-% Where is the paper not accurate?
-% Problems not tackled?
 The paper mentions crossover and mutation operators for creating test suites out of existing test suites.
-The test cases on which the operators are applied on are chosen randomly and the quality of the resulting test suites is checked afterwards.
-Other strategies for selecting certain test cases beforehand are not described.\\
-Section V.B.2 describes many parameters of configuration.
-Since changes to the values of the parameters influence the performance of the algorithms justified value are used (Section V.E).
-The changes to the results and the behavior are not further investigated.
+The test cases on which the operators are applied are chosen randomly and the quality of the resulting test suites is checked afterwards.
+Other strategies for selecting certain test cases beforehand are not discussed.\\
+Section V.B.2 describes many parameters of configuration which are mostly justified in section V.E.
+An actual research on the behavior and the influences on the results when changing these parameters not done.\\
+\draft{To be continued\ldots}
 
 \twocolumn[{%
 \section{Related Work}
-% At least 4 not explicitly mentioned other papers
-% How did I find it?
-% Why did I choose it?
 \begin{tabularx}{\textwidth}{XXXX}
     \tableheadline{Topic} & \tableheadline{Source} & \tableheadline{Search strategy} & \tableheadline{Why chosen?}\\
     \midrule
-    A fast and elitist multi objective genetic algorithm: NSGA-II & \url{https://ieeexplore.ieee.org/document/996017} & Search engine (Search string: ``nsga ii'') & Since this paper introduces \ac{NSGA-II} it may help to understand why exactly this algorithm performed well.\\
+    A fast and elitist multi objective genetic algorithm: NSGA-II & \url{https://ieeexplore.ieee.org/document/996017} & \makecell{Search engine\\(Search string:\\``nsga ii'')} & Since this paper introduces \ac{NSGA-II} it may help to understand why exactly this algorithm performed well.\\
     \midrule
-    MOEA/D: A Multiobjective Evolutionary Algorithm Based on Decomposition & \url{https://dces.essex.ac.uk/staff/zhang/papers/moead.pdf} & Search engine (Search string: ``moea d'') & This paper can be useful to understand why \ac{MOEA/D} outperforms \ac{NSGA-II} concerning similarity measures.\\
+    MOEA/D: A Multiobjective Evolutionary Algorithm Based on Decomposition & \url{https://dces.essex.ac.uk/staff/zhang/papers/moead.pdf} & \makecell{Search engine\\(Search string:\\``moea d'')} & This paper can be useful to understand why \ac{MOEA/D} outperforms \ac{NSGA-II} concerning similarity measures.\\
     \midrule
-    Name 1 & Source 1 & Strategy 1 & Reasons 1\\
+    Improving the optimization performance of NSGA-II algorithm by experiment design methods & \url{https://ieeexplore.ieee.org/document/6269589} & \makecell{IEEE xplore\\(Search string:\\``nsga ii'')} & Since \ac{NSGA-II} turned out to fit the best it may be worth to use an optimized version of NSGA-II.\\
     \midrule
-    Name 1 & Source 1 & Strategy 1 & Reasons 1\\
+    Adaptive multi-objective archive-based hybrid scatter search for segmentation in lung computed tomography imaging & \url{http://adsabs.harvard.edu/abs/2012EnOp...44..327B} & \makecell{Search engine:\\(Search string:\\``archive based hybrid scatter search'')} & This paper may be interesting for evaluation of an archive-based hybrid scatter search as they plan to.\\
 \end{tabularx}
 
 \section{Critical Questions}
-% At least 2
+\begin{enumerate}
+    \item Is there an actual need finding strategies for choosing positions where to apply crossover or mutation operators?
+    \item Do the results fundamentally change when certain fixed parameters/configurations are changed? Would it have made a difference if certain configurations would not be bound to specific values?
+\end{enumerate}
 
 \section{List of Abbreviations}
 \begin{acronym}
