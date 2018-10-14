@@ -6,12 +6,14 @@
 \usepackage[printonlyused]{acronym}
 \usepackage{booktabs}
 \usepackage{tabularx}
+\usepackage{url}
 \usepackage{xcolor}
 
 \newcommand{\tableheadline}[1]{\textbf{#1}}
 \newcommand{\draft}[1]{\textcolor{red}{\textit{#1}}}
+\newcommand{\eg}{e.\,g.}
 
-\title{1.1 - Employing Multi-Objective Search to Enhance Reactive Test Case Generation and Priorization for Testing Industrial Cyber-Physical Systems}
+\title{1.1 - Employing Multi-Objective Search to Enhance Reactive Test Case Generation and Prioritization for Testing Industrial Cyber-Physical Systems}
 \subtitle{Summary}
 \author{Stefan Huber}
 
@@ -21,32 +23,39 @@
 
 \section{Summary}
 The paper concentrates on \ac{CPS}s and simulation-based testing which is currently the most commonly used technique for testing them.
-Since simulation-based testing is very complex and computationally expensive the paper introduces a search-based approach with focus on cost-effectiveness of generation of test cases and priorization of the generated test cases.
-To define cost-effectiveness the search considers multiple objectives including \ac{TET}, \ac{RC}, \ac{TCS} and priorization-aware \ac{TCS} described by a fitness function.
-The definition of priorization of generated test cases focuses on the objectives \ac{TET} and \ac{FDC}.\\
+Since simulation-based testing is very complex and computationally expensive the paper introduces a search-based approach with focus on cost-effectiveness of generation of test cases and prioritization of the generated test cases.
+To define cost-effectiveness the search considers multiple objectives including \ac{TET}, \ac{RC}, \ac{TCS} and prioritization-aware \ac{TCS} described by a fitness function.
+The definition of prioritization of generated test cases focuses on the objectives \ac{TET} and \ac{FDC}.\\
 %The paper describes theses objectives as follows:\\
 %The \ac{RC} is the number of requirements covered by a test suite divided by the total number of requirements of a \ac{CPS}.
 %[The other objects]
 Each of the initial test suites consists of randomly generated reactive test cases.
 The approach generates new test suites  by applying a crossover operator and two mutation operators which add, remove, modify or exchange test cases within a test suite or interchange parts of test suites with other ones.
-After each generation of a new test suite its cost-effectiveness is measured to assure its quality.
+After each generation of a new test suite its cost-effectiveness is measured to assure its quality.\\
+As a result choosing \ac{NSGA-II} as search algorithm (Apart from the defined similarity measures where \ac{MOEA/D} performed best), \(2/N\) as mutation rate where \(N\) is defined in section V.B.2 and 0.2 as crossover rate achieve the best performance for the approach.
+
 
 \section{Critical Content}
 % Where is the paper not accurate?
 % Problems not tackled?
-\draft{Crossover operator as well as the mutation operators are selecting a random place for splitting, combining and exchanging test suites and test cases.}\\
+The paper mentions crossover and mutation operators for creating test suites out of existing test suites.
+The test cases on which the operators are applied on are chosen randomly and the quality of the resulting test suites is checked afterwards.
+Other strategies for selecting certain test cases beforehand are not described.\\
+Section V.B.2 describes many parameters of configuration.
+Since changes to the values of the parameters influence the performance of the algorithms justified value are used (Section V.E).
+The changes to the results and the behavior are not further investigated.
 
 \twocolumn[{%
 \section{Related Work}
-% At least 4 not explicitely mentioned other papers
+% At least 4 not explicitly mentioned other papers
 % How did I find it?
 % Why did I choose it?
 \begin{tabularx}{\textwidth}{XXXX}
     \tableheadline{Topic} & \tableheadline{Source} & \tableheadline{Search strategy} & \tableheadline{Why chosen?}\\
     \midrule
-    Name 1 & Source 1 & Strategy 1 & Reasons 1\\
+    A fast and elitist multi objective genetic algorithm: NSGA-II & \url{https://ieeexplore.ieee.org/document/996017} & Search engine (Search string: ``nsga ii'') & Since this paper introduces \ac{NSGA-II} it may help to understand why exactly this algorithm performed well.\\
     \midrule
-    Name 1 & Source 1 & Strategy 1 & Reasons 1\\
+    MOEA/D: A Multiobjective Evolutionary Algorithm Based on Decomposition & \url{https://dces.essex.ac.uk/staff/zhang/papers/moead.pdf} & Search engine (Search string: ``moea d'') & This paper can be useful to understand why \ac{MOEA/D} outperforms \ac{NSGA-II} concerning similarity measures.\\
     \midrule
     Name 1 & Source 1 & Strategy 1 & Reasons 1\\
     \midrule
@@ -60,6 +69,8 @@ After each generation of a new test suite its cost-effectiveness is measured to 
 \begin{acronym}
     \acro{CPS}{Cyber-Physical System}
     \acro{FDC}{fault detection capability}
+    \acro{MOEA/D}{Multi Objective Evolutionary Algorithm Based on Decomposition}
+    \acro{NSGA-II}{Non-dominated Sorting Genetic Algorithm II}
     \acro{RC}{requirements coverage}
     \acro{TCS}{test case similarity}
     \acro{TET}{test execution time}
