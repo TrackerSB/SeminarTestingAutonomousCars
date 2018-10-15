@@ -1,0 +1,57 @@
+\documentclass[oneside, notitlepage, twocolumn]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage[printonlyused]{acronym}
+\usepackage{booktabs}
+\usepackage{makecell}
+\usepackage{tabularx}
+\usepackage{url}
+\usepackage{xcolor}
+
+\newcommand{\tableheadline}[1]{\textbf{#1}}
+\newcommand{\draft}[1]{\textcolor{red}{\textit{#1}}}
+\newcommand{\eg}{e.\,g.}
+
+\renewcommand\cellalign{lt}
+
+\title{\LARGE Automatic Track Generation for High-End Racing Games Using Evolutionary Computation}
+\subtitle{Summary}
+\author{Stefan Huber}
+
+\begin{document}
+
+\maketitle
+
+\section{Summary}
+The paper discusses track generation for racing games which are not bound to a predefined reality.
+The two main properties of generated tracks the approach focuses are its curvature profile and its speed profile defining a fitness function each.
+To maximize the fitness the approach uses single-objective as well as multi-objective genetic algorithms.
+
+\section{Critical Content}
+% Where is the paper not accurate?
+% Problems not tackled?
+
+\twocolumn[{%
+\section{Related Work}
+% At least 4 not explicitly mentioned other papers
+% How did I find it?
+% Why did I choose it?
+\begin{tabularx}{\textwidth}{XXXX}
+    \tableheadline{Topic} & \tableheadline{Source} & \tableheadline{Search strategy} & \tableheadline{Why chosen?}\\
+    \midrule
+    Name 1 & Source 1 & Strategy 1 & Reasons 1\\
+    \midrule
+    Name 1 & Source 1 & Strategy 1 & Reasons 1\\
+    \midrule
+    Name 1 & Source 1 & Strategy 1 & Reasons 1\\
+    \midrule
+    Name 1 & Source 1 & Strategy 1 & Reasons 1\\
+\end{tabularx}
+
+\section{Critical Questions}
+% At least 2
+}]
+
+\end{document}
