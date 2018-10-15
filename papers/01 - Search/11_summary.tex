@@ -25,7 +25,7 @@
 \maketitle
 
 \section{Summary}
-The paper concentrates on \ac{CPS}s and simulation-based testing \draft{which is currently the most commonly used technique for testing them}.
+The paper concentrates on \ac{CPS}s and simulation-based testing.
 Since simulation-based testing is very complex and computationally expensive the paper introduces a search-based approach with focus on cost-effectiveness of generation of test cases and prioritization of the generated test cases.
 To define cost-effectiveness the search considers multiple objectives including \ac{TET}, \ac{RC}, \ac{TCS} and prioritization-aware \ac{TCS} described by a fitness function.
 The definition of prioritization of generated test cases focuses on the objectives \ac{TET} and \ac{FDC}.\\
@@ -39,8 +39,8 @@ The paper mentions crossover and mutation operators for creating test suites out
 The test cases on which the operators are applied are chosen randomly and the quality of the resulting test suites is checked afterwards.
 Other strategies for selecting certain test cases beforehand are not discussed.\\
 Section V.B.2 describes many parameters of configuration which are mostly justified in section V.E.
-An actual research on the behavior and the influences on the results when changing these parameters not done.\\
-\draft{To be continued\ldots}
+An actual research on the behavior and the influences on the results when changing these parameters is not done.\\
+Based on \cite{bringmann13}
 
 \twocolumn[{%
 \section{Related Work}
@@ -53,7 +53,7 @@ An actual research on the behavior and the influences on the results when changi
     \midrule
     Improving the optimization performance of NSGA-II algorithm by experiment design methods & \url{https://ieeexplore.ieee.org/document/6269589} & \makecell{IEEE xplore\\(Search string:\\``nsga ii'')} & Since \ac{NSGA-II} turned out to fit the best it may be worth to use an optimized version of NSGA-II.\\
     \midrule
-    Adaptive multi-objective archive-based hybrid scatter search for segmentation in lung computed tomography imaging & \url{http://adsabs.harvard.edu/abs/2012EnOp...44..327B} & \makecell{Search engine:\\(Search string:\\``archive based hybrid scatter search'')} & This paper may be interesting for evaluation of an archive-based hybrid scatter search as they plan to.\\
+    Adaptive multi-objective archive-based hybrid scatter search for segmentation in lung computed tomography imaging & \url{http://adsabs.harvard.edu/abs/2012EnOp...44..327B} & \makecell{Search engine:\\(Search string:\\``archive based\\hybrid scatter\\search'')} & This paper may be interesting for evaluation of an archive-based hybrid scatter search as they plan to.\\
 \end{tabularx}
 
 \section{Critical Questions}
@@ -74,4 +74,8 @@ An actual research on the behavior and the influences on the results when changi
 \end{acronym}
 }]
 
+\begin{thebibliography}{1}
+    \bibitem{bringmann13}
+        Karl Bringmann, Tobias Friedrich, Approximation quality of the hypervolume indicator, \url{https://www.researchgate.net/publication/256660343_Approximation_quality_of_the_hypervolume_indicator}, 2013
+\end{thebibliography}
 \end{document}
