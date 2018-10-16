@@ -35,14 +35,17 @@ It consists of an ordered list of segments where each segment is a straight havi
 The second is the track encoding called genotype.
 It describes the track as a list of control points connected with Bezier curves.
 The control points are polar coordinates and consist of a radial coordinate, an angular coordinate and the slope of a track tangent.\\
-\draft{The curvature and speed profiles of TORCS tracks are evaluated.}\\
-\draft{To be continued\ldots}
+Since maximizing the fitness function of the curvature profile conflicts with maximizing the fitness function of the speed profile it turns out that the multi-objective evolution suites the best.
+The best results in terms of diversity have the tracks with only 5 control points.\\
+The two surveys presented in the paper suggest that there is an agreement between visual preferences and the fitness functions and that the evolved tracks seem to be appealing to people especially to more racing game experienced ones.
 
 \section{Critical Content}
-The related work section mentions tons of other papers, games, works and used methods but it rarely states whether these approaches influences their approach and what way.
-\draft{To be continued\ldots}
-I like the idea of the approach of the paper but assuming that an equal distribution in the curvature profile and especially in the speed profile is too easy.
-So a further parameter classifying a track as ``fast'', ``curvy'' or ``balanced'' should be introduced.
+The related work section mentions tons of other papers, games, works and used methods but it rarely states whether these approaches influence their approach and in what way.\\
+The two surveys are not detailed with regard to the possible answers the human subjects can have in the first survey (They can only choose a track they like most instead of given each track a rating) as well as with regard to the comparison of tracks in the second survey since the subjects can only choose one track of two instead of ranking both tracks.
+Further the surveys requirements of human subjects include their age which is not mentioned anywhere in the analysis again.\\
+I like the idea of the approach of the paper but I do not totally agree with some assumptions.
+Preferring an equal distribution in the curvature profile and especially in the speed profile may be too easy.
+So a parameter classifying a track as ``fast'', ``curvy'' or ``balanced'' could be introduced to be able to generate tracks based on personal preference.
 
 \twocolumn[{%
 \section{Related Work}
@@ -62,7 +65,9 @@ So a further parameter classifying a track as ``fast'', ``curvy'' or ``balanced'
 \end{tabularx}
 
 \section{Critical Questions}
-% At least 2
+\begin{enumerate}
+    \item \draft{Should the physics of the racing cars also be considered to make sure it is drivable.}
+\end{enumerate}
 }]
 
 \end{document}
