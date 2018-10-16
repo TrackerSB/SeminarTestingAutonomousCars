@@ -25,12 +25,24 @@
 \maketitle
 
 \section{Summary}
-The paper discusses track generation for racing games which are not bound to a predefined reality.
-The two main properties of generated tracks the approach focuses are its curvature profile and its speed profile defining a fitness function each.
-To maximize the fitness the approach uses single-objective as well as multi-objective genetic algorithms.
+The paper discusses track generation for racing games which are not bound to a predefined reality like typical F1 championship games.
+The main focus of the generation is on diversity of the track in sense of its curvature profile and its speed profile.
+Therefore the approach uses a fitness function for each of these two aspects.
+To maximize the fitness single-objective as well as multi-objective genetic algorithms are used.\\
+For descriptions of tracks the paper explains two types of representations.
+The first is the track representation in TORCS called phenotype.
+It consists of an ordered list of segments where each segment is a straight having a length or a turn having a direction (left/right), an arc, a start radius and an end radius.
+The second is the track encoding called genotype.
+It describes the track as a list of control points connected with Bezier curves.
+The control points are polar coordinates and consist of a radial coordinate, an angular coordinate and the slope of a track tangent.\\
+\draft{The curvature and speed profiles of TORCS tracks are evaluated.}\\
+\draft{To be continued\ldots}
 
 \section{Critical Content}
 The related work section mentions tons of other papers, games, works and used methods but it rarely states whether these approaches influences their approach and what way.
+\draft{To be continued\ldots}
+I like the idea of the approach of the paper but assuming that an equal distribution in the curvature profile and especially in the speed profile is too easy.
+So a further parameter classifying a track as ``fast'', ``curvy'' or ``balanced'' should be introduced.
 
 \twocolumn[{%
 \section{Related Work}
