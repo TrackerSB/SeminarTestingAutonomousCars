@@ -3,7 +3,10 @@
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 
+\makeatletter
+
 \usepackage[printonlyused]{acronym}
+\usepackage{biblatex}
 \usepackage{booktabs}
 \usepackage{makecell}
 \usepackage{tabularx}
@@ -19,6 +22,8 @@
 \title{\LARGE Automatic Track Generation for High-End Racing Games Using Evolutionary Computation}
 \subtitle{Summary}
 \author{Stefan Huber}
+
+\addbibresource{referencesB.bib}
 
 \begin{document}
 
@@ -47,25 +52,32 @@ I like the idea of the approach of the paper but I do not totally agree with som
 Preferring an equal distribution in the curvature profile and especially in the speed profile may be too easy.
 So a parameter classifying a track as ``fast'', ``curvy'' or ``balanced'' could be introduced to be able to generate tracks based on personal preference.
 
-\twocolumn[{%
-\section{Related Work}
-\begin{tabularx}{\textwidth}{XXXX}
-    \tableheadline{Topic} & \tableheadline{Source} & \tableheadline{Search strategy} & \tableheadline{Why chosen?}\\
-    \midrule
-    TrackGen: An interactive track generator for TORCS and Speed-Dreams & \url{https://www.researchgate.net/publication/272381520_TrackGen_An_interactive_track_generator_for_TORCS_and_Speed-Dreams} & \makecell{Research gate:\\Same author search\\(Pier Luca Lanzi)} & The previously mentioned surveys have only a small number of human subjects. The number of subjects may be increased by introducing an online line tool making their new approach available like they did in this paper.\\
-    \midrule
-    Evolving the optimal racing line in a high-end racing game & \url{https://ieeexplore.ieee.org/document/6374145} & \makecell{IEEExplore search:\\Search string:\\``racing game''} & It is not mentioned explicitly but this paper describes the same way encoding a track using Bezier curves and some of the authors are the same.\\
-    \midrule
-    A Data-Driven Path Synthesis Framework for Racing Games & \url{https://ieeexplore.ieee.org/document/6643755} & \makecell{IEEExplore search:\\Search string:\\``racing game''} & This paper proposes an approach for generating new tracks based on given tracks with the same quality. This approach may be used to make the population of valid tracks grow faster.\\
-    \midrule
-    Driver Profiling Using Realistic Racing Games & \url{https://ieeexplore.ieee.org/document/8473154} & \makecell{IEEExplore search:\\Search string:\\``racing game''} & After generating a set of tracks the player may be classified to generate the next set of tracks based on his/her driving profile.\\
-\end{tabularx}
-
 \section{Critical Questions}
 \begin{enumerate}
     \item In which way are the physics of the racing cars considered?
     \item Which further fitness functions could be introduced to make the tracks more appealing?
 \end{enumerate}
+
+\section{References}
+\begingroup
+\renewcommand{\section}[2]{}%
+\nocite{*}
+\printbibliography
+\endgroup
+
+\twocolumn[{%
+\section{Related Work}
+\begin{tabularx}{\textwidth}{lXX}
+    \tableheadline{Reference} & \tableheadline{Search strategy} & \tableheadline{Why chosen?}\\
+    \midrule
+    \cite{trackgen} & \makecell{Research gate:\\Same author search\\(Pier Luca Lanzi)} & The previously mentioned surveys have only a small number of human subjects. The number of subjects may be increased by introducing an online line tool making their new approach available like they did in this paper.\\
+    \midrule
+    \cite{racingLine} & \makecell{IEEExplore search:\\Search string: ``racing game''} & It is not mentioned explicitly but this paper describes the same way encoding a track using Bezier curves and some of the authors are the same.\\
+    \midrule
+    \cite{dataDriven} & \makecell{IEEExplore search:\\Search string: ``racing game''} & This paper proposes an approach for generating new tracks based on given tracks with the same quality. This approach may be used to make the population of valid tracks grow faster.\\
+    \midrule
+    \cite{driverProfiling} & \makecell{IEEExplore search:\\Search string:\\``racing game''} & After generating a set of tracks the player may be classified to generate the next set of tracks based on his/her driving profile.\\
+\end{tabularx}
 }]
 
 \end{document}
