@@ -49,24 +49,22 @@ So a parameter classifying a track as ``fast'', ``curvy'' or ``balanced'' could 
 
 \twocolumn[{%
 \section{Related Work}
-% At least 4 not explicitly mentioned other papers
-% How did I find it?
-% Why did I choose it?
 \begin{tabularx}{\textwidth}{XXXX}
     \tableheadline{Topic} & \tableheadline{Source} & \tableheadline{Search strategy} & \tableheadline{Why chosen?}\\
     \midrule
-    Name 1 & Source 1 & Strategy 1 & Reasons 1\\
+    TrackGen: An interactive track generator for TORCS and Speed-Dreams & \url{https://www.researchgate.net/publication/272381520_TrackGen_An_interactive_track_generator_for_TORCS_and_Speed-Dreams} & \makecell{Research gate:\\Same author search\\(Pier Luca Lanzi)} & The previously mentioned surveys have only a small number of human subjects. The number of subjects may be increased by introducing an online line tool making their new approach available like they did in this paper.\\
     \midrule
-    Name 1 & Source 1 & Strategy 1 & Reasons 1\\
+    Evolving the optimal racing line in a high-end racing game & \url{https://ieeexplore.ieee.org/document/6374145} & \makecell{IEEExplore search:\\Search string:\\``racing game''} & It is not mentioned explicitly but this paper describes the same way encoding a track using Bezier curves and some of the authors are the same.\\
     \midrule
-    Name 1 & Source 1 & Strategy 1 & Reasons 1\\
+    A Data-Driven Path Synthesis Framework for Racing Games & \url{https://ieeexplore.ieee.org/document/6643755} & \makecell{IEEExplore search:\\Search string:\\``racing game''} & This paper proposes an approach for generating new tracks based on given tracks with the same quality. This approach may be used to make the population of valid tracks grow faster.\\
     \midrule
-    Name 1 & Source 1 & Strategy 1 & Reasons 1\\
+    Driver Profiling Using Realistic Racing Games & \url{https://ieeexplore.ieee.org/document/8473154} & \makecell{IEEExplore search:\\Search string:\\``racing game''} & After generating a set of tracks the player may be classified to generate the next set of tracks based on his/her driving profile.\\
 \end{tabularx}
 
 \section{Critical Questions}
 \begin{enumerate}
-    \item \draft{Should the physics of the racing cars also be considered to make sure it is drivable.}
+    \item In which way are the physics of the racing cars considered?
+    \item Which further fitness functions could be introduced to make the tracks more appealing?
 \end{enumerate}
 }]
 
