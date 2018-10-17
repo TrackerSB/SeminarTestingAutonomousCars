@@ -20,7 +20,7 @@
 \addbibresource{referencesA.bib}
 \usepackage{biblatex}
 
-\title{\LARGE 1.1 - Employing Multi-Objective Search to Enhance Reactive Test Case Generation and Prioritization for Testing Industrial Cyber-Physical Systems}
+\title{\LARGE 1.1 --- Employing Multi--Objective Search to Enhance Reactive Test Case Generation and Prioritization for Testing Industrial Cyber--Physical Systems}
 \subtitle{Summary}
 \author{Stefan Huber}
 
@@ -30,13 +30,14 @@
 
 \section{Summary}
 The paper concentrates on \ac{CPS}s and simulation-based testing.
-Since simulation-based testing is very complex and computationally expensive the paper introduces a search-based approach with focus on cost-effectiveness of generation of test cases and prioritization of the generated test cases.
-To define cost-effectiveness the search considers multiple objectives including \ac{TET}, \ac{RC}, \ac{TCS} and prioritization-aware \ac{TCS} described by a fitness function.
-The definition of prioritization of generated test cases focuses on the objectives \ac{TET} and \ac{FDC}.\\
+Simulation-based testing is very complex and computationally expensive.
+Having that in mind the paper introduces a search-based approach which focuses on cost-effectiveness of generation of test cases and prioritization of the generated test cases.
+The cost-effectiveness of the search considers multiple objectives including \ac{TET}, \ac{RC}, \ac{TCS} and prioritization-aware \ac{TCS} described by a fitness function.
+The prioritization of generated test cases considers the objectives \ac{TET} and \ac{FDC}.\\
 Each of the initial test suites consists of randomly generated reactive test cases.
-The approach generates new test suites  by applying a crossover operator and two mutation operators which add, remove, modify or exchange test cases within a test suite or interchange parts of test suites with other ones.
+The approach generates new test suites  by applying a crossover operator and two mutation operators which add, remove, modify or exchange test cases within a test suite or interchange parts of multiple test suites.
 After each generation of a new test suite its cost-effectiveness is measured to assure its quality.\\
-As a result choosing \ac{NSGA-II} as search algorithm (Apart from the defined similarity measures where \ac{MOEA/D} performed best), \(2/N\) as mutation rate where \(N\) is defined in section V.B.2 and 0.2 as crossover rate achieve the best performance for the approach.
+As a result choosing \ac{NSGA-II} as search algorithm, \(2/N\) as mutation rate where \(N\) is defined in section V.B.2 and 0.2 as crossover rate achieve the best performance for the approach (Apart from the defined similarity measures where \ac{MOEA/D} outperformed \ac{NSGA-II}).
 
 \section{Critical Content}
 The paper mentions crossover and mutation operators for creating test suites out of existing test suites.
@@ -44,8 +45,8 @@ The test cases on which the operators are applied are chosen randomly and the qu
 Other strategies for selecting certain test cases beforehand are not discussed.\\
 Section V.B.2 describes many parameters of configuration which are mostly justified in section V.E.
 An actual research on the behavior and the influences on the results when changing these parameters is not done.\\
-Based on \cite{bringmann13} the hyper volumne quality indicator should be used with care since it does not achieve a good multiplicative approximation ratio.\\
-In general I like the paper especially because it is founded very and every step and choice is justified.
+Based on~\cite{bringmann13} the hyper volume quality indicator should be used with care since it does not achieve a good multiplicative approximation ratio.\\
+In general I like the paper especially because it is founded very well and every step in the approach and choice of values is justified.
 
 \section{Critical Questions}
 \begin{enumerate}
@@ -73,18 +74,18 @@ In general I like the paper especially because it is founded very and every step
 
 \twocolumn[{%
 \section{Related Work}
-\begin{tabularx}{\textwidth}{lXX}
+\begin{tabularx}{\textwidth}{llX}
     \tableheadline{Reference} & \tableheadline{Search strategy} & \tableheadline{Why chosen?}\\
     \midrule
-    \cite{bringmann13} & \makecell{Search engine\\(Search string:\\``hyper volume indicator'')} & The most frequently used method of measuring the quality of the result is the hyper volume indicator which has based on this paper some weaknesses.\\
+    \cite{bringmann13} & \makecell{Search engine\\(Search string:\\``hyper volume indicator'')} & According to this paper the hyper volume indicator which is used frequently within the paper has weaknesses when talking about multiplicative approximation. Another indicator may be considered.\\
     \midrule
     \cite{nsgaii} & \makecell{Search engine\\(Search string: ``nsga ii'')} & Since this paper introduces \ac{NSGA-II} it may help to understand why exactly this algorithm performed well.\\
     \midrule
-    \cite{moead} & \makecell{Search engine\\(Search string: ``moea d'')} & This paper can be useful to understand why \ac{MOEA/D} outperforms \ac{NSGA-II} concerning similarity measures.\\
+    \cite{moead} & \makecell{Search engine\\(Search string: ``moea d'')} & This paper can be useful to understand why \ac{MOEA/D} outperforms \ac{NSGA-II} concerning similarity measures and to develop an algorithm combining the advantages of \ac{NSGA-II} and \ac{MOEA/D}.\\
     \midrule
-    \cite{improveNsgaii} & \makecell{IEEExplore\\(Search string: ``nsga ii'')} & Since \ac{NSGA-II} turned out to fit the best it may be worth to use an optimized version of NSGA-II.\\
+    \cite{improveNsgaii} & \makecell{IEEExplore\\(Search string: ``nsga ii'')} & Since \ac{NSGA-II} turned out to fit the best it may be worth to use an optimized version of NSGA-II and investigate whether it achieves further performance improvements.\\
     \midrule
-    \cite{scatterSearch} & \makecell{Search engine:\\(Search string:\\``archive based hybrid scatter\\search'')} & This paper may be interesting for evaluation of an archive-based hybrid scatter search as they plan to.\\
+    \cite{scatterSearch} & \makecell{Search engine:\\(Search string:\\``archive based hybrid\\scatter search'')} & This paper may be interesting for evaluation of an archive-based hybrid scatter search as they plan to.\\
 \end{tabularx}
 }]
 
