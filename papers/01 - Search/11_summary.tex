@@ -31,13 +31,13 @@
 \section{Summary}
 The paper concentrates on \ac{CPS}s and simulation-based testing.
 Simulation-based testing is very complex and computationally expensive.
-Having that in mind the paper introduces a search-based approach which focuses on cost-effectiveness of generation of test cases and prioritization of the generated test cases.
+Having that in mind the paper introduces a search-based approach which focuses on the cost-effectiveness of generation of test cases and their prioritization.
 The cost-effectiveness of the search considers multiple objectives including \ac{TET}, \ac{RC}, \ac{TCS} and prioritization-aware \ac{TCS} described by a fitness function.
 The prioritization of generated test cases considers the objectives \ac{TET} and \ac{FDC}.\\
-Each of the initial test suites consists of randomly generated reactive test cases.
-The approach generates new test suites  by applying a crossover operator and two mutation operators which add, remove, modify or exchange test cases within a test suite or interchange parts of multiple test suites.
+The initial test suites consist of randomly generated reactive test cases.
+The approach generates consecutively new test suites by applying a crossover operator and two mutation operators which add, remove, modify or exchange test cases within a test suite or interchange parts of multiple test suites.
 After each generation of a new test suite its cost-effectiveness is measured to assure its quality.\\
-As a result choosing \ac{NSGA-II} as search algorithm, \(2/N\) as mutation rate where \(N\) is defined in section V.B.2 and 0.2 as crossover rate achieve the best performance for the approach (Apart from the defined similarity measures where \ac{MOEA/D} outperformed \ac{NSGA-II}).
+As a result choosing \ac{NSGA-II} as search algorithm, \(2/N\) as mutation rate where \(N\) is defined in section V.B.2 and 0.2 as crossover rate achieves the best performance for the approach (Apart from the defined similarity measures where \ac{MOEA/D} outperformed \ac{NSGA-II}).
 
 \section{Critical Content}
 The paper mentions crossover and mutation operators for creating test suites out of existing test suites.
@@ -46,12 +46,12 @@ Other strategies for selecting certain test cases beforehand are not discussed.\
 Section V.B.2 describes many parameters of configuration which are mostly justified in section V.E.
 An actual research on the behavior and the influences on the results when changing these parameters is not done.\\
 Based on~\cite{bringmann13} the hyper volume quality indicator should be used with care since it does not achieve a good multiplicative approximation ratio.\\
-In general I like the paper especially because it is founded very well and every step in the approach and choice of values is justified.
+I like the paper especially because it is founded very well and every step in the approach and choice of values is justified.
 
 \section{Critical Questions}
 \begin{enumerate}
     \item Is there an actual need finding strategies for choosing positions where to apply crossover or mutation operators?
-    \item Do the results fundamentally change when certain fixed parameters/configurations are changed? Would it have made a difference if certain configurations would not be bound to specific values?
+    \item Do the results significantly change when certain fixed parameters/configurations are changed? Would it have made a difference if certain configurations are not bound to specific values?
 \end{enumerate}
 
 \section{List of Abbreviations}
