@@ -4,6 +4,7 @@
 \usepackage[english]{babel}
 
 \usepackage[printonlyused]{acronym}
+\usepackage{biblatex}
 \usepackage{booktabs}
 \usepackage{makecell}
 \usepackage{tabularx}
@@ -20,6 +21,9 @@
 \subtitle{Summary}
 \author{Stefan Huber}
 
+\addbibresource{references.bib}
+\usepackage{biblatex}
+
 \begin{document}
 
 \maketitle
@@ -31,25 +35,32 @@
 % Where is the paper not accurate?
 % Problems not tackled?
 
+\section{Critical Questions}
+% At least 2
+
+\section{List of Abbreviations}
+\begin{acronym}
+\end{acronym}
+
+\nocite{*}
+\printbibliography
+
 \twocolumn[{%
 \section{Related Work}
 % At least 4 not explicitly mentioned other papers
 % How did I find it?
 % Why did I choose it?
-\begin{tabularx}{\textwidth}{XXXX}
-    \tableheadline{Topic} & \tableheadline{Source} & \tableheadline{Search strategy} & \tableheadline{Why chosen?}\\
+\begin{tabularx}{\textwidth}{lXX}
+    \tableheadline{Reference} & \tableheadline{Search strategy} & \tableheadline{Why chosen?}\\
     \midrule
-    Name 1 & Source 1 & Strategy 1 & Reasons 1\\
+    cite & strategy & reasons\\
     \midrule
-    Name 1 & Source 1 & Strategy 1 & Reasons 1\\
+    cite & strategy & reasons\\
     \midrule
-    Name 1 & Source 1 & Strategy 1 & Reasons 1\\
+    cite & strategy & reasons\\
     \midrule
-    Name 1 & Source 1 & Strategy 1 & Reasons 1\\
+    cite & strategy & reasons\\
 \end{tabularx}
-
-\section{Critical Questions}
-% At least 2
 }]
 
 \end{document}
