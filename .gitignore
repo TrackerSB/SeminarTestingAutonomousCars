@@ -17,3 +17,7 @@ BeamNG/output/
 *.log
 *.pdf
 *.synctex.gz
+*.bbl
+*.bcf
+*.run.xml
+*.blg
