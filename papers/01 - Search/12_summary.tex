@@ -31,7 +31,7 @@
 
 \section{Summary}
 The paper discusses track generation for racing games which are not bound to a predefined reality like typical F1 championship games.
-The main focus of the generation is on diversity of the track in sense of its curvature profile and its speed profile.
+The main focus of the generation is the diversity of the track in sense of its curvature profile and its speed profile.
 Therefore the approach uses a fitness function for each of these two aspects.
 To maximize the fitness single-objective as well as multi-objective genetic algorithms are used.\\
 For descriptions of tracks the paper explains two types of representations.
@@ -42,27 +42,30 @@ It describes the track as a list of control points connected with Bezier curves.
 The control points are polar coordinates and consist of a radial coordinate, an angular coordinate and the slope of a track tangent.\\
 Since maximizing the fitness function of the curvature profile conflicts with maximizing the fitness function of the speed profile it turns out that the multi-objective evolution suites the best.
 The best results in terms of diversity have the tracks with only 5 control points.\\
-The two surveys presented in the paper suggest that there is an agreement between visual preferences and the fitness functions and that the evolved tracks seem to be appealing to people especially to more racing game experienced ones.
+The paper presents two surveys with human subjects.
+These suggest that there is an agreement between visual preferences and the fitness functions and that the evolved tracks seem to be appealing to people especially to more racing game experienced ones.
 
 \section{Critical Content}
-The related work section mentions tons of other papers, games, works and used methods but it rarely states whether these approaches influence their approach and in what way.\\
-The two surveys are not detailed with regard to the possible answers the human subjects can have in the first survey (They can only choose a track they like most instead of given each track a rating) as well as with regard to the comparison of tracks in the second survey since the subjects can only choose one track of two instead of ranking both tracks.
-Further the surveys requirements of human subjects include their age which is not mentioned anywhere in the analysis again.\\
+The related work section mentions tons of other papers, games, works and used methods but it rarely states whether these approaches influenced their approach in any way.\\
+The two surveys are not as detailed as they could be.
+First the possible answers the human subjects can have in the first survey (They can only choose a track they like most out of a set of tracks instead of given each track a rating).
+Second the comparison of tracks in the second survey could also be more detailed since the subjects can only choose one track of two instead of ranking both tracks.
+The surveys requirements of human subjects include the age of the subjects which is not mentioned anywhere in the analysis again.\\
 I like the idea of the approach of the paper but I do not totally agree with some assumptions.
-Preferring an equal distribution in the curvature profile and especially in the speed profile may be too easy.
-So a parameter classifying a track as ``fast'', ``curvy'' or ``balanced'' could be introduced to be able to generate tracks based on personal preference.
+Preferring an equal distribution in the curvature profile and especially in the speed profile may suite somehow for realistic physics but should depend on the physics of the racing cars supposed to drive on.\\
+A parameter classifying a track as ``fast'', ``curvy'' or ``balanced'' could be introduced to be able to generate tracks with certain profiles based on personal preference.
 
 \section{Critical Questions}
 \begin{enumerate}
-    \item In which way are the physics of the racing cars considered?
-    \item Which further fitness functions could be introduced to make the tracks more appealing?
+    \item In which way are the physics of the racing cars \eg maximum speed or maximum steering angle considered?
+    \item Which further fitness functions could be introduced to make the tracks more appealing? These may include nature of the track, condition of the track and the weather.
 \end{enumerate}
 
 \section{References}
 \begingroup
 \renewcommand{\section}[2]{}%
 \nocite{*}
-\printbibliography
+\printbibliography%
 \endgroup
 
 \twocolumn[{%
@@ -70,13 +73,13 @@ So a parameter classifying a track as ``fast'', ``curvy'' or ``balanced'' could 
 \begin{tabularx}{\textwidth}{lXX}
     \tableheadline{Reference} & \tableheadline{Search strategy} & \tableheadline{Why chosen?}\\
     \midrule
-    \cite{trackgen} & \makecell{Research gate:\\Same author search\\(Pier Luca Lanzi)} & The previously mentioned surveys have only a small number of human subjects. The number of subjects may be increased by introducing an online line tool making their new approach available like they did in this paper.\\
+    \cite{trackgen} & \makecell{Research gate:\\Same author search\\(Pier Luca Lanzi)} & The surveys have only a small number of human subjects. The number of subjects can be possibly increased by introducing an online line tool making their new approach available like they did in this paper.\\
     \midrule
-    \cite{racingLine} & \makecell{IEEExplore search:\\Search string: ``racing game''} & It is not mentioned explicitly but this paper describes the same way encoding a track using Bezier curves and some of the authors are the same.\\
+    \cite{racingLine} & \makecell{IEEExplore search:\\Search string: ``racing game''} & It is not mentioned explicitly but this paper describes the same way encoding a track using Bezier curves and some of the authors are the same. So it seems it is based on this paper.\\
     \midrule
-    \cite{dataDriven} & \makecell{IEEExplore search:\\Search string: ``racing game''} & This paper proposes an approach for generating new tracks based on given tracks with the same quality. This approach may be used to make the population of valid tracks grow faster.\\
+    \cite{dataDriven} & \makecell{IEEExplore search:\\Search string: ``racing game''} & This paper proposes an approach for generating new tracks based on given tracks with the same quality. This approach may be used to make the population of valid tracks grow faster especially the more complex populations with 10 or 15 control points.\\
     \midrule
-    \cite{driverProfiling} & \makecell{IEEExplore search:\\Search string:\\``racing game''} & After generating a set of tracks the player may be classified to generate the next set of tracks based on his/her driving profile.\\
+    \cite{driverProfiling} & \makecell{IEEExplore search:\\Search string:\\``racing game''} & After generating a set of tracks the player may be classified to generate the next set of tracks based on his/her driving profile. This may further increase the fun players should have.\\
 \end{tabularx}
 }]
 
