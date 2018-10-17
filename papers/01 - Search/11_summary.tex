@@ -4,6 +4,7 @@
 \usepackage[english]{babel}
 
 \usepackage[printonlyused]{acronym}
+\usepackage{biblatex}
 \usepackage{booktabs}
 \usepackage{makecell}
 \usepackage{tabularx}
@@ -15,6 +16,9 @@
 \newcommand{\eg}{e.\,g. }
 
 \renewcommand\cellalign{lt}
+
+\addbibresource{referencesA.bib}
+\usepackage{biblatex}
 
 \title{\LARGE 1.1 - Employing Multi-Objective Search to Enhance Reactive Test Case Generation and Prioritization for Testing Industrial Cyber-Physical Systems}
 \subtitle{Summary}
@@ -43,20 +47,6 @@ An actual research on the behavior and the influences on the results when changi
 Based on \cite{bringmann13} the hyper volumne quality indicator should be used with care since it does not achieve a good multiplicative approximation ratio.\\
 In general I like the paper especially because it is founded very and every step and choice is justified.
 
-\twocolumn[{%
-\section{Related Work}
-\begin{tabularx}{\textwidth}{XXXX}
-    \tableheadline{Topic} & \tableheadline{Source} & \tableheadline{Search strategy} & \tableheadline{Why chosen?}\\
-    \midrule
-    A fast and elitist multi objective genetic algorithm: NSGA-II & \url{https://ieeexplore.ieee.org/document/996017} & \makecell{Search engine\\(Search string:\\``nsga ii'')} & Since this paper introduces \ac{NSGA-II} it may help to understand why exactly this algorithm performed well.\\
-    \midrule
-    MOEA/D: A Multiobjective Evolutionary Algorithm Based on Decomposition & \url{https://dces.essex.ac.uk/staff/zhang/papers/moead.pdf} & \makecell{Search engine\\(Search string:\\``moea d'')} & This paper can be useful to understand why \ac{MOEA/D} outperforms \ac{NSGA-II} concerning similarity measures.\\
-    \midrule
-    Improving the optimization performance of NSGA-II algorithm by experiment design methods & \url{https://ieeexplore.ieee.org/document/6269589} & \makecell{IEEE xplore\\(Search string:\\``nsga ii'')} & Since \ac{NSGA-II} turned out to fit the best it may be worth to use an optimized version of NSGA-II.\\
-    \midrule
-    Adaptive multi-objective archive-based hybrid scatter search for segmentation in lung computed tomography imaging & \url{http://adsabs.harvard.edu/abs/2012EnOp...44..327B} & \makecell{Search engine:\\(Search string:\\``archive based\\hybrid scatter\\search'')} & This paper may be interesting for evaluation of an archive-based hybrid scatter search as they plan to.\\
-\end{tabularx}
-
 \section{Critical Questions}
 \begin{enumerate}
     \item Is there an actual need finding strategies for choosing positions where to apply crossover or mutation operators?
@@ -73,10 +63,25 @@ In general I like the paper especially because it is founded very and every step
     \acro{TCS}{test case similarity}
     \acro{TET}{test execution time}
 \end{acronym}
+
+\nocite{*}
+\printbibliography
+
+\twocolumn[{%
+\section{Related Work}
+\begin{tabularx}{\textwidth}{lXX}
+    \tableheadline{Reference} & \tableheadline{Search strategy} & \tableheadline{Why chosen?}\\
+    \midrule
+    \cite{bringmann13} & \makecell{Search engine\\(Search string:\\``hyper volume indicator'')} & The most frequently used method of measuring the quality of the result is the hyper volume indicator which has based on this paper some weaknesses.\\
+    \midrule
+    \cite{nsgaii} & \makecell{Search engine\\(Search string: ``nsga ii'')} & Since this paper introduces \ac{NSGA-II} it may help to understand why exactly this algorithm performed well.\\
+    \midrule
+    \cite{moead} & \makecell{Search engine\\(Search string: ``moea d'')} & This paper can be useful to understand why \ac{MOEA/D} outperforms \ac{NSGA-II} concerning similarity measures.\\
+    \midrule
+    \cite{improveNsgaii} & \makecell{IEEExplore\\(Search string: ``nsga ii'')} & Since \ac{NSGA-II} turned out to fit the best it may be worth to use an optimized version of NSGA-II.\\
+    \midrule
+    \cite{scatterSearch} & \makecell{Search engine:\\(Search string:\\``archive based hybrid scatter\\search'')} & This paper may be interesting for evaluation of an archive-based hybrid scatter search as they plan to.\\
+\end{tabularx}
 }]
 
-\begin{thebibliography}{1}
-    \bibitem{bringmann13}
-        Karl Bringmann, Tobias Friedrich, Approximation quality of the hypervolume indicator, \url{https://www.researchgate.net/publication/256660343_Approximation_quality_of_the_hypervolume_indicator}, 2013
-\end{thebibliography}
 \end{document}
