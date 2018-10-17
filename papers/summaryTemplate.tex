@@ -22,7 +22,6 @@
 \author{Stefan Huber}
 
 \addbibresource{references.bib}
-\usepackage{biblatex}
 
 \begin{document}
 
@@ -42,8 +41,12 @@
 \begin{acronym}
 \end{acronym}
 
+\section{References}
+\begingroup
+\renewcommand{\section}[2]{}%
 \nocite{*}
 \printbibliography
+\endgroup
 
 \twocolumn[{%
 \section{Related Work}
