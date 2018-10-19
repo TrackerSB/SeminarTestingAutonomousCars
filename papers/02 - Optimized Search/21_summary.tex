@@ -1,0 +1,85 @@
+\documentclass[oneside, notitlepage, twocolumn]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage[printonlyused]{acronym}
+\usepackage{biblatex}
+\usepackage{booktabs}
+\usepackage{makecell}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{url}
+\usepackage{xcolor}
+
+\newcommand{\tableheadline}[1]{\textbf{#1}}
+\newcommand{\draft}[1]{\textcolor{red}{\textit{#1}}}
+\newcommand{\eg}{e.\,g. }
+
+\renewcommand\cellalign{lt}
+
+\setlength{\parskip}{1mm}
+\setlength{\parindent}{0}
+\titlespacing\section{0pt}{12pt plus 4pt minus 2pt}{2pt plus 2pt minus 2pt}
+
+\title{\LARGE Testing Vision-Based Control Systems Using Learnable Evolutionary Algorithms}
+\subtitle{Summary}
+\author{Stefan Huber}
+
+\addbibresource{references21.bib}
+
+\begin{document}
+
+\maketitle
+
+\section{Summary}
+The paper focuses on finding critical test cases for simulation-based testing of vision-based control systems based on evolutionary search algorithms.
+To improve the effectiveness of these algorithms the approach builds decision trees after each iteration.
+These learn the characteristics of critical test scenarios and identify regions of critical test cases.
+The evolutionary search concentrates on such regions to generate more critical test scenarios.\par
+Therefore they describe every \ac{ADAS} as\ldots
+
+\section{Critical Content}
+% Where is the paper not accurate?
+% Problems not tackled?
+\draft{%
+    \begin{itemize}
+        \item Assumption pedestrian linear trajectory
+    \end{itemize}
+}
+
+\section{Critical Questions}
+% At least 2
+
+\section{List of Abbreviations}
+\begin{acronym}
+    \acro{ADAS}{Advanced Driving Assistance System}
+    \acro{AEB}{Automated Emergency Breaking}
+\end{acronym}
+
+\section{References}
+\begingroup
+\renewcommand{\section}[2]{}%
+\nocite{*}
+\printbibliography%
+\endgroup
+
+\twocolumn[{%
+\section{Related Work}
+% At least 4 not explicitly mentioned other papers
+% How did I find it?
+% Why did I choose it?
+\begin{tabularx}{\textwidth}{lXX}
+    \tableheadline{Reference} & \tableheadline{Search strategy} & \tableheadline{Why chosen?}\\
+    \midrule
+    cite & strategy & reasons\\
+    \midrule
+    cite & strategy & reasons\\
+    \midrule
+    cite & strategy & reasons\\
+    \midrule
+    cite & strategy & reasons\\
+\end{tabularx}
+}]
+
+\end{document}
