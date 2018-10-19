@@ -3,7 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 
-\usepackage[acronym, automake, nomain, numberedsection, section]{glossaries}
+\usepackage[acronym, automake, nopostdot, nomain, numberedsection, section]{glossaries}
 \usepackage{biblatex}
 \usepackage{booktabs}
 \usepackage{makecell}
@@ -29,6 +29,7 @@
 \addbibresource{references21.bib}
 
 \makeglossaries%
+\newacronym{aeb}{AEB}{Automated Emergency Breaking}
 \newacronym{adas}{ADAS}{Advanced Driving Assistance System}
 
 \begin{document}
@@ -36,11 +37,13 @@
 \maketitle
 
 \section{Summary}
-The paper focuses on finding critical test cases for simulation-based testing of vision-based control systems based on evolutionary search algorithms.
-To improve the effectiveness of these algorithms the approach builds decision trees after each iteration.
+The paper discusses finding critical test cases for simulation-based testing of vision-based control systems like \glspl{adas} based on evolutionary search algorithms.
+The approach is explained on their results on the \gls{aeb}.\par
+To improve the effectiveness of the evolutionary multi-objective search algorithms the approach builds decision trees after each iteration.
 These learn the characteristics of critical test scenarios and identify regions of critical test cases.
-The evolutionary search concentrates on such regions to generate more critical test scenarios.\par
-Therefore they describe every \gls{adas} as\ldots
+The next iterations concentrate on such regions to generate more critical test scenarios.\par
+Every \gls{adas} is described as a tuple \((S, O, I, D, C)\) where \(S\) is the set of immobile objects, \(O\) is the set of mobile objects, \(I\) is the set of initial states of the mobile objects, \(D\) is the domain where the variables are in and \(C\) is a set of boolean constraints to \(S\) and \(I\).
+% TODO Read starting at section 4.3
 
 \section{Critical Content}
 % Where is the paper not accurate?
@@ -48,6 +51,8 @@ Therefore they describe every \gls{adas} as\ldots
 \draft{%
     \begin{itemize}
         \item Assumption pedestrian linear trajectory
+        \item They say they studied ten \glspl{adas} but only mention the \gls{aeb} (Section 4.1). Since cooperation with industry?
+        \item They do not mention the mutation rate or whether they fixed it.
     \end{itemize}
 }
 
