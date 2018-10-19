@@ -21,3 +21,8 @@ BeamNG/output/
 *.bcf
 *.run.xml
 *.blg
+*.dvi
+*.alg
+*.acn
+*.acr
+*.ist
