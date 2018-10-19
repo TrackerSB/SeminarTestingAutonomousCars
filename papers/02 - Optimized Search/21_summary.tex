@@ -3,7 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 
-\usepackage[printonlyused]{acronym}
+\usepackage[acronym, automake, nomain, numberedsection, section]{glossaries}
 \usepackage{biblatex}
 \usepackage{booktabs}
 \usepackage{makecell}
@@ -28,6 +28,9 @@
 
 \addbibresource{references21.bib}
 
+\makeglossaries%
+\newacronym{adas}{ADAS}{Advanced Driving Assistance System}
+
 \begin{document}
 
 \maketitle
@@ -37,7 +40,7 @@ The paper focuses on finding critical test cases for simulation-based testing of
 To improve the effectiveness of these algorithms the approach builds decision trees after each iteration.
 These learn the characteristics of critical test scenarios and identify regions of critical test cases.
 The evolutionary search concentrates on such regions to generate more critical test scenarios.\par
-Therefore they describe every \ac{ADAS} as\ldots
+Therefore they describe every \gls{adas} as\ldots
 
 \section{Critical Content}
 % Where is the paper not accurate?
@@ -51,11 +54,7 @@ Therefore they describe every \ac{ADAS} as\ldots
 \section{Critical Questions}
 % At least 2
 
-\section{List of Abbreviations}
-\begin{acronym}
-    \acro{ADAS}{Advanced Driving Assistance System}
-    \acro{AEB}{Automated Emergency Breaking}
-\end{acronym}
+\printglossary[type=\acronymtype, title=List of Abbreviations]
 
 \section{References}
 \begingroup

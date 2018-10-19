@@ -3,7 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 
-\usepackage[printonlyused]{acronym}
+\usepackage[acronym, automake, nomain, numberedsection, section]{glossaries}
 \usepackage{biblatex}
 \usepackage{booktabs}
 \usepackage{makecell}
@@ -28,6 +28,9 @@
 
 \addbibresource{references.bib}
 
+\makeglossaries%
+%\newacronym{key}{short}{long}
+
 \begin{document}
 
 \maketitle
@@ -44,9 +47,7 @@
 \section{Critical Questions}
 % At least 2
 
-\section{List of Abbreviations}
-\begin{acronym}
-\end{acronym}
+\printglossary[type=\acronymtype, title=List of Abbreviations]
 
 \section{References}
 \begingroup
