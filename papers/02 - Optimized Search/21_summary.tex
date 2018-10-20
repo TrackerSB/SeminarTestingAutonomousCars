@@ -29,6 +29,7 @@
 \addbibresource{references21.bib}
 
 \makeglossaries%
+\newacronym{nsgaii}{NSGA-II}{Non-dominated Sorting Genetic Algorithm-II}
 \newacronym{aeb}{AEB}{Automated Emergency Breaking}
 \newacronym{adas}{ADAS}{Advanced Driving Assistance System}
 
@@ -38,12 +39,15 @@
 
 \section{Summary}
 The paper discusses finding critical test cases for simulation-based testing of vision-based control systems like \glspl{adas} based on evolutionary search algorithms.
-The approach is explained on their results on the \gls{aeb}.\par
-To improve the effectiveness of the evolutionary multi-objective search algorithms the approach builds decision trees after each iteration.
-These learn the characteristics of critical test scenarios and identify regions of critical test cases.
-The next iterations concentrate on such regions to generate more critical test scenarios.\par
-Every \gls{adas} is described as a tuple \((S, O, I, D, C)\) where \(S\) is the set of immobile objects, \(O\) is the set of mobile objects, \(I\) is the set of initial states of the mobile objects, \(D\) is the domain where the variables are in and \(C\) is a set of boolean constraints to \(S\) and \(I\).
-% TODO Read starting at section 4.3
+\draft{The approach is explained using only their results on \gls{aeb}.}\par
+To improve the effectiveness of evolutionary multi-objective search algorithms the approach combines them with decision trees.
+Decision trees are repeatedly build after a few iterations of the evolutionary search algorithm.
+Each node of a tree represents a population of test scenarios fulfilling all the constraints annotated on the edges of the path from the root to this node.
+Every node has values (in \%) which describe the certainty finding critical and non-critical test cases.
+If a node has more than 95\% criticality it is marked as critical region.
+The constraints of the edges on the path from the root to the node characterize the test scenarios.\par
+The next iterations of the evolutionary search algorithm concentrate on non-critical regions to find more critical regions by identifying subregions.\par
+\draft{Every \gls{adas} is described as a tuple \((S, O, I, D, C)\) where \(S\) is the set of immobile objects, \(O\) is the set of mobile objects, \(I\) is the set of initial states of the mobile objects, \(D\) is the domain where the variables are in and \(C\) is a set of boolean constraints to \(S\) and \(I\).}
 
 \section{Critical Content}
 % Where is the paper not accurate?
@@ -52,7 +56,11 @@ Every \gls{adas} is described as a tuple \((S, O, I, D, C)\) where \(S\) is the 
     \begin{itemize}
         \item Assumption pedestrian linear trajectory
         \item They say they studied ten \glspl{adas} but only mention the \gls{aeb} (Section 4.1). Since cooperation with industry?
-        \item They do not mention the mutation rate or whether they fixed it.
+        \item They do not mention the mutation rate or whether they fixed it. (Section 4.1). They mention a mutation rate only for \gls{aeb} in section 5.3.
+        \item In section 5.3 they mention they ``could tune the parameters'' but they do neither say how nor anything else about that.
+        \item The title mentions ``Evolutionary Algorithms'' but they use only \gls{nsgaii}.
+        \item Results of RQ2 are not scientific.
+        \item ``Benefits from a practitioner's perspective'' with three people where one is already connected to the research itself\ldots
     \end{itemize}
 }
 
