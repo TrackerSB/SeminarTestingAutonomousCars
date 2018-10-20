@@ -11,10 +11,11 @@
 \usepackage{titlesec}
 \usepackage{url}
 \usepackage{xcolor}
+\usepackage{xspace}
 
 \newcommand{\tableheadline}[1]{\textbf{#1}}
 \newcommand{\draft}[1]{\textcolor{red}{\textit{#1}}}
-\newcommand{\eg}{e.\,g. }
+\newcommand{\eg}{e.\,g.\xspace}
 
 \renewcommand\cellalign{lt}
 
@@ -47,25 +48,33 @@ Every node has values (in \%) which describe the certainty finding critical and 
 If a node has more than 95\% criticality it is marked as critical region.
 The constraints of the edges on the path from the root to the node characterize the test scenarios.\par
 The next iterations of the evolutionary search algorithm concentrate on non-critical regions to find more critical regions by identifying subregions.\par
-\draft{Every \gls{adas} is described as a tuple \((S, O, I, D, C)\) where \(S\) is the set of immobile objects, \(O\) is the set of mobile objects, \(I\) is the set of initial states of the mobile objects, \(D\) is the domain where the variables are in and \(C\) is a set of boolean constraints to \(S\) and \(I\).}
+%\draft{Every \gls{adas} is described as a tuple \((S, O, I, D, C)\) where \(S\) is the set of immobile objects, \(O\) is the set of mobile objects, \(I\) is the set of initial states of the mobile objects, \(D\) is the domain where the variables are in and \(C\) is a set of boolean constraints to \(S\) and \(I\).}
 
 \section{Critical Content}
-% Where is the paper not accurate?
-% Problems not tackled?
+According to the paper ten \glspl{adas} were studied during the research but the only \gls{adas} described is \gls{aeb}.
+The paper mentions neither the results nor any analysis (not even the names) of the other nine \glspl{adas}.\\
+In section 4.1 the paper lists many parameters and configurations, but some of their chosen values are not specified or only given a few pages later in section 5.3 (\eg{} the mutation rate).
+In section 4.1 the mutation rate is only described as ``a probability''.\\
+The title suggests that the research discusses multiple evolutionary search-based algorithms but the only one referred to is \gls{nsgaii}.\\
+The section ``Benefits from a practitioner's perspective'' deals with exactly three people who are employees of the same company which is exactly the company supporting the research itself.
+Additionally one of these three people is connected to the research team.\\
+As a conclusion I do not like the paper and if I use the approach proposed by this paper I would at most use it for testing \gls{aeb}.
 \draft{%
     \begin{itemize}
-        \item Assumption pedestrian linear trajectory
+        \item (Assumption pedestrian linear trajectory)
         \item They say they studied ten \glspl{adas} but only mention the \gls{aeb} (Section 4.1). Since cooperation with industry?
         \item They do not mention the mutation rate or whether they fixed it. (Section 4.1). They mention a mutation rate only for \gls{aeb} in section 5.3.
         \item In section 5.3 they mention they ``could tune the parameters'' but they do neither say how nor anything else about that.
         \item The title mentions ``Evolutionary Algorithms'' but they use only \gls{nsgaii}.
-        \item Results of RQ2 are not scientific.
+        \item (Results of RQ2 are not scientific.)
         \item ``Benefits from a practitioner's perspective'' with three people where one is already connected to the research itself\ldots
     \end{itemize}
 }
 
 \section{Critical Questions}
-% At least 2
+\begin{enumerate}
+    \item Did the other \glspl{adas} perform similar to \gls{aeb}?
+\end{enumerate}
 
 \printglossary[type=\acronymtype, title=List of Abbreviations]
 
