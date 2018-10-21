@@ -23,7 +23,7 @@
 \setlength{\parindent}{0pt}
 \titlespacing\section{0pt}{12pt plus 4pt minus 2pt}{2pt plus 2pt minus 2pt}
 
-\title{\LARGE 2.2 --- Testing of Autonmous Vehicles Using Surrogate Models and Stochastic Optimization}
+\title{\LARGE 2.2 --- Testing of Autonomous Vehicles Using Surrogate Models and Stochastic Optimization}
 \subtitle{Summary}
 \author{Stefan Huber}
 
@@ -37,13 +37,22 @@
 \maketitle
 
 \section{Summary}
-% What is it all about?
+One of the main problems when testing autonomous cars is the huge input space when testing them.
+This paper proposes a method for finding regions of faulty behavior with a given subspace \(\hat{P}\) of the overall parameter space \(P\) by using surrogate models and stochastic optimization.
 
 \section{Critical Content}
 % Where is the paper not accurate?
 % Problems not tackled?
 % Approach usable for testing?
 % Did you like the paper?
+\draft{%
+    \begin{itemize}
+        \item Outcome heavily depends on quality of the chosen values.
+        \item The overall execution time of the proposed algorithm depends strong on the parameters.
+        \item (page 5 right top) samples not saved between test runs even though in a real scenario beneficial.
+        \item \(\eta\) not clearly defined.
+    \end{itemize}
+}
 
 \section{Critical Questions}
 % At least 2
