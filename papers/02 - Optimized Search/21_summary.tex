@@ -30,9 +30,10 @@
 \addbibresource{references21.bib}
 
 \makeglossaries%
-\newacronym{nsgaii}{NSGA-II}{Non-dominated Sorting Genetic Algorithm-II}
 \newacronym{aeb}{AEB}{Automated Emergency Breaking}
 \newacronym{adas}{ADAS}{Advanced Driving Assistance System}
+\newacronym{nsgaii}{NSGA-II}{Non-dominated Sorting Genetic Algorithm-II}
+\newacronym{moead}{MOEA/D}{Multiobjective Evolutionary Algorithm Based on Decomposition}
 
 \begin{document}
 
@@ -48,7 +49,6 @@ Every node has values (in \%) which describe the certainty finding critical and 
 If a node has more than 95\% criticality it is marked as critical region.
 The constraints of the edges on the path from the root to the node characterize the test scenarios.\par
 The next iterations of the evolutionary search algorithm concentrate on non-critical regions to find more critical regions by identifying subregions.\par
-%\draft{Every \gls{adas} is described as a tuple \((S, O, I, D, C)\) where \(S\) is the set of immobile objects, \(O\) is the set of mobile objects, \(I\) is the set of initial states of the mobile objects, \(D\) is the domain where the variables are in and \(C\) is a set of boolean constraints to \(S\) and \(I\).}
 
 \section{Critical Content}
 According to the paper ten \glspl{adas} were studied during the research but the only \gls{adas} described is \gls{aeb}.
@@ -62,18 +62,14 @@ As a conclusion I do not like the paper and if I use the approach proposed by th
 \draft{%
     \begin{itemize}
         \item (Assumption pedestrian linear trajectory)
-        \item They say they studied ten \glspl{adas} but only mention the \gls{aeb} (Section 4.1). Since cooperation with industry?
-        \item They do not mention the mutation rate or whether they fixed it. (Section 4.1). They mention a mutation rate only for \gls{aeb} in section 5.3.
-        \item In section 5.3 they mention they ``could tune the parameters'' but they do neither say how nor anything else about that.
-        \item The title mentions ``Evolutionary Algorithms'' but they use only \gls{nsgaii}.
         \item (Results of RQ2 are not scientific.)
-        \item ``Benefits from a practitioner's perspective'' with three people where one is already connected to the research itself\ldots
     \end{itemize}
 }
 
 \section{Critical Questions}
 \begin{enumerate}
     \item Did the other \glspl{adas} perform similar to \gls{aeb}?
+    \item Do the results change significantly if another search-based algorithm like \gls{moead} is used?
 \end{enumerate}
 
 \printglossary[type=\acronymtype, title=List of Abbreviations]
@@ -87,19 +83,16 @@ As a conclusion I do not like the paper and if I use the approach proposed by th
 
 \twocolumn[{%
 \section{Related Work}
-% At least 4 not explicitly mentioned other papers
-% How did I find it?
-% Why did I choose it?
 \begin{tabularx}{\textwidth}{lXX}
     \tableheadline{Reference} & \tableheadline{Search strategy} & \tableheadline{Why chosen?}\\
     \midrule
-    cite & strategy & reasons\\
+    \cite{testGenPrio} & \makecell{IEEExplore search\\(Author search: ``Shiva Nejati'')} & The approach of the paper may be improved by prioritizing critical test scenarios or regions.\\
     \midrule
-    cite & strategy & reasons\\
+    \cite{eaCritical} & \makecell{IEEExplore search\\(Search string:\\``evolutionary algorithms'')} & The results of the paper may be further improved when combining decision trees with invariants or extensions of evolutionary search.\\
     \midrule
-    cite & strategy & reasons\\
+    \cite{parallelEa} & \makecell{IEEExplore search\\(Search string:\\``evolutionary algorithms'')} & A problem mentioned in the paper is the available time budget. If the time budget is more important than the needed resources for computation a parallel version of the evolutionary search algorithm could be used to find even more critical test scenarios in the same time.\\
     \midrule
-    cite & strategy & reasons\\
+    \cite{blackBox} & \makecell{acm.org ``Cited by''-Tab\\https://dl.acm.org/\\citation.cfm?id=3180160} & This paper references the previously discussed paper.\\
 \end{tabularx}
 }]
 
