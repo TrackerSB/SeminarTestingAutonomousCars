@@ -49,24 +49,23 @@ For each of them the costs \(c_i=c_\psi(\Phi(M, p_i))\) are calculated.
 If the costs do not exceed a predefined threshold, the maximum number of allowed iterations is not reached and no region of faulty behavior is found yet the algorithm generates a surrogate model based on the simulations.
 The result of this model is an approximated cost function \(\hat{c_\psi}(p)\) which is passed to stochastic optimizations.
 Finally a \(p_\min\) representing the most likely location for a region with faulty behavior is chosen.
-Based on \(p_\min\) new samples are taken and the iteration starts over again.
+Based on \(p_\min\) new samples are taken and the iteration starts over again.\\
+\draft{mention results\ldots}
 
 \section{Critical Content}
-% Where is the paper not accurate?
-% Problems not tackled?
-% Approach usable for testing?
-% Did you like the paper?
-\draft{%
-    \begin{itemize}
-        \item Outcome heavily depends on quality of the chosen values.
-        \item The overall execution time of the proposed algorithm depends strong on the parameters.
-        \item (page 5 right top) samples not saved between test runs even though in a real scenario beneficial.
-        \item \(\eta\) not clearly defined.
-    \end{itemize}
-}
+The paper mentions that the choice of parameters has a strong impact on the quality of the results as well as on the execution time of the tests and finding those is not a trivial task.
+It is neither investigated how the result changes nor how the execution time develops when changing certain parameters.\\
+Some parameters are not defined in detail \eg{} \(p_\min\) or \(r_f\).
+\(p_\min\) is explained as ``representing the most likely location for the global minimum'' and \(r_f\) as ``sample randomness factor''.
+At least the behavior of \(r_f\) if it is zero is characterized.\\
+Since on the one hand no research on the behavior and influence of the parameters is done but on the other hand the quality of the result and the performance strongly depend on their choice I would not use this approach yet.
 
 \section{Critical Questions}
-% At least 2
+\begin{enumerate}
+    \item Is there are trade-off finding parameters which result in a high quality of the outcome and where the execution time is acceptable?
+    \item The paper notes that samples are not saved and reconstructed in every iteration of the algorithm.
+        How can the performance be improved when implementing this aspect?
+\end{enumerate}
 
 \printglossary[type=\acronymtype, title=List of Abbreviations]
 
