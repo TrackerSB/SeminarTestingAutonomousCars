@@ -38,26 +38,26 @@
 
 \section{Summary}
 One of the main problems when testing autonomous cars is the huge input space.
-This paper proposes a method for finding regions of faulty behavior in the overall parameter space by using surrogate models and stochastic optimization.\\
+This paper proposes a method for finding regions of faulty behavior in the overall parameter space by using surrogate models and stochastic optimization.\par
 Therefore they define the overall parameter space \(P\) including all environmental or model parameters, the model \(M\) which represents a simulation model or a real system on a \gls{hil} or \gls{vil} setup and the constraints a test has to satisfy as \(\psi\).
 Additionally they denote the behavior of a model given a certain set of parameters \(p\in P\) as \(\Phi (M, p)\) and its costs as \(c_\psi(\Phi(M, p))\).
 This cost function is in this case designed that way that negative values identify critical test scenarios and positive values non-critical ones.
-The goal of the approach is to find test scenarios with global minimum costs.\\
+The goal of the approach is to find test scenarios with global minimum costs.\par
 The approach starts with defining \(M\) and \(\psi\) and choosing a parameter subspace \(\hat{P}\subset P\).
 In the next step samples \(p_1\ldots p_n\in \hat{P}\) are chosen are their behavior \(\Phi (M, p_i)\) with \(1 \leq i \leq n\) is simulated.
 For each of them the costs \(c_i=c_\psi(\Phi(M, p_i))\) are calculated.
 If the costs do not exceed a predefined threshold, the maximum number of allowed iterations is not reached and no region of faulty behavior is found yet the algorithm generates a surrogate model based on the simulations.
 The result of this model is an approximated cost function \(\hat{c_\psi}(p)\) which is passed to stochastic optimizations.
 Finally a \(p_\min\) representing the most likely location for a region with faulty behavior is chosen.
-Based on \(p_\min\) new samples are taken and the iteration starts over again.\\
+Based on \(p_\min\) new samples are taken and the iteration starts over again.\par
 \draft{mention results\ldots}
 
 \section{Critical Content}
 The paper mentions that the choice of parameters has a strong impact on the quality of the results as well as on the execution time of the tests and finding those is not a trivial task.
-It is neither investigated how the result changes nor how the execution time develops when changing certain parameters.\\
+It is neither investigated how the result changes nor how the execution time develops when changing certain parameters.\par
 Some parameters are not defined in detail \eg{} \(p_\min\) or \(r_f\).
 \(p_\min\) is explained as ``representing the most likely location for the global minimum'' and \(r_f\) as ``sample randomness factor''.
-At least the behavior of \(r_f\) if it is zero is characterized.\\
+At least the behavior of \(r_f\) if it is zero is characterized.\par
 Since on the one hand no research on the behavior and influence of the parameters is done but on the other hand the quality of the result and the performance strongly depend on their choice I would not use this approach yet.
 
 \section{Critical Questions}
