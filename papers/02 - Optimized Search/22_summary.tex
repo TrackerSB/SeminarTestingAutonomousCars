@@ -37,7 +37,7 @@
 \maketitle
 
 \section{Summary}
-One of the main problems when testing autonomous cars is the huge input space.
+One of the main problems when testing autonomous cars is the huge input/parameter space.
 This paper proposes a method for finding regions of faulty behavior in the overall parameter space using surrogate models and stochastic optimization.\par
 Therefore they define the overall parameter space \(P\) including all environmental or model parameters, the model \(M\) which represents a simulation model or a real system on a \gls{hil} or \gls{vil} setup and the constraints \(\psi\) a test has to satisfy.
 Additionally they denote the behavior of a model given a certain set of parameters \(p\in P\) as \(\Phi (M, p)\) and its costs as \(c_\psi(\Phi(M, p))\).
@@ -48,9 +48,9 @@ Before making the first iteration the approach fixes \(M\) and \(\psi\) and choo
 On each iteration samples \(p_1\ldots p_n\in \hat{P}\) are generated and their behavior \(\Phi (M, p_i)\) with \(1 \leq i \leq n\) is simulated.
 For each of them the costs \(c_i=c_\psi(\Phi(M, p_i))\) are calculated.
 If the costs do not exceed a predefined threshold, the maximum number of allowed iterations is not reached and no region of faulty behavior is found yet the algorithm generates a surrogate model based on the simulations.
-The result of this model is an approximated cost function \(\hat{c_\psi}(p)\) on which stochastic optimizations are applied on.
-Finally a \(p_\min\) representing the most likely location for a region with faulty behavior is chosen.
-Based on \(p_\min\) new samples are taken and the next iteration starts.
+The result of this model is an approximated cost function \(\hat{c_\psi}(p)\) on which stochastic optimizations are applied.
+Finally a \(p_\min\) representing the most likely location for a region with faulty behavior is determined.
+Based on that \(p_\min\) new samples are taken and the next iteration starts.
 
 \section{Critical Content}
 The paper mentions that the choice of parameters has a strong impact on the quality of the results as well as on the execution time of the tests and finding those is a not trivial task.
@@ -58,11 +58,11 @@ It is neither investigated how the results change nor how the execution time dev
 Some parameters are not defined in detail \eg{} \(p_\min\) or \(r_f\).
 \(p_\min\) is explained as ``representing the most likely location for the global minimum'' and \(r_f\) as ``sample randomness factor''.
 At least the behavior of \(r_f\) if it is zero is characterized.\par
-Since on the one hand no research on the behavior and the influence of the choice of values of the parameters is done but on the other hand the quality of the result and the performance strongly depend on them I would not use this approach yet.
+Since on the one hand no research on the behavior and the influences arising by the choice of values for the parameters is done but on the other hand the quality of the result and the performance strongly depend on them I would not use this approach yet.
 
 \section{Critical Questions}
 \begin{enumerate}
-    \item Is there are trade-off finding parameters which result in a high quality of the outcome and where the execution time is acceptable?
+    \item Is there are trade-off in finding parameters which result in a high quality of the outcome and for which the execution time is still acceptable?
     \item The paper notes that samples are not saved and reconstructed in every iteration of the algorithm.
         How can the performance be improved when implementing this aspect or even additional aspects?
 \end{enumerate}
@@ -83,10 +83,9 @@ Since on the one hand no research on the behavior and the influence of the choic
     \midrule
     \cite{kriging} & \makecell{IEEExplore\\(Reference to all papers of the\\same conference)\\(2017 IEEE 20th International\\Conference on Intelligent\\Transportation Systems)} & This paper introduces a similar statistical approach which is also based on Kriging models.\\
     \midrule
-    \cite{vehicleSurrogate} & \makecell{ResearchGate\\(Citations tab)} & This paper develops an approach based the surrogate model introduced in the summarized paper.\\
+    \cite{vehicleSurrogate} & \makecell{ResearchGate\\(Citations tab)} & This paper develops an approach based on the surrogate model introduced in the paper.\\
     \midrule
-    \cite{efficientOptimization} & \makecell{IEEExplore search\\(Search string:\\``stochastic optimization'')}& This paper introduces optimizations to the \gls{pso} which is also used in the discussed paper.
-    So further performance improvements may be applied to the stochastic optimizations.\\
+    \cite{efficientOptimization} & \makecell{IEEExplore search\\(Search string:\\``stochastic optimization'')}& This paper introduces optimizations to the \gls{pso} which could be applied to the \gl{pso} used in the paper to further enhance the stochastic optimizations.\\
     \midrule
     \cite{deOptimization} & \makecell{IEEExplore search\\(Search string:\\``differential evolution'')}& Since the paper above also applies \gls{de} further research could be done which variants of \gls{de} suite best to this approach.\\
 \end{tabularx}
