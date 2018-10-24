@@ -16,6 +16,7 @@
 \newcommand{\tableheadline}[1]{\textbf{#1}}
 \newcommand{\draft}[1]{\textcolor{red}{\textit{#1}}}
 \newcommand{\eg}{e.\,g.\xspace}
+\newcommand{\wrt}{w.\,r.\,t.\xspace}
 
 \renewcommand\cellalign{lt}
 
@@ -38,14 +39,15 @@
 
 \section{Summary}
 The paper discusses finding critical test cases for simulation-based testing of vision-based control systems like \glspl{adas} based on evolutionary search algorithms.
-\draft{The approach is explained using only their results on \gls{aeb}.}\par
-To improve the effectiveness of evolutionary multi-objective search algorithms the approach combines them with decision trees.
+The approach is explained using their results on \gls{aeb}.\par
+To improve the effectiveness (\wrt to finding regions of critical test scenarios in the search space) of evolutionary multi-objective search algorithms the approach combines them with decision trees.
 Decision trees are repeatedly build after a few iterations of the evolutionary search algorithm.
-Each node of a tree represents a population of test scenarios fulfilling all the constraints annotated on the edges of the path from the root to this node.
-Every node has values (in \%) which describe the certainty finding critical and non-critical test cases.
-If a node has more than 95\% criticality it is marked as critical region.
-The constraints of the edges on the path from the root to the node characterize the test scenarios.\par
-The next iterations of the evolutionary search algorithm concentrate on non-critical regions to find more critical regions by identifying subregions.\par
+Each edge of the tree represents constraints dividing the population of test cases represented by the previous node.
+So each node represents a population of test scenarios fulfilling all the constraints annotated at the edges of the path from the root to this node.
+Additionally every node has values (in \%) which describe the certainty finding critical or non-critical test cases.
+If a node has more than 95\% criticality it is marked as critical region.\par
+The following iterations of the evolutionary search algorithm concentrate on non-critical regions to identify more critical regions by dividing them in subregions using further constraints.\par
+As a result the approach is able to characterize critical test scenarios by looking at critical regions and the constraints they fulfill.
 
 \section{Critical Content}
 According to the paper ten \glspl{adas} were studied during the research but the only \gls{adas} described is \gls{aeb}.
@@ -53,20 +55,14 @@ The paper mentions neither the results nor any analysis (not even the names) of 
 In section 4.1 the paper lists many parameters and configurations, but some of their chosen values are not specified or only given a few pages later in section 5.3 (\eg{} the mutation rate).
 In section 4.1 the mutation rate is only described as ``a probability''.\\
 The title suggests that the research discusses multiple evolutionary search-based algorithms but the only one referred to is \gls{nsgaii}.\\
-The section ``Benefits from a practitioner's perspective'' deals with exactly three people who are employees of the same company which is exactly the company supporting the research itself.
-Additionally one of these three people is connected to the research team.\\
+The section ``Benefits from a practitioner's perspective'' deals with exactly three people who are employees of the same company which is the same company supporting the research itself.
+Additionally one of these three people is connected to the research team since it collaborated already with the research in a not specified way.\\
 As a conclusion I do not like the paper and if I use the approach proposed by this paper I would at most use it for testing \gls{aeb}.
-\draft{%
-    \begin{itemize}
-        \item (Assumption pedestrian linear trajectory)
-        \item (Results of RQ2 are not scientific.)
-    \end{itemize}
-}
 
 \section{Critical Questions}
 \begin{enumerate}
     \item Did the other \glspl{adas} perform similar to \gls{aeb}?
-    \item Do the results change significantly if another search-based algorithm like \gls{moead} is used?
+    \item Do the results significantly change if another search-based algorithm like \gls{moead} is used?
 \end{enumerate}
 
 \printglossary[type=\acronymtype, title=List of Abbreviations]
@@ -87,9 +83,9 @@ As a conclusion I do not like the paper and if I use the approach proposed by th
     \midrule
     \cite{eaCritical} & \makecell{IEEExplore search\\(Search string:\\``evolutionary algorithms'')} & The results of the paper may be further improved when combining decision trees with invariants or extensions of evolutionary search.\\
     \midrule
-    \cite{parallelEa} & \makecell{IEEExplore search\\(Search string:\\``evolutionary algorithms'')} & A problem mentioned in the paper is the available time budget. If the time budget is more important than the needed resources for computation a parallel version of the evolutionary search algorithm could be used to find even more critical test scenarios in the same time.\\
+    \cite{parallelEa} & \makecell{IEEExplore search\\(Search string:\\``evolutionary algorithms'')} & A problem mentioned in the paper is the available time budget. If the time budget is more important than the needed resources for computation a parallel version of the evolutionary search algorithm could be used to find even more critical regions of test scenarios in the same time.\\
     \midrule
-    \cite{blackBox} & \makecell{acm.org ``Cited by''-Tab\\https://dl.acm.org/\\citation.cfm?id=3180160} & This paper references the previously discussed paper.\\
+    \cite{blackBox} & \makecell{acm.org ``Cited by''-Tab\\https://dl.acm.org/\\citation.cfm?id=3180160} & This paper references the paper and develops an approach reusing some of its ideas.\\
 \end{tabularx}
 }]
 
