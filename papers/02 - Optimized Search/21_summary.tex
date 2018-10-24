@@ -39,11 +39,11 @@
 \section{Summary}
 The paper discusses on finding critical test cases for simulation-based testing of vision-based control systems like \glspl{adas} based on evolutionary search algorithms.
 The authors explain their approach using their results on \gls{aeb}.\par
-To improve the effectiveness (in terms of finding regions of critical test scenarios in given search/parameter space) of evolutionary multi-objective search algorithms the approach combines them with decision trees.
+To improve the effectiveness (in terms of finding regions of critical test scenarios in a given search/parameter space) of evolutionary multi-objective search algorithms the approach combines them with decision trees.
 Decision trees are repeatedly build after a few iterations of the evolutionary search algorithm.
-Each edge of the decision tree represents constraints dividing the population of test cases of the previous node.
+Every edge of the decision tree represents constraints dividing the population of test cases of the previous node.
 Each node represents a population of test scenarios fulfilling all the constraints annotated at the edges of the path from the root to this node.
-Additionally every node has values (in \%) which describe the certainty finding critical or non-critical test cases.
+Additionally all nodes have values (in \%) which describe the certainty finding critical or non-critical test cases.
 If a node has more than 95\% criticality it is marked as critical region.\par
 The following iterations of the evolutionary search algorithm concentrate on non-critical regions to identify more critical regions by dividing them in subregions using further constraints.\par
 As a result the approach is able to characterize critical test scenarios by looking at nodes marked as critical region and the constraints they fulfill.
@@ -52,11 +52,10 @@ As a result the approach is able to characterize critical test scenarios by look
 According to the paper ten \glspl{adas} were studied during the research but the only \gls{adas} explained is \gls{aeb}.
 The paper mentions neither the results nor any analysis (not even the names) of the other nine \glspl{adas}.\par
 In section 4.1 the paper lists many parameters and configurations but for some a value is only given a few pages later in section 5.3 (\eg{} the mutation rate).
-In section 4.1 the mutation rate is only described as ``a probability''.
-\draft{\(\eta\)?}\par
+In section 4.1 the mutation rate is only described as ``a probability''.\par
 The title suggests that the research discusses multiple evolutionary search-based algorithms but the only one referred to is \gls{nsgaii}.\par
-The section ``Benefits from a practitioner's perspective'' deals with exactly three people who are employees of the same company which is the same company supporting the research itself.
-Additionally one of these three people is connected to the research team since he/she collaborated already with the research in a not specified way.\par
+The section ``Benefits from a practitioner's perspective'' deals with exactly three people who are employees of the same company which is exactly the company supporting the research itself.
+Additionally one of these three people is connected to the research team since he/she collaborated already with the research team in a not specified way.\par
 As a conclusion I do not like the paper and if I use the approach proposed by this paper I would at most use it for testing \gls{aeb}.
 
 \section{Critical Questions}
