@@ -1,0 +1,32 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage{media9}
+
+\usetheme{Madrid}
+\usecolortheme{whale}
+\setbeamertemplate{navigation symbols}{}
+\title{Automatic Generation of Safety-Critical Test Scenarios for Collision Avoidance of Road Vehicles}
+\author{Stefan Huber}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{frame}
+    \frametitle{Gif Animation Demo}
+    \includemedia[
+        label=CommonRoad scenario DEU_Muc-2_1_T-1.xml,
+        width=\linewidth,
+        height=0.5\linewidth,
+        activate=pageopen,
+        addresource=../../demonstration/scenarios/DEU_B471-1_1_T-1/DEU_B471-1_1_T-1.xml.mp4,
+        flashvars={
+            %important: same path as in `addresource'
+            source=../../demonstration/scenarios/DEU_B471-1_1_T-1/DEU_B471-1_1_T-1.xml.mp4
+            &loop=true
+        }
+    ]{DEU_Muc-2_1_T-1.xml}{VPlayer.swf}
+\end{frame}
+
+\end{document}
