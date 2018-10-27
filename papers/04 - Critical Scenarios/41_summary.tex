@@ -1,0 +1,102 @@
+\documentclass[oneside, notitlepage, twocolumn]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage[acronym, automake, nopostdot, nomain, nonumberlist, numberedsection, section]{glossaries}
+\usepackage{adjustbox}
+\usepackage{biblatex}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{makecell}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{xspace}
+
+\geometry{%
+    left=1in,
+    right=1in,
+}
+
+\newcommand{\tableheadline}[1]{\textbf{#1}}
+\newcommand{\draft}[1]{\textcolor{red}{\textit{#1}}}
+\newcommand{\eg}{e.\,g.\xspace}
+
+\renewcommand\cellalign{lt}
+
+\setlength{\parskip}{1mm}
+\setlength{\parindent}{0pt}
+\titlespacing\section{0pt}{12pt plus 4pt minus 2pt}{2pt plus 2pt minus 2pt}
+
+\title{\LARGE 4.1 --- Automatic Generation of Safety-Critical Test Scenarios for Collision Avoidance of Road Vehicles}
+\subtitle{Summary}
+\author{Stefan Huber}
+
+\addbibresource{41references.bib}
+
+\makeglossaries%
+\loadglsentries{../acronyms.tex}
+
+\begin{document}
+
+\maketitle
+
+\section{Summary}
+% What is it all about?
+\draft{%
+    \begin{itemize}
+        \item Simulation time consuming/most scenarios not challenging
+        \item \(=>\) Small solution space
+            \begin{itemize}
+                \item reachability analysis + optimization to shrink
+                \item Make uncritical scenarios critical
+            \end{itemize}
+        \item Constructive algorithm
+        \item Quantify drivable area
+        \item Desired criticality
+    \end{itemize}
+}
+
+\section{Critical Content}
+% Where is the paper not accurate?
+% Problems not tackled?
+% Approach usable for testing?
+% Did you like the paper?
+
+\section{Critical Questions}
+% At least 2
+\begin{enumerate}
+    \item First question
+    \item Second question
+\end{enumerate}
+
+\section{References}
+\begingroup
+\renewcommand{\section}[2]{}%
+\nocite{*}
+\printbibliography%
+\endgroup
+
+\section{Related Work}
+% At least 4 not explicitly mentioned other papers
+% How did I find it?
+% Why did I choose it?
+% Don´t use background papers.
+% Don´t use surveys.
+\begin{adjustbox}{angle=90}
+\begin{tabularx}{\textwidth}{lXX}
+    \tableheadline{Reference} & \tableheadline{Search strategy} & \tableheadline{Why chosen?}\\
+    \midrule
+    cite & \makecell{strategy\\(method)} & reasons\\
+    \midrule
+    cite & \makecell{strategy\\(method)} & reasons\\
+    \midrule
+    cite & \makecell{strategy\\(method)}& reasons\\
+    \midrule
+    cite & \makecell{strategy\\(method)}& reasons\\
+\end{tabularx}
+\end{adjustbox}
+
+\end{document}
