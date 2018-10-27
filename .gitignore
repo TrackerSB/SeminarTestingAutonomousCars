@@ -27,3 +27,7 @@ BeamNG/output/
 *.acn
 *.acr
 *.ist
+*.nav
+*.out
+*.snm
+*.toc
