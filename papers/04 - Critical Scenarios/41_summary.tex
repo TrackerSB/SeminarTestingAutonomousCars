@@ -44,15 +44,13 @@
 \maketitle
 
 \section{Summary}
-% What is it all about?
+Since testing autonomous cars physically is very expensive and time consuming simulation-based testing is done to test autonomous cars.
+Since the amount of possible test scenarios is huge and most of them are not challenging to the system this paper presents an constructive approach which modifies an initially uncritical test case in such way that its criticality increases.\\
+To quantify the criticality the paper computes the scenarios drivable area which represents all positions the car under test can reach at certain time steps in a predefined time interval.
+The solution space of a test case is defined as the  subspace of the drivable area which maintains \draft{a safe motion through the scenario}.
+The smaller the solution space is the more critical it is classified in the paper.
 \draft{%
     \begin{itemize}
-        \item Simulation time consuming/most scenarios not challenging
-        \item \(=>\) Small solution space
-            \begin{itemize}
-                \item reachability analysis + optimization to shrink
-                \item Make uncritical scenarios critical
-            \end{itemize}
         \item Constructive algorithm
         \item Quantify drivable area
         \item Desired criticality
