@@ -47,21 +47,18 @@
 Since testing autonomous cars physically is very expensive and time consuming simulation-based testing is done to test autonomous cars.
 Since the amount of possible test scenarios is huge and most of them are not challenging to the system this paper presents an constructive approach which modifies an initially uncritical test case in such way that its criticality increases.\\
 To quantify the criticality the paper computes the scenarios drivable area which represents all positions the car under test can reach at certain time steps in a predefined time interval.
-The solution space of a test case is defined as the  subspace of the drivable area which maintains \draft{a safe motion through the scenario}.
-The smaller the solution space is the more critical it is classified in the paper.
-\draft{%
-    \begin{itemize}
-        \item Constructive algorithm
-        \item Quantify drivable area
-        \item Desired criticality
-    \end{itemize}
-}
+The solution space of a test case is defined as the subspace of the drivable area which maintains \draft{a safe motion through the scenario}.
+The smaller the solution space is the more critical it is classified in the paper.\\
+The reduction of the solution space is a quadratic optimization problem which is solved using \gls{ecos}.\\
+As a result this approach is able to quantify and to increase the criticality of a given test case.
 
 \section{Critical Content}
-% Where is the paper not accurate?
-% Problems not tackled?
-% Approach usable for testing?
-% Did you like the paper?
+\draft{To be continued\ldots}\\
+I like the paper because it describes precisely the mathematical environment including the variables, the definitions and formal concept of the optimizations.
+It also sketches the used algorithms and mentions all software components as well as the source of the scenarios used.\\
+Since the approach is entirely explained, all used programs are listed and it is constructively creating test scenarios I would use it for testing.\\
+One problem arising when trying to implement the approach is that \gls{spot} which is used during the paper \draft{for dealing with trajectories of pedestrians which change during the simulation time} depends on the MatLab plugins ``Mapping Toolbox'' and ``Robotic System Toolbox'' which are quite expensive.
+The latter is not even mentioned in the documentation of \gls{spot}.
 
 \section{Critical Questions}
 % At least 2
