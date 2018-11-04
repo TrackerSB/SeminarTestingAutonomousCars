@@ -54,14 +54,14 @@
         \item Performance boundary = location in configuration space where discontinuity or large change in performance occurs
         \item (\eg{} slight change in position of obstacle causes to transition from success to failure)
         \item Uses \gls{gpr} to provide model of the mean value, the gradient of the mean and an estimated variance for each prediction point
+        \item Iterative \gls{gpr} search algorithm
+        \item Two steps: (1) search informative test cases, (2) find boundaries by clustering the test cases
     \end{itemize}
 }
-\draft{Continue at Boundary Identification Approach on page 6}
 
 \section{Critical Content}
 \draft{%
     \begin{itemize}
-        \item Mention three test functions developed but only two named (page 4 left) (Custom2d, Plates2d, Plates3d?)
         \item Can not only be used for autonomous cars
         \item Some aspects explained multiple times (``where small changes to the state space lead to large changes in performance'', ``We follow an active learning strategy'')
     \end{itemize}
@@ -87,6 +87,14 @@
 % Why did I choose it?
 % Don´t use background papers.
 % Don´t use surveys.
+\draft{%
+    \begin{itemize}
+        \item Want to explore higher dimensions
+        \item Want to scale up system to handle even larger numbers of dimensions and test cases
+        \item Localized \gls{gpr}
+        \item Non-stationary covariance functions for the \gls{gpr}
+    \end{itemize}
+}
 \begin{adjustbox}{angle=90}
 \begin{tabularx}{\textwidth}{llX}
     \tableheadline{Ref.} & \tableheadline{Search strategy} & \tableheadline{Why chosen?}\\
