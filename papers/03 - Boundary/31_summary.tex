@@ -23,6 +23,7 @@
 \newcommand{\tableheadline}[1]{\textbf{#1}}
 \newcommand{\draft}[1]{\textcolor{red}{\textit{#1}}}
 \newcommand{\eg}{e.\,g.\xspace}
+\newcommand{\ie}{i.\,e.\xspace}
 
 \renewcommand\cellalign{lt}
 
@@ -44,26 +45,19 @@
 \maketitle
 
 \section{Summary}
-\draft{%
-    \begin{itemize}
-        \item Designing test scenarios very expensive
-        \item Live test also very time consuming
-        \item Generate test scenarios informing on the expected performance
-        \item Not focussing on fault detection but on relationship between scenario configuration and resulting performance
-        \item Test scenario interesting/informative if close to a performance boundary
-        \item Performance boundary = location in configuration space where discontinuity or large change in performance occurs
-        \item (\eg{} slight change in position of obstacle causes to transition from success to failure)
-        \item Uses \gls{gpr} to provide model of the mean value, the gradient of the mean and an estimated variance for each prediction point
-        \item Iterative \gls{gpr} search algorithm
-        \item Two steps: (1) search informative test cases, (2) find boundaries by clustering the test cases
-    \end{itemize}
-}
+Designing test cases for autonomous systems as well as live tests are very time consuming.
+In contrast to other approaches this approach focuses on the relation between configuration and resulting performance instead of finding faulty behavior.\par
+This paper introduces a method for generating test scenarios which are interesting in terms of test scenarios close to performance boundaries.
+Therefore the performance boundary is defined as test cases where slight modifications to the configuration drastically change the resulting performance \eg{} are crucial to whether a tests succeeds or fails.\par
+The approach starts with finding interesting/informative test scenarios using an iterative \gls{gpr} search algorithm which focuses on regions with high gradients since these may indicate that there is a performance boundary.
+The \gls{gpr} provides a model of a mean value, the gradient of the mean and an estimated variance for each prediction point \draft{prediction point?}.\\
+These test scenarios are clustered based on \gls{dbscan} which identifies the performance boundaries.
 
 \section{Critical Content}
 \draft{%
     \begin{itemize}
         \item Can not only be used for autonomous cars
-        \item Some aspects explained multiple times (``where small changes to the state space lead to large changes in performance'', ``We follow an active learning strategy'')
+        \item (Some aspects explained multiple times (``where small changes to the state space lead to large changes in performance'', ``We follow an active learning strategy''))
     \end{itemize}
 }
 
