@@ -64,8 +64,8 @@ I like the paper since the approach is not only limited to autonomous cars and i
     \item The paper describes in section \gls{sut} that the \gls{uuv} considers its power limitations.
         When the \gls{uuv} recognizes it can not reach the goal positions it changes the direction to reach the recovery point.
         Can similar approach be used to consider fuel consumption of cars and determine whether to drive to the next gas station?
-    \item \draft{The boundary identification methods gradient and mean-shift outperform each other when having a continuous or discrete output space.
-        Are there further aspects that influence the performance when comparing these methods?}
+    \item The boundary identification methods gradient and mean-shift outperform each other depending on whether the output space is continuous or discrete.
+        Are there further aspects that influence the performance when comparing these methods?
 \end{enumerate}
 
 \section{References}
@@ -76,27 +76,19 @@ I like the paper since the approach is not only limited to autonomous cars and i
 \endgroup
 
 \section{Related Work}
-\draft{%
-    \begin{itemize}
-        \item Want to explore higher dimensions
-        \item Want to scale up system to handle even larger numbers of dimensions and test cases
-        \item Localized \gls{gpr}
-        \item Non-stationary covariance functions for the \gls{gpr}
-    \end{itemize}
-}
 \begin{adjustbox}{angle=90}
 \begin{tabularx}{\textwidth}{llX}
     \tableheadline{Ref.} & \tableheadline{Search strategy} & \tableheadline{Why chosen?}\\
     \midrule
     \cite{trucksFuel} & \makecell{IEEExplore search\\(search string:\\``fuel consumption'')} & The approach may be extended to consider fuel consumption of autonomous vehicles.\\
     \midrule
-    \cite{higherDims} & \makecell{IEEExplore search\\(Author search:\\``Galen E. Mullins'')}& The future work of the above paper includes increasing the considered dimensions in the configuration space.
+    \cite{higherDims} & \makecell{IEEExplore search\\(author search:\\``Galen E. Mullins'')}& The future work of the above paper includes increasing the considered dimensions in the configuration space.
         This paper discusses robot self-righting capabilities and introduces therefore algorithms able to scale up to high-dimensional configuration spaces.\\
     \midrule
-    \cite{accelerate} & \makecell{IEEExplore search\\(Author search:\\``Galen E. Mullins'')} & The future work of the summarized paper mentions that the authors want to scale up the system.
+    \cite{accelerate} & \makecell{IEEExplore search\\(author search:\\``Galen E. Mullins'')} & The future work of the summarized paper mentions that the authors want to scale up the system.
     This paper focuses on accelerating the generation of test scenarios.\\
     \midrule
-    cite & \makecell{strategy\\(method)}& reasons\\
+    \cite{gpr} & \makecell{IEEExplore search\\(search string:\\``gaussian process regression'')}& This paper proposes active learning strategies used with \gls{gpr} a similar way the above paper does.\\
 \end{tabularx}
 \end{adjustbox}
 
