@@ -50,7 +50,7 @@ In contrast to other approaches this approach focuses on the relation between co
 This paper introduces a method for generating test scenarios which are interesting in terms of test scenarios close to performance boundaries.
 Therefore the performance boundary is defined as test cases where slight modifications to the configuration drastically change the resulting performance \eg{} are crucial to whether a tests succeeds or fails.\par
 The approach starts with finding interesting/informative test scenarios using an iterative \gls{gpr} search algorithm which focuses on regions with high gradients since these may indicate that there is a performance boundary.
-The \gls{gpr} provides a model of a mean value, the gradient of the mean and an estimated variance for each prediction point \draft{prediction point?}.\\
+The \gls{gpr} provides a model of a mean value, the gradient of the mean and an estimated variance for each prediction point \draft{prediction point?}.\par
 These test scenarios are clustered based on \gls{dbscan} which identifies the performance boundaries.
 
 \section{Critical Content}
@@ -60,6 +60,7 @@ These test scenarios are clustered based on \gls{dbscan} which identifies the pe
         \item (Some aspects explained multiple times (``where small changes to the state space lead to large changes in performance'', ``We follow an active learning strategy''))
     \end{itemize}
 }
+
 
 \section{Critical Questions}
 % At least 2
