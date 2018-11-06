@@ -54,20 +54,18 @@ The \gls{gpr} provides a model of a mean value, the gradient of the mean and an 
 These test scenarios are clustered based on \gls{dbscan} which identifies the performance boundaries.
 
 \section{Critical Content}
-\draft{%
-    \begin{itemize}
-        \item (Some aspects explained multiple times (``where small changes to the state space lead to large changes in performance'', ``We follow an active learning strategy''))
-    \end{itemize}
-}
-The problem definition section is very short \draft{continue\ldots}\par
-I would not use the approach yet since the performance in terms of time is not given and the future work of the paper includes scaling up the system for handling more dimensions and test cases.\par
-I like the paper since the approach is \draft{continue\ldots}
+The definitions in the problem definition section are very brief may not be complete since the paper states that ``definitions include'' the listed ones.\par
+\draft{Some explanations are given multiple times throughout the paper (\eg{} ``where small changes to the state space/scenario/configuration lead to large changes in performance'' or ``Use active learning strategy'').}\par
+I would not use the approach yet since the performance in terms of time is not given and the future work of the paper already includes scaling up the system for handling more dimensions and test cases.\par
+I like the paper since the approach is not only limited to autonomous cars and it seems to be able according to the \gls{sut} section to consider aspects like power consumption and remaining distance the \gls{sut} can reach.
 
 \section{Critical Questions}
-% At least 2
 \begin{enumerate}
-    \item First question
-    \item Second question
+    \item The paper describes in section \gls{sut} that the \gls{uuv} considers its power limitations.
+        When the \gls{uuv} recognizes it can not reach the goal positions it changes the direction to reach the recovery point.
+        Can similar approach be used to consider fuel consumption of cars and determine whether to drive to the next gas station?
+    \item \draft{The boundary identification methods gradient and mean-shift outperform each other when having a continuous or discrete output space.
+        Are there further aspects that influence the performance when comparing these methods?}
 \end{enumerate}
 
 \section{References}
@@ -95,11 +93,13 @@ I like the paper since the approach is \draft{continue\ldots}
 \begin{tabularx}{\textwidth}{llX}
     \tableheadline{Ref.} & \tableheadline{Search strategy} & \tableheadline{Why chosen?}\\
     \midrule
-    cite & \makecell{strategy\\(method)} & reasons\\
+    \cite{higherDims} & \makecell{IEEExplore search\\(Author search:\\``Galen E. Mullins'')}& The future work of the above paper includes increasing the considered dimensions in the configuration space.
+        This paper discusses robot self-righting capabilities and introduces therefore algorithms able to scale up to high-dimensional configuration spaces.\\
     \midrule
-    cite & \makecell{strategy\\(method)} & reasons\\
+    \cite{trucksFuel} & \makecell{IEEExplore search\\(search string:\\``fuel consumption'')} & The approach may be extended to consider fuel consumption of autonomous vehicles.\\
     \midrule
-    cite & \makecell{strategy\\(method)}& reasons\\
+    \cite{accelerate} & \makecell{IEEExplore search\\(Author search:\\``Galen E. Mullins'')} & The future work of the summarized paper mentions that the authors want to scale up the system.
+    This paper focuses on accelerating the generation of test scenarios.\\
     \midrule
     cite & \makecell{strategy\\(method)}& reasons\\
 \end{tabularx}
