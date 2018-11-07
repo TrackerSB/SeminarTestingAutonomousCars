@@ -46,24 +46,25 @@
 
 \section{Summary}
 Designing test cases for autonomous systems as well as live tests are very time consuming.
-In contrast to other approaches this approach focuses on the relation between configuration and resulting performance instead of finding faulty behavior.\par
-This paper introduces a method for generating test scenarios which are interesting in terms of test scenarios close to performance boundaries.
-Therefore the performance boundary is defined as test cases where slight modifications to the configuration drastically change the resulting performance \eg{} are crucial whether a test succeeds or fails.\par
+This paper introduces a method for generating test scenarios which are interesting in terms of being close to a performance boundary.
+The performance boundary is defined as region of test cases where slight modifications to their configuration drastically change the resulting performance \eg{} are crucial whether a test succeeds or fails.\par
+So in contrast to other approaches this approach deals with the relation between configuration and performance (in particular the performance boundary) instead of finding faulty behavior.\par
 The approach starts with finding interesting/informative test scenarios using an iterative \gls{gpr} search algorithm which focuses on regions with high gradients since these indicate that there may be a performance boundary.
 The \gls{gpr} provides a model of a mean value, the gradient of the mean and an estimated variance for each prediction point.\par
-The resulting test scenarios are clustered based on \gls{dbscan} which identifies the performance boundaries.
+The resulting test scenarios are clustered based on the \gls{dbscan} which identifies the performance boundaries.
 
 \section{Critical Content}
 The definitions in the problem definition section are very brief may not be complete since the paper states that ``definitions include'' the listed ones.\par
-Some explanations are given multiple times throughout the paper (\eg{} ``where small changes to the state space/scenario/configuration lead to large changes in performance'' or ``Use active learning strategy'').\par
-I would not use the approach yet since the performance in terms of time is not given and the future work of the paper already includes scaling up the system for handling more dimensions and test cases.\par
-I like the paper since the approach is not only limited to autonomous cars and it is able (according to the \gls{sut} section) to consider aspects like power consumption and remaining distance the \gls{sut} can reach.
+Some explanations are given multiple times throughout the paper (\eg{} ``where small changes to the state space/scenario/configuration lead to large changes in performance'' or ``We use active learning strategy'').\par
+I would not use the approach yet since the performance in terms of time is not given and the future work of the paper already includes scaling up the system for handling more dimensions and test cases.
+So research on its computation time effort is coming.\par
+I like the paper since the approach is not only limited to autonomous cars and it is able (according to the \gls{sut} section) to consider additional aspects like power consumption and remaining distance the \gls{sut} can reach.
 
 \section{Critical Questions}
 \begin{enumerate}
     \item The paper describes in the \gls{sut} section that the \gls{uuv} considers its power limitations.
-        When the \gls{uuv} recognizes it can not reach the goal position it changes the direction to reach a recovery point.
-        Can a similar approach be used to consider fuel consumption of cars and determine whether to drive to the next gas station?
+        When the \gls{uuv} recognizes that it is not able not reach the goal position it changes the direction to reach a recovery point.
+        Can a similar approach be used to consider fuel consumption of cars and to determine whether the car needs to drive to the next gas station?
     \item The boundary identification methods gradient and mean-shift outperform each other depending on whether the output space is continuous or discrete.
         Are there further aspects that influence the performance when comparing these methods?
 \end{enumerate}
