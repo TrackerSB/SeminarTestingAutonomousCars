@@ -46,24 +46,17 @@
 \section{Summary}
 To evaluate and verify \glspl{adas} and \glspl{adf} is even in the case of simulations very time consuming.
 Therefore a test case catalog based on a traffic accident database was introduced in a previous paper to reduce the number of test scenarios to test.
-This approach searches for a boundary dividing parameterizations for these scenarios into safe and unsafe conditions (\eg{} in terms of collision rate) using a \gls{gpc} based iterative algorithm.\par
+This approach searches for a boundary dividing parameterizations for these scenarios into safe and unsafe conditions (\eg{} in terms of collision rate) using an iterative input design method based on \gls{gpc}.\par
 The first iteration of \gls{gpc} starts with defining initial points which are classified as safe or unsafe.
 As long as a given exit condition is not satisfied the boundary for all current points is generated and new input data is chosen which is also classified.
 At the end the class boundary is numerically computed.
-\draft{%
-    \begin{itemize}
-        \item Estimation of probability of these conditions
-        \item \gls{gpc} based Input Design
-        \item Probability shifts to either p=1 or p=0
-    \end{itemize}
-}
 
 \section{Critical Content}
-\draft{continue\ldots}\par
+No research on the performance of the approach is done.\par
 The approximation quality of the approach is not clear.
 The quality is demonstrated on one example where ``it is desirable to find an exit condition depending on the current quality of the approximation''.
-The authors use the predictive probability as exit condition which is according to the paper not applicable in practice due to numerical errors and discretization of the input which is supposed to mis-trigger the exit condition.\par
-I would not use this approach since the paper contains multiple mistakes in grammar, misses labels like in Fig.10, has very few references, the approach itself how to choose new input data is not explained and the approximation quality is according to the paper unknown (see section III.C).
+For the example the authors suppose the predictive probability as feasible exit condition but which is according to the paper not applicable in practice due to numerical errors and discretization of the input which is supposed to mis-trigger the exit condition.\par
+I would not use this approach since the authors seem to not worry much about creating a very thought-out paper (\eg{} multiple mistakes in grammar, missing labels like in Fig.10, very few references), the approach itself is not profoundly described (\eg{} how new input data is chosen) and the approximation quality is according to the paper unknown (see section III.C).
 
 \section{Critical Questions}
 \begin{enumerate}
