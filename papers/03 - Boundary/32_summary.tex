@@ -44,25 +44,26 @@
 \maketitle
 
 \section{Summary}
-When evaluating and verifying \glspl{adas} and \glspl{adf} even the case of simulations is very time consuming.
-Therefore a test case catalog based on a traffic accident database was introduced in a previous paper to reduce the number of test scenarios to test.
-Based on the catalog this approach develops a method for searching for a boundary dividing parameterizations for scenarios of the catalog into safe and unsafe conditions (\eg{} in terms of collision rate) using an iterative input design method based on \gls{gpc}.\par
+Evaluating and verifying \glspl{adas} and \glspl{adf} is very time consuming even if simulations instead of live tests are used.
+Therefore a test case catalog based on a traffic accident database was introduced in a paper previous to this to reduce the number of test scenarios to test.
+Based on that catalog this approach develops a method searching for a boundary dividing parameterizations for scenarios of the catalog into safe and unsafe conditions (\eg{} in terms of collision rate) using an iterative input design method based on \gls{gpc}.\par
 The first iteration of \gls{gpc} starts with defining initial points which are classified as safe or unsafe.
 As long as a given exit condition is not satisfied the boundary for all current points is generated and new input data is chosen which is also classified.
 At the end the class boundary is numerically computed.
 
 \section{Critical Content}
-No research on the performance of the approach is done.\par
+The paper contains no research on the performance of the approach.\par
 The approximation quality of the approach is not clear.
-The quality is demonstrated on one example where ``it is desirable to find an exit condition depending on the current quality of the approximation''.
-For the example the authors suppose the predictive probability as feasible exit condition but which is according to the paper not applicable in practice due to numerical errors and discretization of the input which is supposed to mis-trigger the exit condition.\par
+The quality of the approximation is only demonstrated on one example where ``it is desirable to find an exit condition depending on the current quality of the approximation''.
+For the example the authors suppose the predictive probability as feasible exit condition which is according to the paper itself not applicable in practice due to numerical errors and discretization of the input.
+The paper assumes this may mis-trigger the exit condition.\par
 I would not use this approach since the authors seem to not worry much about creating a very thought-out paper (\eg{} multiple mistakes in grammar, missing labels like in Fig.10, very few references), the approach itself is not profoundly described (\eg{} how new input data is chosen) and the approximation quality is according to the paper unknown (see section III.C).
 
 \section{Critical Questions}
 \begin{enumerate}
     \item As the paper points out the approximation is sometimes getting worse temporarily presumably at edges of the true boundary.
         Is there another way to overcome this issue without defining a candidate set to pick new input data from?
-    \item Is there any way to analyze the quality of the approximation?
+    \item Is there any way to analyze the quality of the approximation thoroughly?
 \end{enumerate}
 
 \section{References}
@@ -77,13 +78,12 @@ I would not use this approach since the authors seem to not worry much about cre
 \begin{tabularx}{\textwidth}{llX}
     \tableheadline{Ref.} & \tableheadline{Search strategy} & \tableheadline{Why chosen?}\\
     \midrule
-    \cite{overtake} & \makecell{IEEExplore search\\(author search:\\``Luigi del Re'')} & The paper mentions that future work is going to focus on more complex \glspl{adas}/\glspl{adf}.
-    Autonomous overtaking could be a \gls{adas} to test especially since one of the authors already did research on that topic.\\
+    \cite{overtake} & \makecell{IEEExplore search\\(author search:\\``Luigi del Re'')} & The future work of the paper mentions to focus on more complex \glspl{adas}/\glspl{adf}.
+    Autonomous overtaking could be a \gls{adas} to test since it is more complex and one of the authors already did research on that topic.\\
     \midrule
-    \cite{fastParam} & \makecell{IEEExplore search\\(author search:\\``Luigi del Re'')} & This paper proposes a method for finding fully parameterized models which could be used to find parameterizations for the above paper.\\
+    \cite{fastParam} & \makecell{IEEExplore search\\(author search:\\``Luigi del Re'')} & This paper proposes a method for finding fully parameterized models which could be used to find parameterizations for the \gls{gpc} in the above paper.\\
     \midrule
-    \cite{gpcAdapt} & \makecell{IEEExplore search\\(search string:\\``gaussian progress\\classification'')}& The approach is based on \gls{gpc}.
-        This paper proposes a method to deal with the transfer classification problem arising when trying to find enough data with same distribution.\\
+    \cite{gpcAdapt} & \makecell{IEEExplore search\\(search string:\\``gaussian progress\\classification'')}& The approach is also based on \gls{gpc} and proposes a method to deal with the transfer classification problem which arises when trying to find enough data with the same distribution.\\
     \midrule
     \cite{integrated} & \makecell{IEEExplore search\\(search string:\\``gaussian progress\\classification'')}& Step (3) of the explanation of the \gls{gpc} based iterative algorithm in section III.B needs simulation or experiment for finding a class label.
         This paper proposes a representative and fast test setup for simulations.\\
