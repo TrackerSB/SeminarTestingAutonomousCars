@@ -1,5 +1,5 @@
 import os
-from typing import Tuple, Dict
+from typing import Tuple
 
 import matplotlib.pyplot as plt
 
@@ -8,7 +8,6 @@ from commonroad.planning.planning_problem import PlanningProblemSet
 from commonroad.scenario.scenario import Scenario
 from commonroad.visualization.draw_dispatch_cr import draw_object
 
-
 shape_params = {
 }
 draw_params = {
@@ -16,7 +15,7 @@ draw_params = {
     'antialiased': True,
     'scenario': {
         'dynamic_obstacle': {
-            'occupancy':{
+            'occupancy': {
                 'draw_occupancies': 1
             },
             'shape': shape_params,
@@ -46,4 +45,5 @@ def main():
     plt.show()
 
 
-if  __name__ == '__main__': main()
+if __name__ == '__main__':
+    main()
