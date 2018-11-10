@@ -2135,7 +2135,7 @@
          </orientation>
          <time>
             <intervalStart>0</intervalStart>
-            <intervalEnd>5</intervalEnd>
+            <intervalEnd>50</intervalEnd>
          </time>
       </goalState>
    </planningProblem>
