@@ -1,0 +1,15 @@
+[font_size]
+22
+[notes]
+### 2
+- Previous appraoches search in input space
+- Constructive algorithm
+- Make a given scenario more critical### 3
+- drivable area
+- less drivable area => higher criticality### 4
+- drivable area at each time step in simulation
+- increased speed
+- slightly different steering angle
+Quite small --> another basic example### 5
+- increased speed
+- changed static obstacle
