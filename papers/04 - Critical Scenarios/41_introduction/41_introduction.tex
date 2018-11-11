@@ -6,6 +6,7 @@
 \usetheme{Madrid}
 \usecolortheme{whale}
 \setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{}
 \title{Automatic Generation of Safety-Critical Test Scenarios for Collision Avoidance of Road Vehicles}
 \author{Stefan Huber}
 \date{\today}
@@ -14,11 +15,45 @@
 \maketitle
 
 \begin{frame}
-    \frametitle{How does it work?}
+    \frametitle{Difference to other approaches?}
+    \pause{}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \includegraphics[width=\textwidth]{search.png}
+            \pause{}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \includegraphics[width=\textwidth]{construction.png}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Criteria of criticality}
+    \includegraphics[height=0.85\textheight]{drivableArea.png}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Reduce drivable area}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \includegraphics[width=\textwidth]{sc_original.png}
+            \includegraphics[width=\textwidth]{sc_original_drivableArea.png}
+            \pause{}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \includegraphics[width=\textwidth]{sc_optimized.png}
+            \includegraphics[width=\textwidth]{sc_optimized_drivableArea.png}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Iterative modification}
     \includegraphics[width=\textwidth]{drivableArea(1).png}
-    \pause
+    \pause{}
     \includegraphics[width=\textwidth]{drivableArea(2).png}
-    \pause
+    \pause{}
     \includegraphics[width=\textwidth]{drivableArea(3).png}
 \end{frame}
 
