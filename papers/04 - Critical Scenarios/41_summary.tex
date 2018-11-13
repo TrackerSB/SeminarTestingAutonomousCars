@@ -57,22 +57,21 @@ As a result this approach is able to quantify and to increase the criticality of
 The approach assumes invariance in respect to position and orientation of traffic participants and the ego car.
 So it is restricted to two dimensional test scenarios.
 To extend the approach at this point is ``subject to future work''.\\
-All area which may be occupied at some point during the test interval is excluded from the drivable area.
-There may be benefits if area is freed again when a traffic participant leaves that area.\\
-The optimization is based on the fact that the car knows the whole scenario beforehand instead of only knowing knowing what a real car would see in that situation.\\
+Every position which may be occupied at some point by any participant during the test interval is excluded from the drivable area.
+There may be benefits if areas are freed again when a traffic participant leaves that area.\\
+Finding a safe motion plan through the scenario is based on the fact that the car knows the whole scenario beforehand instead of only knowing what a real car would see in that situation.\\
 I like the paper because it describes precisely the mathematical environment including the variables, the definitions and the formal concept of the optimizations.
 It also sketches the used algorithms and mentions all involved software components as well as the source of the scenarios used.\\
-Since the approach is entirely explained, all used needed programs are listed and it is constructively creating test scenarios I would use it for testing.\\
-One problem arising when trying to implement the approach is that \gls{spot} which is used during the paper to predict changes of the trajectories of the traffic participants depends on the MatLab plugins ``Mapping Toolbox'' and ``Robotics System Toolbox'' which are expensive.
-The latter is not even mentioned in the documentation of \gls{spot}.
+Since the approach is entirely explained, all necessary programs are listed and it is constructively creating test scenarios I would use it for testing.\\
+One problem arising when trying to implement the approach is that \gls{spot} which is used during the paper to predict changes of the trajectories of the traffic participants depends on the MatLab plugins ``Mapping Toolbox'' and ``Robotics System Toolbox'' which are very expensive.
+The latter dependency is not even mentioned in the documentation of \gls{spot}.
 
 \section{Critical Questions}
 \begin{enumerate}
-    \item How fast does it converge against a local optimum?
     \item The paper states that the approach does not find the most critical situation.
         Is there a most critical test scenario and if there is how could the approach be extended to find this global minimum?
-    \item The drivable area is shrunken by excluding the area any participant occupies at any point while the test is simulated.
-        Can there be significant benefits when freeing space occupied by a participant when it is leaving the space?
+    \item The drivable area is shrunken by excluding the area any participant occupies at some point while the test is simulated.
+        Can there be significant benefits when freeing space occupied by a participant when it is leaving the region?
 \end{enumerate}
 
 \section{References}
