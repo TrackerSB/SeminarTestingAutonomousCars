@@ -9,11 +9,11 @@
 - drivable area
 - less drivable area => higher criticality
 ### 4
+- Rectangles = time steps
 - Goal area after second obstacle
 - increased speed
-- changed static obstacle
-### 5
-- drivable area at each time step in simulation
+- changed static obstacle### 5
 - increased speed
+- Changed positions
 - slightly different steering angle
 Quite small --> another basic example
