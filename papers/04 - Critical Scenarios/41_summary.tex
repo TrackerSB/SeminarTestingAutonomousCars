@@ -48,7 +48,7 @@ Since testing autonomous cars physically is very expensive and time consuming si
 The amount of possible test scenarios is huge and most of them are not challenging to the \gls{sut}.
 So this paper proposes a constructive approach which modifies a test case in such way that its criticality increases.\\
 To quantify the criticality the paper computes the drivable area of the ego vehicle which represents all positions the car under test can reach at certain time steps within the time interval.
-The solution space of a test case is defined as the subspace of the drivable area where the car maintains a safe motion through the scenario \draft{and reaches a given goal area}.
+The solution space of a test case is defined as the subspace of the drivable area where the car maintains a safe motion through the scenario and reaches a given goal area.
 The smaller the solution space is the higher the criticality of the test case.\\
 The reduction of the solution space is formulated a quadratic optimization problem which is solved using \gls{ecos}.\\
 As a result this approach is able to quantify and to increase the criticality of a given test case.
