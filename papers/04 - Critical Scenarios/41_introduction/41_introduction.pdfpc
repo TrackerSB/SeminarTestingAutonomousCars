@@ -1,5 +1,5 @@
 [font_size]
-22
+36
 [notes]
 ### 2
 - Previous appraoches search in input space
@@ -12,7 +12,8 @@
 - Rectangles = time steps
 - Goal area after second obstacle
 - increased speed
-- changed static obstacle### 5
+- changed static obstacle
+### 5
 - increased speed
 - Changed positions
 - slightly different steering angle
