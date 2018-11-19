@@ -1,0 +1,85 @@
+\documentclass[oneside, notitlepage, twocolumn]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage[acronym, automake, nopostdot, nomain, nonumberlist, numberedsection, section]{glossaries}
+\usepackage{adjustbox}
+\usepackage{biblatex}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{makecell}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{xspace}
+
+\geometry{%
+    left=1in,
+    right=1in,
+}
+
+\newcommand{\tableheadline}[1]{\textbf{#1}}
+\newcommand{\draft}[1]{\textcolor{red}{\textit{#1}}}
+\newcommand{\eg}{e.\,g.\xspace}
+\newcommand{\ie}{i.\,e.\xspace}
+
+\renewcommand\cellalign{lt}
+
+\setlength{\parskip}{1mm}
+\setlength{\parindent}{0pt}
+\titlespacing\section{0pt}{12pt plus 4pt minus 2pt}{2pt plus 2pt minus 2pt}
+
+\title{\LARGE 4.2 --- Identification of critical cases of \glstext{adas} safety by \glstext{fot} based parameterization of a catalogue}
+\subtitle{Summary}
+\author{Stefan Huber}
+
+\addbibresource{42references.bib}
+
+\makeglossaries%
+\loadglsentries{../acronyms.tex}
+
+\begin{document}
+
+\maketitle
+
+\section{Summary}
+\draft{%
+    \begin{itemize}
+        \item Current simulations unrealistic or irrelevant
+        \item Realistic parameterization of catalogue based on accident database
+        \item (lane change scenario)
+        \item (\(=>\) sensible collision risk)
+        \item Low parameter complexity
+        \item (Estimation on overall coverage of lane change events in highway traffic)
+        \item Criteria for identifying potential critical scenarios based on naturalistic data
+        \item Two groups: helps building suitable parameterizations; need to be tested manually
+    \end{itemize}
+}
+
+\section{Critical Content}
+\draft{%
+    \begin{itemize}
+        \item production standard BMW 320d
+        \item Lots of testing for base line (167 cut-in maneuvers and 1700km highway driving)
+        \item (typo: an characteristic of lane change)
+        \item Realistic parameterization needs real data?!
+    \end{itemize}
+}
+
+\section{Critical Questions}
+% At least 2
+\begin{enumerate}
+    \item First question
+    \item Second question
+\end{enumerate}
+
+\section{References}
+\begingroup
+\renewcommand{\section}[2]{}%
+\nocite{*}
+\printbibliography%
+\endgroup
+
+\end{document}
