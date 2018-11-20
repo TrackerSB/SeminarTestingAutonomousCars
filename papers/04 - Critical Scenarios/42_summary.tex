@@ -45,14 +45,19 @@
 \maketitle
 
 \section{Summary}
+Testing \gls{adas} and \gls{adf} is very time consuming that simulations are used instead.
+The current approaches lack in their ability to generate (critical) test cases that are realistic and relevant especially if they are solely based on simulations.
+This paper proposes a method that obtains realistic parameterization of predefined test scenarios of a catalogue which is based on an accident database.
+The approach is demonstrated on the lane change scenario.\par
+The first step is to collect experimental data by equipping a car with radar sensors and stereo cameras and driving with it on the highway repeatedly doing certain maneuvers.\par
+The collected data is translated into a deterministic model.
+The paper uses a piecewise function as well as a hyperbolic tangent function for describing a model.
+Using this model a parameterization of the lane change scenario can be derived with sufficiently low parameter complexity.\par
+When comparing the piecewise function with the hyperbolic tangent function the paper shows that the hyperbolic tangent function achieves higher approximation precision.
+According to the paper the approximation errors can be further reduced using higher dimensions which result in combinatorial explosion.\par
+\draft{conclusions\ldots}
 \draft{%
     \begin{itemize}
-        \item Current simulations unrealistic or irrelevant
-        \item Realistic parameterization of catalogue based on accident database
-        \item (lane change scenario)
-        \item (\(=>\) sensible collision risk)
-        \item Low parameter complexity
-        \item (Estimation on overall coverage of lane change events in highway traffic)
         \item Criteria for identifying potential critical scenarios based on naturalistic data
         \item Two groups: helps building suitable parameterizations; need to be tested manually
     \end{itemize}
@@ -61,7 +66,6 @@
 \section{Critical Content}
 \draft{%
     \begin{itemize}
-        \item production standard BMW 320d
         \item Lots of testing for base line (167 cut-in maneuvers and 1700km highway driving)
         \item (typo: an characteristic of lane change)
         \item Realistic parameterization needs real data?!
@@ -71,7 +75,7 @@
 \section{Critical Questions}
 % At least 2
 \begin{enumerate}
-    \item First question
+    \item \draft{How realistic is it?}
     \item Second question
 \end{enumerate}
 
