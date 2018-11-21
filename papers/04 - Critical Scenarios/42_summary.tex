@@ -47,14 +47,14 @@
 \section{Summary}
 Testing \glspl{adas} and \glspl{adf} is very time consuming and so simulations are used instead of real world tests.
 The current approaches lack in their ability to generate (critical) test cases that are realistic and relevant especially if they are solely based on simulations.
-This paper proposes a method that obtains realistic parameterization of predefined test scenarios of a catalogue which is based on an accident database.
+This paper proposes a method that obtains realistic parameterization for predefined test scenarios of a catalogue which is based on an accident database.
 The approach is demonstrated on the lane change scenario.\par
 The first step is to collect experimental data.
 In this case the authors used a car equipped with radar sensors and stereo cameras, drove on the highway and did repeatedly certain maneuvers.\par
 The collected data is translated into a deterministic model.
 The paper describes a piecewise function as well as a hyperbolic tangent function.
 When comparing these functions the paper shows that the hyperbolic tangent function achieves higher approximation precision.
-According to the paper the approximation errors can be further reduced using higher dimensions which may also result in a combinatorial explosion.\par
+According to the paper the approximation errors can be further reduced using higher dimensions which may result in a combinatorial explosion.\par
 Using the model a parameterization of the lane change scenario can be derived with sufficiently low parameter complexity.\par
 As a result the proposed method is able to concentrate on low parameter complexity and develops a criteria for distinguishing potential critical test cases from other test cases.
 
@@ -62,9 +62,9 @@ As a result the proposed method is able to concentrate on low parameter complexi
 For determining realistic parameterizations lots of data of real maneuvers has to be collected.
 So the effort is still very high even if using simulations.\par
 The introduction mentions that the proposed method tries to solve problems of irrelevant or unrealistic or both scenarios but the paper presents no metric for determining whether a scenario really is relevant and realistic.
-According to the introduction the method also deals with the problem of very large testing amount but at the same time it includes collecting realistic data manually which is very time consuming too.\par
+According to the introduction the method also deals with the problem of very large testing amount but at the same time it includes collecting experimental data manually which is very time consuming too.\par
 I would not use the approach since the effort of collecting realistic data is very high.\par
-I do not like the paper because the real benefits of the approach are not summarized in the conclusions section and the goals described within the introduction do not really fit to what the method tries to achieve.
+I do not like the paper because the real benefits of the approach are not summarized in the conclusions section and the goals described within the introduction do not precisely fit to what the method tries to achieve.
 
 \section{Critical Questions}
 \begin{enumerate}
