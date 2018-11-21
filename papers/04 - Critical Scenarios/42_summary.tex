@@ -56,22 +56,23 @@ Using this model a parameterization of the lane change scenario can be derived w
 When comparing the piecewise function with the hyperbolic tangent function the paper shows that the hyperbolic tangent function achieves higher approximation precision.
 According to the paper the approximation errors can be further reduced using higher dimensions which result in combinatorial explosion.\par
 \draft{conclusions\ldots}
-\draft{%
-    \begin{itemize}
-        \item Criteria for identifying potential critical scenarios based on naturalistic data
-        \item Two groups: helps building suitable parameterizations; need to be tested manually
-    \end{itemize}
-}
+%\draft{%
+%    \begin{itemize}
+%        \item Criteria for identifying potential critical scenarios based on naturalistic data
+%        \item Two groups: helps building suitable parameterizations; need to be tested manually
+%    \end{itemize}
+%}
 
 \section{Critical Content}
 For determining realistic parameterizations lots of data of real scenarios have to be collected.
 So the effort is still very high even if using simulations.\par
-\draft{continue\ldots}
+The introduction mentions that the proposed method tries to solve problems of irrelevant or unrealistic or both scenarios but the paper presents no metric for determining whether a scenario really is relevant and realistic.
+According to the introduction the method also deals with the problem of very large testing amount but at the same time it includes collecting  realistic data manually which is very time consuming.\par
+I would not use the approach since the effort of collecting realistic data is very high.\par
+I like the paper because the approach is well described and analysed including a discussion about trade-off between dimensionality and precision and a comparison of two methods to model the experimental data.
 \draft{%
     \begin{itemize}
-        \item Lots of testing for base line (167 cut-in maneuvers and 1700km highway driving)
-        \item (typo: an characteristic of lane change)
-        \item Realistic parameterization needs real data?!
+        \item Are realistic scenarios needed for testing \gls{adf}?
     \end{itemize}
 }
 
@@ -79,7 +80,8 @@ So the effort is still very high even if using simulations.\par
 \begin{enumerate}
     \item The experimental data is collected with a single car and probably a single driver.
         How realistic is the collected data concerning that the procedure of scenarios like lane change heavily depend on the physics of the car and the behavior of the driver (some may drive faster or more aggressive than others)?
-    \item \draft{High effort. Still benefits?}
+    \item The paper characterizes in section III critical scenarios as scenarios exceeding an error threshold and occurring rarely.
+        How realistic can the parameterization of critical test scenarios be if the process of collecting data does not focus explicitly on producing critical scenarios or even building accidents?
 \end{enumerate}
 
 \section{References}
