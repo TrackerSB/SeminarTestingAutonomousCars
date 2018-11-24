@@ -16,8 +16,8 @@ from common import load_scenario, is_valid_position, convert_and_draw
 
 
 class Config:
-    max_time_step: int = 50
-    max_yaw: float = pi / 8  # 22.5°
+    max_time_step: int = 5
+    max_yaw: float = pi / 16  # 11.25°
     yaw_steps: int = 8
     num_threads: int = 8
 
