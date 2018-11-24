@@ -4,9 +4,11 @@ from commonroad.scenario.trajectory import State
 
 
 class StatesQueue(Queue):
-    def __init__(self):
+    def __init__(self, position_threshold: float, angle_threshold: float):
         super().__init__()
         self.queue = set()
+        self.position_threshold = position_threshold
+        self.angle_threshold = angle_threshold
 
     def _put(self, item):
         self.queue.add(item)
@@ -15,8 +17,7 @@ class StatesQueue(Queue):
         return self.queue.pop()
 
     def __contains__(self, item: State):
-        acceptance_threshold: float = 0.1  # FIXME This value has no special reason relating its size
         with self.mutex:
             return any(map(
-                lambda s: all(abs(s.position - item.position) <= acceptance_threshold)
-                          and abs(s.orientation - item.orientation) <= acceptance_threshold, self.queue))
+                lambda s: all(abs(s.position - item.position) <= self.position_threshold)
+                          and abs(s.orientation - item.orientation) <= self.angle_threshold, self.queue))

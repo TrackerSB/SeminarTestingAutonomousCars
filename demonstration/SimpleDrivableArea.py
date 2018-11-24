@@ -16,10 +16,12 @@ from common import load_scenario, is_valid_position, convert_and_draw
 
 
 class Config:
-    max_time_step: int = 5
+    max_time_step: int = 50
     max_yaw: float = pi / 16  # 11.25°
     yaw_steps: int = 8
     num_threads: int = 8
+    position_threshold = 0.5
+    angle_threshold = max_yaw
 
 
 def generate_next_states(current_states: Queue, scenario: Scenario) -> None:
@@ -51,7 +53,7 @@ def main() -> None:
     convert_and_draw(scenario, 0)
     convert_and_draw(planning_problem.initial_state, 0)
 
-    current_states: Queue = StatesQueue()
+    current_states: Queue = StatesQueue(Config.position_threshold, Config.angle_threshold)
     for i in range(Config.num_threads):
         worker: Thread = Thread(target=generate_next_states, args=(current_states, scenario), daemon=True)
         worker.start()
