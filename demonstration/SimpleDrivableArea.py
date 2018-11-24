@@ -1,3 +1,4 @@
+from copy import deepcopy
 from queue import Queue
 from threading import Thread, currentThread
 from time import sleep
@@ -26,8 +27,10 @@ def generate_next_states(current_states: Queue, scenario: Scenario) -> None:
             for yaw in np.linspace(-Config.max_yaw, Config.max_yaw, Config.yaw_steps):
                 delta_x: float = np.cos(state.orientation) * state.velocity * scenario.dt
                 delta_y: float = np.sin(state.orientation) * state.velocity * scenario.dt
-                translation: np.ndarray = np.array([delta_x, delta_y])
-                transformed: State = state.translate_rotate(translation, yaw)
+                transformed: State = deepcopy(state)
+                transformed.position[0] += delta_x
+                transformed.position[1] += delta_y
+                transformed.orientation += yaw
                 if is_valid_position(transformed.position, scenario) and transformed not in current_states:
                     transformed.time_step += 1
                     current_states.put(transformed)

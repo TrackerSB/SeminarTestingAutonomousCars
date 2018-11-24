@@ -15,8 +15,7 @@ class StatesQueue(Queue):
         return self.queue.pop()
 
     def __contains__(self, item: State):
-        acceptance_threshold: float = 0.00000000000001  # FIXME This value has no special reason relating its size
-                                                        # FIXME Add a single 0 and the number of states explodes
+        acceptance_threshold: float = 0.1  # FIXME This value has no special reason relating its size
         with self.mutex:
             # print("Contains: " + str(item.orientation))
             return any(map(
