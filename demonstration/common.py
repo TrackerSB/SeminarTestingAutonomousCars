@@ -92,8 +92,6 @@ def convert_and_draw(to_draw: object, color_index: int) -> Optional[Artist]:
         if isinstance(to_draw, State):
             pos = to_draw.position
             # TODO Modify the position (difference between center and left-bottom coordinate)
-            # if to_draw.time_step > 10:
-            #     print(to_draw.orientation)
             colors = ['#000000', '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#00ffff', '#ff00ff']
             # colors = ['#000000', '#111111', '#222222', '#333333', '#444444', '#555555', '#666666', '#777777', '#888888', '#999999']
             converted = pltpat.Rectangle(
