@@ -2,11 +2,13 @@ from copy import deepcopy
 from queue import Queue
 from threading import Thread, currentThread
 from time import sleep
+from typing import Optional, Union, Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
 from commonroad.scenario.scenario import Scenario
 from commonroad.scenario.trajectory import State
+from numpy.core.multiarray import ndarray
 from numpy.core.umath import pi
 
 from StatesQueue import StatesQueue
@@ -24,7 +26,9 @@ def generate_next_states(current_states: Queue, scenario: Scenario) -> None:
     while True:
         state: State = current_states.get()
         if state.time_step < Config.max_time_step:
-            for yaw in np.linspace(-Config.max_yaw, Config.max_yaw, Config.yaw_steps):
+            yaw_steps: Union[ndarray, Tuple[ndarray, Optional[float]]]\
+                = np.linspace(-Config.max_yaw, Config.max_yaw, num=Config.yaw_steps, endpoint=True)
+            for yaw in yaw_steps:
                 delta_x: float = np.cos(state.orientation) * state.velocity * scenario.dt
                 delta_y: float = np.sin(state.orientation) * state.velocity * scenario.dt
                 transformed: State = deepcopy(state)
