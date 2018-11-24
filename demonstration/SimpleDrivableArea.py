@@ -39,7 +39,7 @@ def generate_next_states(current_states: Queue, scenario: Scenario) -> None:
                     transformed.time_step += 1
                     current_states.put(transformed)
                     # print(transformed)
-                    convert_and_draw(transformed)
+                    convert_and_draw(transformed, np.where(yaw_steps == yaw)[0][0])
         current_states.task_done()
 
 
@@ -48,8 +48,8 @@ def main() -> None:
 
     plt.figure(figsize=(25, 10))
 
-    convert_and_draw(scenario)
-    convert_and_draw(planning_problem.initial_state)
+    convert_and_draw(scenario, 0)
+    convert_and_draw(planning_problem.initial_state, 0)
 
     current_states: Queue = StatesQueue()
     for i in range(Config.num_threads):

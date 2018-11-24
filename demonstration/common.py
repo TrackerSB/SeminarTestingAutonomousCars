@@ -75,7 +75,7 @@ def is_valid_position(position: np.array, scenario: Scenario) -> bool:
     return is_within_lane and not intersects_with_obstacle
 
 
-def convert_and_draw(to_draw: object) -> Optional[Artist]:
+def convert_and_draw(to_draw: object, color_index: int) -> Optional[Artist]:
     """
     Converts the given object to a drawable object, draws and returns it.
     :param to_draw: The object to draw.
@@ -94,8 +94,12 @@ def convert_and_draw(to_draw: object) -> Optional[Artist]:
             # TODO Modify the position (difference between center and left-bottom coordinate)
             # if to_draw.time_step > 10:
             #     print(to_draw.orientation)
+            colors = ['#000000', '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#00ffff', '#ff00ff']
+            # colors = ['#000000', '#111111', '#222222', '#333333', '#444444', '#555555', '#666666', '#777777', '#888888', '#999999']
             converted = pltpat.Rectangle(
-                pos, DrawConfig.car_length, DrawConfig.car_width, np.math.degrees(to_draw.orientation), fill=False)
+                pos, DrawConfig.car_length, DrawConfig.car_width, np.math.degrees(to_draw.orientation), fill=False,
+                edgecolor=colors[to_draw.time_step % len(colors)])
+                #edgecolor=colors[color_index % len(colors)])
         else:
             os.error("Could not convert an object of type " + str(type(to_draw)) + ".")
             converted = None
