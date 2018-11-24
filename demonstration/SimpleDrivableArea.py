@@ -1,4 +1,6 @@
+import datetime
 from copy import deepcopy
+from datetime import datetime
 from queue import Queue
 from threading import Thread, currentThread
 from time import sleep
@@ -24,7 +26,11 @@ class Config:
     angle_threshold = max_yaw
 
 
+num_states_processed: int = 0
+
+
 def generate_next_states(current_states: Queue, scenario: Scenario) -> None:
+    global num_states_processed
     while True:
         state: State = current_states.get()
         if state.time_step < Config.max_time_step:
@@ -43,6 +49,7 @@ def generate_next_states(current_states: Queue, scenario: Scenario) -> None:
                     # print(transformed)
                     convert_and_draw(transformed, np.where(yaw_steps == yaw)[0][0])
         current_states.task_done()
+        num_states_processed += 1
 
 
 def main() -> None:
@@ -60,6 +67,8 @@ def main() -> None:
 
     current_states.put(planning_problem.initial_state)
 
+    start_time: datetime = datetime.now()
+
     def print_state_of_queue(queue: Queue):
         t: Thread = currentThread()
         while getattr(t, "do_run", True):
@@ -70,6 +79,7 @@ def main() -> None:
     state_worker.start()
 
     current_states.join()
+    print("Processed " + str(num_states_processed) + " in " + str(datetime.now() - start_time))
     state_worker.do_run = False
     state_worker.join()
 
