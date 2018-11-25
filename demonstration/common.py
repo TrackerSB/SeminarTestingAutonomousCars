@@ -34,8 +34,11 @@ class DrawConfig:
             }
         }
     }
-    car_width = 0.5
-    car_length = 1
+    car_width: float = 0.5
+    car_length: float = 1
+    # For the following variables see CenterToLeftBottom.ggb
+    translation_rho: float = 0.5 * np.sqrt(np.square(car_length) + np.square(car_width))  # h
+    gamma: float = np.cos((0.5 * car_length) / translation_rho)  # cos(g / h)
 
 
 def load_scenario(path: str) -> Tuple[Scenario, PlanningProblem]:
@@ -75,6 +78,12 @@ def is_valid_position(position: np.array, scenario: Scenario) -> bool:
     return is_within_lane and not intersects_with_obstacle
 
 
+def pol2cart(rho: float, phi: float) -> np.array:
+    x = rho * np.cos(phi)
+    y = rho * np.sin(phi)
+    return [x, y]
+
+
 def convert_and_draw(to_draw: object, color_index: int) -> Optional[Artist]:
     """
     Converts the given object to a drawable object, draws and returns it.
@@ -90,8 +99,10 @@ def convert_and_draw(to_draw: object, color_index: int) -> Optional[Artist]:
         artist = draw_object(to_draw, draw_params=DrawConfig.draw_params)
     else:
         if isinstance(to_draw, State):
-            pos = to_draw.position
-            # TODO Modify the position (difference between center and left-bottom coordinate)
+            # Map center position to right bottom position of rectangle
+            translation_phi: float = np.pi + to_draw.orientation + DrawConfig.gamma
+            pos = to_draw.position + pol2cart(DrawConfig.translation_rho, translation_phi)
+
             colors = ['#000000', '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#00ffff', '#ff00ff']
             # colors = ['#000000', '#111111', '#222222', '#333333', '#444444', '#555555', '#666666', '#777777', '#888888', '#999999']
             converted = pltpat.Rectangle(
