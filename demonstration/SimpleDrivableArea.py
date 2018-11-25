@@ -20,12 +20,12 @@ from common import load_scenario, is_valid, convert, draw
 
 
 class Config:
-    max_time_step: int = 50
+    max_time_step: int = 10
     max_yaw: float = pi / 16  # 11.25°
     yaw_steps: int = 8
     num_threads: int = 8
     position_threshold = 0.5
-    angle_threshold = max_yaw * 0.8  # NOTE Needs to be way smaller than max_yaw otherwise the car tends to the right.
+    angle_threshold = max_yaw * 0.85  # NOTE Needs to be way smaller than max_yaw otherwise the car tends to the right.
 
 
 num_states_processed: int = 0
