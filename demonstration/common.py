@@ -95,7 +95,11 @@ def convert(to_draw: object) -> Optional[Union[pltpat.Patch, Scenario, LaneletNe
     :param to_draw: The object to draw.
     :return: The plottable representation of the given object.
     """
-    if isinstance(to_draw, State):
+    if isinstance(to_draw, (Scenario, LaneletNetwork, List)):
+        # TODO Check whether it is List[plottable_types]
+        # TODO Check whether it is plottable_types
+        converted = to_draw
+    elif isinstance(to_draw, State):
         # Map center position to right bottom position of rectangle
         translation_phi: float = np.pi + to_draw.orientation + DrawConfig.gamma
         pos = to_draw.position + pol2cart(DrawConfig.translation_rho, translation_phi)
@@ -106,10 +110,6 @@ def convert(to_draw: object) -> Optional[Union[pltpat.Patch, Scenario, LaneletNe
             pos, DrawConfig.car_length, DrawConfig.car_width, np.math.degrees(to_draw.orientation), fill=False,
             edgecolor=colors[to_draw.time_step % len(colors)])
         # edgecolor=colors[color_index % len(colors)])
-    elif isinstance(to_draw, (Scenario, LaneletNetwork, List)):
-        # TODO Check whether it is List[plottable_types]
-        # TODO Check whether it is plottable_types
-        converted = to_draw
     else:
         error("Could not convert an object of type " + str(type(to_draw)) + ".")
         converted = None
