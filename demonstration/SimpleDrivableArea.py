@@ -39,12 +39,12 @@ def generate_next_states(current_states: Queue, scenario: Scenario) -> None:
             yaw_steps: Union[ndarray, Tuple[ndarray, Optional[float]]]\
                 = np.linspace(-Config.max_yaw, Config.max_yaw, num=Config.yaw_steps, endpoint=True)
             for yaw in yaw_steps:
-                delta_x: float = np.cos(state.orientation) * state.velocity * scenario.dt
-                delta_y: float = np.sin(state.orientation) * state.velocity * scenario.dt
                 transformed: State = deepcopy(state)
+                transformed.orientation += yaw
+                delta_x: float = np.cos(transformed.orientation) * transformed.velocity * scenario.dt
+                delta_y: float = np.sin(transformed.orientation) * transformed.velocity * scenario.dt
                 transformed.position[0] += delta_x
                 transformed.position[1] += delta_y
-                transformed.orientation += yaw
                 if transformed not in current_states:
                     converted: Union[Patch, Scenario, LaneletNetwork, None] = convert(transformed)
                     if is_valid(converted, scenario):
