@@ -25,7 +25,7 @@ class Config:
     yaw_steps: int = 8
     num_threads: int = 8
     position_threshold = 0.5
-    angle_threshold = max_yaw
+    angle_threshold = max_yaw * 0.8  # NOTE Needs to be way smaller than max_yaw otherwise the car tends to the right.
 
 
 num_states_processed: int = 0
