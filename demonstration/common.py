@@ -31,8 +31,10 @@ class DrawConfig:
                 'draw_icon': True,
                 'draw_bounding_box': True,
                 'show_label': False,
-                'trajectory_steps': 40,
-                'zorder': 20
+                'zorder': 2
+            },
+            'static_obstacle': {
+                'zorder': 1
             }
         }
     }
