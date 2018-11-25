@@ -8,13 +8,15 @@ from typing import Optional, Union, Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
+from commonroad.scenario.lanelet import LaneletNetwork
 from commonroad.scenario.scenario import Scenario
 from commonroad.scenario.trajectory import State
+from matplotlib.patches import Patch
 from numpy.core.multiarray import ndarray
 from numpy.core.umath import pi
 
 from StatesQueue import StatesQueue
-from common import load_scenario, is_valid_position, convert_and_draw
+from common import load_scenario, is_valid, convert, draw
 
 
 class Config:
@@ -43,11 +45,12 @@ def generate_next_states(current_states: Queue, scenario: Scenario) -> None:
                 transformed.position[0] += delta_x
                 transformed.position[1] += delta_y
                 transformed.orientation += yaw
-                if is_valid_position(transformed.position, scenario) and transformed not in current_states:
-                    transformed.time_step += 1
-                    current_states.put(transformed)
-                    # print(transformed)
-                    convert_and_draw(transformed, np.where(yaw_steps == yaw)[0][0])
+                if transformed not in current_states:
+                    converted: Union[Patch, Scenario, LaneletNetwork, None] = convert(transformed)
+                    if is_valid(converted, scenario):
+                        transformed.time_step += 1
+                        current_states.put(transformed)
+                        draw(converted, np.where(yaw_steps == yaw)[0][0])
         current_states.task_done()
         num_states_processed += 1
 
@@ -57,15 +60,14 @@ def main() -> None:
 
     plt.figure(figsize=(25, 10))
 
-    convert_and_draw(scenario, 0)
-    convert_and_draw(planning_problem.initial_state, 0)
+    draw(convert(scenario), 0)
+    draw(convert(planning_problem.initial_state), 0)
 
     current_states: Queue = StatesQueue(Config.position_threshold, Config.angle_threshold)
+    current_states.put(planning_problem.initial_state)
     for i in range(Config.num_threads):
         worker: Thread = Thread(target=generate_next_states, args=(current_states, scenario), daemon=True)
         worker.start()
-
-    current_states.put(planning_problem.initial_state)
 
     start_time: datetime = datetime.now()
 
