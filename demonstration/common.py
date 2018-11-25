@@ -1,4 +1,5 @@
 import os
+from logging import error
 from typing import Tuple, Optional, List, Union
 
 import matplotlib.patches as pltpat
@@ -70,7 +71,7 @@ def is_valid(to_check: object, scenario: Scenario) -> Optional[bool]:
         # positions: List[ndarray] = to_check.get_bbox().get_points()
         positions: List[ndarray] = np.array([[to_check.get_x(), to_check.get_y()]])
     else:
-        os.error("Can not check validity of objects of type " + str(type(to_check)))
+        error("Can not check validity of objects of type " + str(type(to_check)))
         return None
     is_within_lane: bool = scenario.lanelet_network.find_lanelet_by_position(positions) != [[]]
     intersects_with_obstacle: bool = False
@@ -110,7 +111,7 @@ def convert(to_draw: object) -> Optional[Union[pltpat.Patch, Scenario, LaneletNe
         # TODO Check whether it is plottable_types
         converted = to_draw
     else:
-        os.error("Could not convert an object of type " + str(type(to_draw)) + ".")
+        error("Could not convert an object of type " + str(type(to_draw)) + ".")
         converted = None
     return converted
 
@@ -128,7 +129,7 @@ def draw(converted: object, color_index: int) -> Optional[Artist]:
     elif isinstance(converted, pltpat.Patch):
         artist = plt.gca().add_patch(converted)
     else:
-        os.error("Could not draw a converted object of type " + str(type(converted)) + ".")
+        error("Could not draw a converted object of type " + str(type(converted)) + ".")
         artist = None
 
     return artist
