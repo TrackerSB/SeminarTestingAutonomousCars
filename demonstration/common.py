@@ -28,7 +28,7 @@ class DrawConfig:
                 },
                 'shape': shape_params,
                 'draw_shape': True,
-                'draw_icon': True,
+                'draw_icon': True,  # FIXME Without drawing the icon the initial view is to small
                 'draw_bounding_box': True,
                 'show_label': False,
                 'zorder': 2
