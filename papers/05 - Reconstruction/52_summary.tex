@@ -45,45 +45,37 @@
 \maketitle
 
 \section{Summary}
-\draft{%
-    \begin{itemize}
-        \item Secondary safety successful $=>$ primary getting more important
-        \item $=>$ Estimate benefits of these advanced safety systems by simulating real world crashes
-        \item Basis for simulation is the \gls{gidas}
-        \item Compare real accident with predicted scenario using a virtual prototype of a safety system
-        \item (Interactions between sensor systems, brakes and steering control can be considered)
-        \item Simulate with more than one safety system
-        \item Estimated benefit regards accident avoidance and/or accident mitigation
-        \item ($=>$ Useful combinations of advanced safety systems)
-        \item First simulate without active safety systems
-        \item Then simulate with active safety systems like \gls{ebs} and \gls{ldw}
-        \item Compare of physical parameters listed in paper
-    \end{itemize}
-}
+Modern cars have an increasing number of secondary safety systems successfully integrated.
+So integrating primary safety functions as well has a growing importance.
+This paper proposes a method for estimating the benefits of advanced safety systems by comparing it with real world crash scenarios using simulations.\par
+The scenarios are taken from the \gls{gidas}.
+The comparison is based on physical parameters resulting from the simulations of on the one hand the ego vehicle in the real world scenario without active safety systems and on the other hand the ego vehicle with a virtual prototype of a safety system.
+The estimation of the benefits regards whether the accident could be avoided and/or mitigated, the collision speed and the position of the participants.
+Since the prototype is not restricted to include only one advanced safety system also interactions between multiple safety systems (\eg{} \gls{ebs} and \gls{ldw}), sensors, brakes or steering control and the benefits of combining them can be investigated.
 
 \section{Critical Content}
+The authors describe the approach very precisely.
+It explains every step taken in the simulations, every parameter considered at any step, problems occurring at certain points in the simulation like the visibility of other participants and also how they solved them (\eg{} detection lines).
+\draft{In the case of detection lines they even mentioned the criteria visibility.}\par
+In comparison, the explanation of calculating the benefits itself is complete but rather short.
+The estimation is able to state whether there are benefits when using certain advanced safety systems but not how much benefit there is.
+So it is may be only qualitative not quantitative (\eg{} collision avoidance criteria).\par
+The estimation is heavily dependant on a detailed description of accident scenarios which may not be available for all scenarios/accidents of interest.\par
+I would use the approach since many aspects are described in detail, solutions for problems arising during implementation are presented and the approach is illustrated and demonstrated very well considering multiple typical accident scenarios, different sensors and in which scenarios certain sensors have advantages.
+Further combinations of advanced safety systems can be tested.\par
+I really like the paper because of the previously mentioned precision and the number of illustrations.
 \draft{%
     \begin{itemize}
-        \item Steps extensively/detailed explained (Car with/without active safety systems)
-        \item Parameters explicitly listed
-        \item Detection lines
-        \item Relies on really detailed description like in \gls{gidas} which may not always be available
         \item (The simulations virtual accident 1 and 2 of the turning off accident are quite similar)
-        \item Differences of result using two different sensors in certain situations shown
-        \item (Measure how good the safety systems are?)
-        \item I would use since many steps of the approach, strategies and problems are explained and illustrated in detail
-        \item It also includes illustrating examples
-        \item Combinations of advanced safety systems can be tested
-        \item I like the paper since it explains the approach precisely and understandable and illustrates it with multiple visualized examples
     \end{itemize}
 }
 
 \section{Critical Questions}
-% At least 2
-\begin{enumerate}
-    \item First question
-    \item Second question
-\end{enumerate}
+\draft{%
+    \begin{enumerate}
+        \item Quantitative measurement of benefits? More physical variables to consider?
+    \end{enumerate}
+}
 
 \section{References}
 \begingroup
