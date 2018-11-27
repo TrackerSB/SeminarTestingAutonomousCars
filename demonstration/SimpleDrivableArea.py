@@ -83,7 +83,7 @@ def main() -> None:
     state_worker.start()
 
     current_states.join()
-    print("Processed " + str(num_states_processed) + " in " + str(datetime.now() - start_time))
+    print("Processed " + str(num_states_processed) + " states in " + str(datetime.now() - start_time))
     state_worker.do_run = False
     state_worker.join()
 
