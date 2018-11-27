@@ -1,5 +1,5 @@
 import os
-from logging import error
+from logging import error, warning
 from typing import Tuple, Optional, List, Union
 
 import matplotlib.patches as pltpat
@@ -13,6 +13,9 @@ from commonroad.scenario.trajectory import State
 from commonroad.visualization.draw_dispatch_cr import draw_object
 from matplotlib.artist import Artist
 from numpy.core.multiarray import ndarray
+
+drawable_types = Union[pltpat.Patch, Scenario, LaneletNetwork]
+convertible_types = Union[Scenario, LaneletNetwork, List, State]
 
 
 class DrawConfig:
@@ -43,6 +46,25 @@ class DrawConfig:
     # For the following variables see CenterToLeftBottom.ggb
     translation_rho: float = 0.5 * np.sqrt(np.square(car_length) + np.square(car_width))  # h
     gamma: float = np.cos((0.5 * car_length) / translation_rho)  # cos(g / h)
+
+
+class MathHelp:
+    @staticmethod
+    def pol2cart(rho: float, phi: float) -> np.array:
+        x = rho * np.cos(phi)
+        y = rho * np.sin(phi)
+        return [x, y]
+
+    @staticmethod
+    def center_to_right_bottom_pos(center_pos: ndarray, orientation: float) -> Tuple[float, float]:
+        """
+        Calculates the coordinates of the right bottom point of a rectangle representing a car.
+        :param center_pos: The coordinate of the center point of the rectangle representing a car.
+        :param orientation: The orientation in radians.
+        :return: The position of the right bottom point of a rectangle representing a car.
+        """
+        translation_phi: float = np.pi + orientation + DrawConfig.gamma
+        return tuple(center_pos + MathHelp.pol2cart(DrawConfig.translation_rho, translation_phi))
 
 
 def load_scenario(path: str) -> Tuple[Scenario, PlanningProblem]:
@@ -85,13 +107,7 @@ def is_valid(to_check: object, scenario: Scenario) -> Optional[bool]:
     return is_within_lane and not intersects_with_obstacle
 
 
-def pol2cart(rho: float, phi: float) -> np.array:
-    x = rho * np.cos(phi)
-    y = rho * np.sin(phi)
-    return [x, y]
-
-
-def convert(to_draw: object) -> Optional[Union[pltpat.Patch, Scenario, LaneletNetwork]]:
+def convert_to_drawable(to_draw: convertible_types) -> Optional[drawable_types]:
     """
     Converts the given object to a representation which can be draw on a plot using draw(...).
     :param to_draw: The object to draw.
@@ -102,9 +118,7 @@ def convert(to_draw: object) -> Optional[Union[pltpat.Patch, Scenario, LaneletNe
         # TODO Check whether it is plottable_types
         converted = to_draw
     elif isinstance(to_draw, State):
-        # Map center position to right bottom position of rectangle
-        translation_phi: float = np.pi + to_draw.orientation + DrawConfig.gamma
-        pos = to_draw.position + pol2cart(DrawConfig.translation_rho, translation_phi)
+        pos = MathHelp.center_to_right_bottom_pos(to_draw.position, to_draw.orientation)
 
         colors = ['#000000', '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#00ffff', '#ff00ff']
         # colors = ['#000000', '#111111', '#222222', '#333333', '#444444', '#555555', '#666666', '#777777', '#888888', '#999999']
@@ -118,7 +132,7 @@ def convert(to_draw: object) -> Optional[Union[pltpat.Patch, Scenario, LaneletNe
     return converted
 
 
-def draw(converted: object, color_index: int) -> Optional[Artist]:
+def draw(converted: drawable_types) -> Optional[Artist]:
     """
     Converts the given object to a drawable object, draws and returns it.
     :param converted: The object to draw.

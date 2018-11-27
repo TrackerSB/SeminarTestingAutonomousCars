@@ -16,7 +16,7 @@ from numpy.core.multiarray import ndarray
 from numpy.core.umath import pi
 
 from StatesQueue import StatesQueue
-from common import load_scenario, is_valid, convert, draw
+from common import load_scenario, is_valid, convert_to_drawable, draw
 
 
 class Config:
@@ -36,7 +36,7 @@ def generate_next_states(current_states: Queue, scenario: Scenario) -> None:
     while True:
         state: State = current_states.get()
         if state.time_step < Config.max_time_step:
-            yaw_steps: Union[ndarray, Tuple[ndarray, Optional[float]]]\
+            yaw_steps: Union[ndarray, Tuple[ndarray, Optional[float]]] \
                 = np.linspace(-Config.max_yaw, Config.max_yaw, num=Config.yaw_steps, endpoint=True)
             for yaw in yaw_steps:
                 transformed: State = deepcopy(state)
@@ -46,11 +46,11 @@ def generate_next_states(current_states: Queue, scenario: Scenario) -> None:
                 transformed.position[0] += delta_x
                 transformed.position[1] += delta_y
                 if transformed not in current_states:
-                    converted: Union[Patch, Scenario, LaneletNetwork, None] = convert(transformed)
+                    converted: Union[Patch, Scenario, LaneletNetwork, None] = convert_to_drawable(transformed)
                     if is_valid(converted, scenario):
                         transformed.time_step += 1
                         current_states.put(transformed)
-                        draw(converted, np.where(yaw_steps == yaw)[0][0])
+                        draw(converted)
         current_states.task_done()
         num_states_processed += 1
 
@@ -60,8 +60,8 @@ def main() -> None:
 
     plt.figure(figsize=(25, 10))
 
-    draw(convert(scenario), 0)
-    draw(convert(planning_problem.initial_state), 0)
+    draw(convert_to_drawable(scenario))
+    draw(convert_to_drawable(planning_problem.initial_state))
 
     current_states: Queue = StatesQueue(Config.position_threshold, Config.angle_threshold)
     current_states.put(planning_problem.initial_state)
