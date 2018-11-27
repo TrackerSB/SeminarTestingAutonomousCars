@@ -13,6 +13,8 @@ from commonroad.scenario.trajectory import State
 from commonroad.visualization.draw_dispatch_cr import draw_object
 from matplotlib.artist import Artist
 from numpy.core.multiarray import ndarray
+from shapely.geometry import Polygon
+from shapely.ops import unary_union
 
 drawable_types = Union[pltpat.Patch, Scenario, LaneletNetwork]
 convertible_types = Union[Scenario, LaneletNetwork, List, State]
@@ -65,6 +67,22 @@ class MathHelp:
         """
         translation_phi: float = np.pi + orientation + DrawConfig.gamma
         return tuple(center_pos + MathHelp.pol2cart(DrawConfig.translation_rho, translation_phi))
+
+    @staticmethod
+    def get_all_pos(right_bottom_pos: ndarray, orientation: float) -> List[ndarray]:
+        """
+        Returns all four corner points of a rectangle representing a car having the given right bottom position and
+        orientation. The points are return anti-clockwise starting with the right bottom point.
+        :param right_bottom_pos: The right bottom position of the rectangle.
+        :param orientation: The orientation of the rectangle.
+        :return: The list of the four corners of the rectangle representing a car.
+        """
+        length_vec: ndarray = MathHelp.pol2cart(DrawConfig.car_length, orientation)
+        width_vec: ndarray = MathHelp.pol2cart(DrawConfig.car_width, orientation + np.pi / 2)
+        return [right_bottom_pos,
+                right_bottom_pos + length_vec,
+                right_bottom_pos + length_vec + width_vec,
+                right_bottom_pos + width_vec]
 
 
 def load_scenario(path: str) -> Tuple[Scenario, PlanningProblem]:
@@ -149,3 +167,20 @@ def draw(converted: drawable_types) -> Optional[Artist]:
         artist = None
 
     return artist
+
+
+def union_to_polygon(drawables: List[drawable_types]) -> Polygon:
+    polygons: List[Polygon] = []
+    for drawable in drawables:
+        if isinstance(drawable, pltpat.Rectangle):
+            # noinspection PyTypeChecker
+            points: List[ndarray] = MathHelp.get_all_pos(np.asanyarray(drawable.get_xy()), np.radians(drawable.angle))
+            points_tuple: List[Tuple[int], ...] = list(map(tuple, points))
+            polygon: Polygon = Polygon(points_tuple)
+            if polygon.is_valid:
+                polygons.append(polygon)
+            else:
+                warning("Created an invalid polygon.")
+        else:
+            warning("Can not convert " + str(type(drawable)) + " to a shapely representation.")
+    return unary_union(polygons)

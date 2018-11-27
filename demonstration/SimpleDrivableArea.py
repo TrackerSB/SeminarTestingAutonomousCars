@@ -4,7 +4,7 @@ from datetime import datetime
 from queue import Queue
 from threading import Thread, currentThread
 from time import sleep
-from typing import Optional, Union, Tuple
+from typing import Optional, Union, Tuple, List
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -16,7 +16,7 @@ from numpy.core.multiarray import ndarray
 from numpy.core.umath import pi
 
 from StatesQueue import StatesQueue
-from common import load_scenario, is_valid, convert_to_drawable, draw
+from common import load_scenario, is_valid, convert_to_drawable, draw, union_to_polygon
 
 
 class Config:
@@ -29,6 +29,7 @@ class Config:
 
 
 num_states_processed: int = 0
+valid_converted: List = []
 
 
 def generate_next_states(current_states: Queue, scenario: Scenario) -> None:
@@ -48,6 +49,7 @@ def generate_next_states(current_states: Queue, scenario: Scenario) -> None:
                 if transformed not in current_states:
                     converted: Union[Patch, Scenario, LaneletNetwork, None] = convert_to_drawable(transformed)
                     if is_valid(converted, scenario):
+                        valid_converted.append(converted)
                         transformed.time_step += 1
                         current_states.put(transformed)
                         draw(converted)
@@ -84,6 +86,8 @@ def main() -> None:
     print("Processed " + str(num_states_processed) + " in " + str(datetime.now() - start_time))
     state_worker.do_run = False
     state_worker.join()
+
+    print("Drivable area: " + str(union_to_polygon(valid_converted).area))
 
     plt.gca().set_aspect('equal')
     plt.show()
