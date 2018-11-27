@@ -69,20 +69,24 @@ class MathHelp:
         return tuple(center_pos + MathHelp.pol2cart(DrawConfig.translation_rho, translation_phi))
 
     @staticmethod
-    def get_all_pos(right_bottom_pos: ndarray, orientation: float) -> List[ndarray]:
+    def get_all_pos(drawable: drawable_types) -> List[Tuple[float, float]]:
         """
-        Returns all four corner points of a rectangle representing a car having the given right bottom position and
-        orientation. The points are return anti-clockwise starting with the right bottom point.
-        :param right_bottom_pos: The right bottom position of the rectangle.
-        :param orientation: The orientation of the rectangle.
-        :return: The list of the four corners of the rectangle representing a car.
+        Returns all corner points in anti-clockwise order.
+        :param drawable: The objects whose corner positions have to be calculated.
+        :return: The corner positions of the given object.
         """
-        length_vec: ndarray = MathHelp.pol2cart(DrawConfig.car_length, orientation)
-        width_vec: ndarray = MathHelp.pol2cart(DrawConfig.car_width, orientation + np.pi / 2)
-        return [right_bottom_pos,
-                right_bottom_pos + length_vec,
-                right_bottom_pos + length_vec + width_vec,
-                right_bottom_pos + width_vec]
+        if isinstance(drawable, pltpat.Rectangle):
+            right_bottom_pos: ndarray = np.asanyarray(drawable.get_xy())
+            orientation: float = np.radians(drawable.angle)
+            length_vec: ndarray = MathHelp.pol2cart(DrawConfig.car_length, orientation)
+            width_vec: ndarray = MathHelp.pol2cart(DrawConfig.car_width, orientation + np.pi / 2)
+            positions = [right_bottom_pos,
+                         right_bottom_pos + length_vec,
+                         right_bottom_pos + length_vec + width_vec,
+                         right_bottom_pos + width_vec]
+        else:
+            raise Exception("Objects of type " + str(type(drawable)) + " are not supported.")
+        return positions
 
 
 def load_scenario(path: str) -> Tuple[Scenario, PlanningProblem]:
@@ -101,7 +105,7 @@ def load_scenario(path: str) -> Tuple[Scenario, PlanningProblem]:
             return scenario, planning_problem
 
 
-def is_valid(to_check: object, scenario: Scenario) -> Optional[bool]:
+def is_valid(to_check: drawable_types, scenario: Scenario) -> Optional[bool]:
     """
     Checks whether the given position is valid position within the scenario. A position is valid only if there is no
     collision with other traffic participants or any obstacles.
@@ -109,13 +113,10 @@ def is_valid(to_check: object, scenario: Scenario) -> Optional[bool]:
     :param scenario: The scenario where the position and intersection of the object has to be checked in.
     :return True only if all the given positions are allowed in terms of collision freedom in the scenario.
     """
-    if isinstance(to_check, pltpat.Rectangle):
-        # positions: List[ndarray] = to_check.get_bbox().get_points()
-        positions: List[ndarray] = np.array([[to_check.get_x(), to_check.get_y()]])
-    else:
-        error("Can not check validity of objects of type " + str(type(to_check)))
-        return None
-    is_within_lane: bool = scenario.lanelet_network.find_lanelet_by_position(positions) != [[]]
+    positions: List[Tuple[float, float]] = MathHelp.get_all_pos(to_check)
+    # noinspection PyTypeChecker
+    lanes: List[List[int]] = scenario.lanelet_network.find_lanelet_by_position(np.array(positions))
+    is_within_lane: bool = all(map(lambda lane: lane != [], lanes))
     intersects_with_obstacle: bool = False
     for obstacle in scenario.obstacles:
         # FIXME Recognize current time step for checking validity
@@ -174,7 +175,7 @@ def union_to_polygon(drawables: List[drawable_types]) -> Polygon:
     for drawable in drawables:
         if isinstance(drawable, pltpat.Rectangle):
             # noinspection PyTypeChecker
-            points: List[ndarray] = MathHelp.get_all_pos(np.asanyarray(drawable.get_xy()), np.radians(drawable.angle))
+            points: List[ndarray] = MathHelp.get_all_pos(drawable)
             points_tuple: List[Tuple[int], ...] = list(map(tuple, points))
             polygon: Polygon = Polygon(points_tuple)
             if polygon.is_valid:
