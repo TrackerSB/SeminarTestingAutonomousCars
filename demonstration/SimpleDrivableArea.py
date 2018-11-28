@@ -4,7 +4,9 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 from shapely.geometry import MultiPolygon
 
-from common import load_scenario, DrawHelp, GenerationHelp
+from common import load_scenario
+from common.draw import DrawHelp
+from common.generation import GenerationHelp
 
 
 def main() -> None:
