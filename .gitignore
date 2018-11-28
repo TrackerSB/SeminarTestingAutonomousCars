@@ -4,6 +4,7 @@
 **/.idea/tasks.xml
 **/venv/
 **/__pycache__/
+**/runConfigurations/
 
 # BeamNG
 BeamNG/BeamNGUserpath/
