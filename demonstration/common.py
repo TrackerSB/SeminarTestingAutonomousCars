@@ -120,7 +120,7 @@ def is_valid(to_check: drawable_types, scenario: Scenario) -> Optional[bool]:
     intersects_with_obstacle: bool = False
     for obstacle in scenario.obstacles:
         # FIXME Recognize current time step for checking validity
-        if any(map(lambda pos: obstacle.occupancy_at_time(0).shape.contains_point(pos), positions)):
+        if any(map(lambda pos: obstacle.occupancy_at_time(0).shape.contains_point(np.array(pos)), positions)):
             intersects_with_obstacle = True
             break
     return is_within_lane and not intersects_with_obstacle
