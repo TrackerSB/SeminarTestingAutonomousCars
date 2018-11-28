@@ -80,10 +80,10 @@ class MathHelp:
             orientation: float = np.radians(drawable.angle)
             length_vec: ndarray = MathHelp.pol2cart(DrawConfig.car_length, orientation)
             width_vec: ndarray = MathHelp.pol2cart(DrawConfig.car_width, orientation + np.pi / 2)
-            positions = [right_bottom_pos,
-                         right_bottom_pos + length_vec,
-                         right_bottom_pos + length_vec + width_vec,
-                         right_bottom_pos + width_vec]
+            positions = [tuple(right_bottom_pos),
+                         tuple(right_bottom_pos + length_vec),
+                         tuple(right_bottom_pos + length_vec + width_vec),
+                         tuple(right_bottom_pos + width_vec)]
         else:
             raise Exception("Objects of type " + str(type(drawable)) + " are not supported.")
         return positions
