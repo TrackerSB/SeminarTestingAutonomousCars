@@ -13,7 +13,7 @@ from commonroad.scenario.trajectory import State
 from commonroad.visualization.draw_dispatch_cr import draw_object
 from matplotlib.artist import Artist
 from numpy.core.multiarray import ndarray
-from shapely.geometry import Polygon
+from shapely.geometry import Polygon, MultiPolygon
 from shapely.ops import unary_union
 
 drawable_types = Union[pltpat.Patch, Scenario, LaneletNetwork]
@@ -170,7 +170,7 @@ def draw(converted: drawable_types) -> Optional[Artist]:
     return artist
 
 
-def union_to_polygon(drawables: List[drawable_types]) -> Polygon:
+def union_to_polygon(drawables: List[drawable_types]) -> MultiPolygon:
     polygons: List[Polygon] = []
     for drawable in drawables:
         if isinstance(drawable, pltpat.Rectangle):

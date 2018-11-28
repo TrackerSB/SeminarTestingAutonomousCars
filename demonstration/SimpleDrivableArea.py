@@ -11,9 +11,11 @@ import numpy as np
 from commonroad.scenario.lanelet import LaneletNetwork
 from commonroad.scenario.scenario import Scenario
 from commonroad.scenario.trajectory import State
+from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
 from numpy.core.multiarray import ndarray
 from numpy.core.umath import pi
+from shapely.geometry import MultiPolygon
 
 from StatesQueue import StatesQueue
 from common import load_scenario, is_valid, convert_to_drawable, draw, union_to_polygon
@@ -87,7 +89,13 @@ def main() -> None:
     state_worker.do_run = False
     state_worker.join()
 
-    print("Drivable area: " + str(union_to_polygon(valid_converted).area))
+    union: MultiPolygon = union_to_polygon(valid_converted)
+    for line_string in union.boundary:
+        coords = line_string.coords
+        xdata = list(map(lambda l: l[0], coords))
+        ydata = list(map(lambda l: l[1], coords))
+        plt.gca().add_line(Line2D(xdata, ydata))
+    print("Drivable area: " + str(union.area))
 
     plt.gca().set_aspect('equal')
     plt.show()
