@@ -77,6 +77,14 @@ class GenerationHelp:
     @staticmethod
     def generate_states(scenario: Scenario, planning_problem: PlanningProblem, time_steps: int) \
             -> Tuple[List[drawable_types], int]:
+        """
+        Generates all positions the ego vehicle can have within the next steps in the given scenario and considering the
+        given preplanning problem.
+        :param scenario: The scenario the ego vehicle is driving in.
+        :param planning_problem: The preplanning problem to solve.
+        :param time_steps: The number of steps to simulate.
+        :return: A tuple returning all generated valid states and the number of total states processed.
+        """
         num_states_processed: int = 0
         valid_converted: List = []
 
