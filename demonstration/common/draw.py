@@ -80,6 +80,7 @@ class DrawHelp:
         elif isinstance(to_draw, (Scenario, LaneletNetwork, List)):  # FIXME Use List[plottable_types]
             artist = draw_object(to_draw, draw_params=DrawConfig.draw_params)
         elif isinstance(to_draw, MultiLineString):
+            artist = None  # In case the MultiLineString had no boundary
             for line_string in to_draw.boundary:
                 artist = DrawHelp.draw(line_string)
                 # FIXME Only the artist is returned
