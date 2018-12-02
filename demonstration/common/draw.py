@@ -4,7 +4,7 @@ from typing import Optional, List, Tuple
 from commonroad.scenario.lanelet import LaneletNetwork
 from commonroad.scenario.scenario import Scenario
 from commonroad.scenario.trajectory import State
-from commonroad.visualization.draw_dispatch_cr import draw_object
+from commonroad.visualization.draw_dispatch_cr import draw_object, plottable_types
 from matplotlib.artist import Artist
 from matplotlib.lines import Line2D
 from matplotlib.patches import Rectangle, Patch
@@ -54,9 +54,7 @@ class DrawHelp:
         :param to_draw: The object to draw.
         :return: The plottable representation of the given object.
         """
-        if isinstance(to_draw, (Scenario, LaneletNetwork, List)):
-            # TODO Check whether it is List[plottable_types]
-            # TODO Check whether it is plottable_types
+        if isinstance(to_draw, (Scenario, LaneletNetwork, List)):  # FIXME Use List[plottable_types]
             converted = to_draw
         elif isinstance(to_draw, State):
             pos = CoordsHelp.center_to_right_bottom_pos(
@@ -77,9 +75,7 @@ class DrawHelp:
         :param to_draw: The object to draw.
         :return The object drawn on the current plot or None if it could not be drawn.
         """
-        if isinstance(to_draw, (Scenario, LaneletNetwork, List)):
-            # TODO Check whether it is List[plottable_types]
-            # TODO Check whether it is plottable_types
+        if isinstance(to_draw, (Scenario, LaneletNetwork, List)):  # FIXME Use List[plottable_types]
             artist = draw_object(to_draw, draw_params=DrawConfig.draw_params)
         elif isinstance(to_draw, MultiPolygon):
             for line_string in to_draw.boundary:

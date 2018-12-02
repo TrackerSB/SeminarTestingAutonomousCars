@@ -1,5 +1,5 @@
 import os
-from typing import Tuple, Optional, List, Dict
+from typing import Tuple, Optional, List, Dict, TypeVar, Any
 
 import numpy as np
 from commonroad.common.file_reader import CommonRoadFileReader
@@ -11,7 +11,10 @@ from common.draw import DrawConfig
 from common.types import drawable_types
 
 
-def flatten_dict_values(dictionary: Dict) -> List:
+_T = TypeVar('_T')
+
+
+def flatten_dict_values(dictionary: Dict[Any, _T]) -> List[_T]:
     """
     Returns a flat list of all values of the given dictionary.
     :param dictionary: The dictionary whose value to take.
