@@ -1,7 +1,7 @@
 from copy import deepcopy
 from queue import Queue
 from threading import Thread
-from typing import Tuple, Union, Optional, Dict
+from typing import Tuple, Union, Optional, Dict, List
 
 from commonroad.planning.planning_problem import PlanningProblem
 from commonroad.scenario.scenario import Scenario
@@ -27,18 +27,18 @@ class GenerationConfig:
 class GenerationHelp:
     @staticmethod
     def generate_states(scenario: Scenario, planning_problem: PlanningProblem, time_steps: int) \
-            -> Tuple[Dict[int, drawable_types], int]:
+            -> Tuple[Dict[int, Tuple[State, drawable_types]], int]:
         """
         Generates all positions the ego vehicle can have within the next steps in the given scenario and considering the
         given preplanning problem.
         :param scenario: The scenario the ego vehicle is driving in.
         :param planning_problem: The preplanning problem to solve.
         :param time_steps: The number of steps to simulate.
-        :return: A tuple containing a dictionary mapping a time step to all generated valid states of that time step
-        and the number of total states processed.
+        :return: A tuple containing a dictionary mapping a time step to all generated valid states and their drawable
+        representation of that time step and the number of total states processed.
         """
         num_states_processed: int = 0
-        valid_converted: Dict[int, drawable_types] = {}
+        valid_converted: Dict[int, List[Tuple[State, drawable_types]]] = {}
 
         def generate_next_states() -> None:
             nonlocal num_states_processed
@@ -61,7 +61,7 @@ class GenerationHelp:
                                 transformed.time_step += 1
                                 if transformed.time_step not in valid_converted.keys():
                                     valid_converted[transformed.time_step] = []
-                                valid_converted[transformed.time_step].append(converted)
+                                valid_converted[transformed.time_step].append((transformed, converted))
                                 current_states.put(transformed)
                                 DrawHelp.draw(converted)
                 current_states.task_done()
