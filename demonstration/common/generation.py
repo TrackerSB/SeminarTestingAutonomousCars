@@ -27,7 +27,7 @@ class GenerationConfig:
 class GenerationHelp:
     @staticmethod
     def generate_states(scenario: Scenario, planning_problem: PlanningProblem, time_steps: int) \
-            -> Tuple[Dict[int, Tuple[State, drawable_types]], int]:
+            -> Tuple[Dict[int, List[Tuple[State, drawable_types]]], int]:
         """
         Generates all positions the ego vehicle can have within the next steps in the given scenario and considering the
         given preplanning problem.
