@@ -4,7 +4,7 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 from shapely.geometry import MultiPolygon
 
-from common import load_scenario
+from common import load_scenario, flatten_dict_values
 from common.draw import DrawHelp
 from common.generation import GenerationHelp
 
@@ -21,7 +21,7 @@ def main() -> None:
     valid_converted, num_states_processed = GenerationHelp.generate_states(scenario, planning_problem, 5)
     print("Processed " + str(num_states_processed) + " states in " + str(datetime.now() - start_time))
 
-    union: MultiPolygon = DrawHelp.union_to_polygon(valid_converted)
+    union: MultiPolygon = DrawHelp.union_to_polygon(flatten_dict_values(valid_converted))
     DrawHelp.draw(union)
     print("Drivable area: " + str(union.area))
 

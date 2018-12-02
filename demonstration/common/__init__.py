@@ -1,5 +1,5 @@
 import os
-from typing import Tuple, Optional, List
+from typing import Tuple, Optional, List, Dict
 
 import numpy as np
 from commonroad.common.file_reader import CommonRoadFileReader
@@ -9,6 +9,15 @@ from commonroad.scenario.scenario import Scenario
 from common.coords import CoordsHelp
 from common.draw import DrawConfig
 from common.types import drawable_types
+
+
+def flatten_dict_values(dictionary: Dict) -> List:
+    """
+    Returns a flat list of all values of the given dictionary.
+    :param dictionary: The dictionary whose value to take.
+    :return: The flat list of all values of the dictionary.
+    """
+    return [item for sublist in dictionary.values() for item in sublist]
 
 
 def load_scenario(path: str) -> Tuple[Scenario, PlanningProblem]:
