@@ -3,16 +3,19 @@ from queue import Queue
 from threading import Thread
 from typing import Tuple, Union, Optional, Dict, List
 
+from commonroad.geometry.shape import Shape, Rectangle
 from commonroad.planning.planning_problem import PlanningProblem
+from commonroad.prediction.prediction import TrajectoryPrediction
 from commonroad.scenario.scenario import Scenario
-from commonroad.scenario.trajectory import State
-from numpy import linspace
+from commonroad.scenario.trajectory import State, Trajectory
+from numpy import linspace, inf
 from numpy.core.multiarray import ndarray
 from numpy.core.umath import pi, cos, sin
+from numpy.random.mtrand import uniform
 
 from common import is_valid
 from common.StatesQueue import StatesQueue
-from common.draw import DrawHelp
+from common.draw import DrawHelp, DrawConfig
 from common.types import drawable_types
 
 
@@ -25,6 +28,15 @@ class GenerationConfig:
 
 
 class GenerationHelp:
+    @staticmethod
+    def predict_next_state(scenario: Scenario, current: State) -> State:
+        next: State = deepcopy(current)
+        delta_x: float = cos(next.orientation) * next.velocity * scenario.dt
+        delta_y: float = sin(next.orientation) * next.velocity * scenario.dt
+        next.position[0] += delta_x
+        next.position[1] += delta_y
+        return next
+
     @staticmethod
     def generate_states(scenario: Scenario, planning_problem: PlanningProblem, time_steps: int) \
             -> Tuple[Dict[int, List[Tuple[State, drawable_types]]], int]:
@@ -51,10 +63,7 @@ class GenerationHelp:
                     for yaw in yaw_steps:
                         transformed: State = deepcopy(state)
                         transformed.orientation += yaw
-                        delta_x: float = cos(transformed.orientation) * transformed.velocity * scenario.dt
-                        delta_y: float = sin(transformed.orientation) * transformed.velocity * scenario.dt
-                        transformed.position[0] += delta_x
-                        transformed.position[1] += delta_y
+                        transformed = GenerationHelp.predict_next_state(scenario, transformed)
                         if transformed not in current_states:
                             converted: drawable_types = DrawHelp.convert_to_drawable(transformed)
                             if is_valid(converted, scenario):
@@ -75,3 +84,39 @@ class GenerationHelp:
 
         current_states.join()
         return valid_converted, num_states_processed
+
+    @staticmethod
+    def generate_trajectory(scenario: Scenario, planning_problem: PlanningProblem, time_steps: int,
+                            max_tries: int = 1000) -> Tuple[TrajectoryPrediction, List[drawable_types]]:
+        """
+        Generates an as straight as possible linear trajectory.
+        :param scenario: The scenario the car is driving in.
+        :param planning_problem: The preplanning problem to solve.
+        :param time_steps: The number of time steps to simulate.
+        :param max_tries: The maximum number of tries to find a valid next state. It this number is succeeded some time
+        during generation the trajectory may not have as many time steps as specified.
+        :return: A tuple containing the generated prediction for a trajectory and a list containing drawable
+        representations of all the states of the trajectory.
+        """
+        shape: Shape = Rectangle(DrawConfig.car_length, DrawConfig.car_width,
+                                 planning_problem.initial_state.position, planning_problem.initial_state.orientation)
+        states: List[State] = [planning_problem.initial_state]
+        drawables: List[drawable_types] = [DrawHelp.convert_to_drawable(planning_problem.initial_state)]
+        for i in range(1, time_steps):
+            last_state_copy: State = deepcopy(states[i - 1])
+            found_valid_next: bool = False
+            tries: int = 0
+            while not found_valid_next and tries < max_tries:
+                next_state: State = GenerationHelp.predict_next_state(scenario, last_state_copy)
+                next_state_converted: drawable_types = DrawHelp.convert_to_drawable(next_state)
+                if is_valid(next_state_converted, scenario):
+                    states.append(next_state)
+                    drawables.append(next_state_converted)
+                    found_valid_next = True
+                else:
+                    tries += 1
+                    last_state_copy.orientation \
+                        = states[i - 1].orientation + uniform(-GenerationConfig.max_yaw, GenerationConfig.max_yaw)
+            if not found_valid_next:
+                break
+        return TrajectoryPrediction(Trajectory(0, states), shape), drawables

@@ -11,7 +11,7 @@ from matplotlib.patches import Rectangle, Patch
 from matplotlib.pyplot import gca
 from numpy.core.multiarray import ndarray
 from numpy.core.umath import degrees
-from shapely.geometry import MultiPolygon, Polygon, LineString
+from shapely.geometry import MultiPolygon, Polygon, LineString, MultiLineString
 from shapely.ops import unary_union
 
 from common.coords import CoordsHelp
@@ -79,6 +79,10 @@ class DrawHelp:
             artist = None
         elif isinstance(to_draw, (Scenario, LaneletNetwork, List)):  # FIXME Use List[plottable_types]
             artist = draw_object(to_draw, draw_params=DrawConfig.draw_params)
+        elif isinstance(to_draw, MultiLineString):
+            for line_string in to_draw.boundary:
+                artist = DrawHelp.draw(line_string)
+                # FIXME Only the artist is returned
         elif isinstance(to_draw, LineString):
             coords = to_draw.coords
             x_data: List[Tuple[float, float]] = list(map(lambda l: l[0], coords))
@@ -88,7 +92,7 @@ class DrawHelp:
             artist = None  # In case the polygon had no boundary
             for line_string in to_draw.boundary:
                 artist = DrawHelp.draw(line_string)
-                # FIXME Only the artist containing the last line is returned
+                # FIXME Only the artist is returned
         elif isinstance(to_draw, Polygon):
             artist = DrawHelp.draw(to_draw.boundary)
         elif isinstance(to_draw, Patch):
