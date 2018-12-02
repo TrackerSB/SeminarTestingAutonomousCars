@@ -5,7 +5,7 @@ from commonroad.scenario.scenario import Scenario
 from commonroad.scenario.trajectory import State
 from commonroad.visualization.draw_dispatch_cr import plottable_types
 from matplotlib.patches import Patch, Rectangle
-from shapely.geometry import MultiPolygon
+from shapely.geometry import MultiPolygon, LineString
 
-drawable_types = Union[Patch, Scenario, LaneletNetwork, MultiPolygon, Rectangle]
+drawable_types = Union[Patch, Scenario, LaneletNetwork, MultiPolygon, Rectangle, LineString]
 convertible_types = Union[Scenario, LaneletNetwork, List[plottable_types], State]

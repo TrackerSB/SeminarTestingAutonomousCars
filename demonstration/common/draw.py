@@ -4,14 +4,14 @@ from typing import Optional, List, Tuple
 from commonroad.scenario.lanelet import LaneletNetwork
 from commonroad.scenario.scenario import Scenario
 from commonroad.scenario.trajectory import State
-from commonroad.visualization.draw_dispatch_cr import draw_object, plottable_types
+from commonroad.visualization.draw_dispatch_cr import draw_object
 from matplotlib.artist import Artist
 from matplotlib.lines import Line2D
 from matplotlib.patches import Rectangle, Patch
 from matplotlib.pyplot import gca
 from numpy.core.multiarray import ndarray
 from numpy.core.umath import degrees
-from shapely.geometry import MultiPolygon, Polygon
+from shapely.geometry import MultiPolygon, Polygon, LineString
 from shapely.ops import unary_union
 
 from common.coords import CoordsHelp
@@ -75,14 +75,22 @@ class DrawHelp:
         :param to_draw: The object to draw.
         :return The object drawn on the current plot or None if it could not be drawn.
         """
-        if isinstance(to_draw, (Scenario, LaneletNetwork, List)):  # FIXME Use List[plottable_types]
+        if not to_draw:
+            artist = None
+        elif isinstance(to_draw, (Scenario, LaneletNetwork, List)):  # FIXME Use List[plottable_types]
             artist = draw_object(to_draw, draw_params=DrawConfig.draw_params)
+        elif isinstance(to_draw, LineString):
+            coords = to_draw.coords
+            x_data: List[Tuple[float, float]] = list(map(lambda l: l[0], coords))
+            y_data: List[Tuple[float, float]] = list(map(lambda l: l[1], coords))
+            artist = gca().add_line(Line2D(x_data, y_data))
         elif isinstance(to_draw, MultiPolygon):
+            artist = None  # In case the polygon had no boundary
             for line_string in to_draw.boundary:
-                coords = line_string.coords
-                x_data: List[Tuple[float, float]] = list(map(lambda l: l[0], coords))
-                y_data: List[Tuple[float, float]] = list(map(lambda l: l[1], coords))
-                artist = gca().add_line(Line2D(x_data, y_data))
+                artist = DrawHelp.draw(line_string)
+                # FIXME Only the artist containing the last line is returned
+        elif isinstance(to_draw, Polygon):
+            artist = DrawHelp.draw(to_draw.boundary)
         elif isinstance(to_draw, Patch):
             artist = gca().add_patch(to_draw)
         else:
