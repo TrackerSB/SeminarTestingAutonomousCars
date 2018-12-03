@@ -1,0 +1,93 @@
+\documentclass[oneside, notitlepage, twocolumn]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage[acronym, automake, nopostdot, nomain, nonumberlist, numberedsection, section]{glossaries}
+\usepackage{adjustbox}
+\usepackage{biblatex}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{makecell}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{xspace}
+
+\geometry{%
+    left=1in,
+    right=1in,
+}
+
+\newcommand{\tableheadline}[1]{\textbf{#1}}
+\newcommand{\draft}[1]{\textcolor{red}{\textit{#1}}}
+\newcommand{\eg}{e.\,g.\xspace}
+\newcommand{\ie}{i.\,e.\xspace}
+
+\renewcommand\cellalign{lt}
+
+\setlength{\parskip}{1mm}
+\setlength{\parindent}{0pt}
+\titlespacing\section{0pt}{12pt plus 4pt minus 2pt}{2pt plus 2pt minus 2pt}
+
+\title{\LARGE 6.1 --- DeepTest: Automated Testing of Deep-Neural-Network-driven Autonomous Cars}
+\subtitle{Summary}
+\author{Stefan Huber}
+
+\addbibresource{61references.bib}
+
+\makeglossaries%
+\loadglsentries{../acronyms.tex}
+
+\begin{document}
+
+\maketitle
+
+\section{Summary}
+\draft{%
+    \begin{itemize}
+        \item \gls{dnn} driven vehicles heavily dependent on manual collection of data under different driving conditions
+            \begin{itemize}
+                \item labeled data
+                \item \(=>\) very expensive
+                \item unguided simulations
+                \item \(=>\) miss numerous corner cases
+            \end{itemize}
+        \item Design, implement and evaluate DeepTest
+        \item Systematic testing tool for automatically detecting erroneous behaviors of \gls{dnn}-driven vehicles that potentially lead to fatal crashes
+        \item tool generate test cases leveraging real world changes in driving conditions
+        \item systematically explore different parts of the \gls{dnn} logic by generating test inputs that maximize the number of activated neurons
+        \item \(=>\) Found thousands of erroneous behaviors under different realistic driving conditions
+    \end{itemize}
+}
+
+\section{Critical Content}
+\draft{%
+    \begin{itemize}
+        \item Praises companies
+        \item Praises progress made (tremendous, significant, millions of kilometers, spectacular,\ldots)
+        \item Praises US states allowing autonomous cars
+        \item (Table of real world crashes very small whereas explained as ``several'')
+        \item (Introduction very broadly explains problems in trying to test \glspl{dnn} like traditional software)
+        \item Is neuron coverage enough? Similar problems as with branch or line coverage?
+        \item (``We implement to the best of our knowledge.'' Really?!)
+        \item (Found thousands of erroneous behavior; Udacity; test three top performing \gls{dnn}) Three times word by word
+    \end{itemize}
+}
+
+\section{Critical Questions}
+% At least 2
+\begin{enumerate}
+    \item First question
+    \item Second question
+\end{enumerate}
+
+\section{References}
+\begingroup
+\renewcommand{\section}[2]{}%
+\nocite{*}
+\printbibliography%
+\endgroup
+
+\end{document}
