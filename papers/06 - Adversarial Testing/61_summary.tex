@@ -59,6 +59,8 @@
         \item tool generate test cases leveraging real world changes in driving conditions
         \item systematically explore different parts of the \gls{dnn} logic by generating test inputs that maximize the number of activated neurons
         \item \(=>\) Found thousands of erroneous behaviors under different realistic driving conditions
+        \item neuron coverage = good approximation for estimating diversity of output
+        \item neuron coverage increases adding transformed images and combinations of transformations
     \end{itemize}
 }
 
@@ -70,9 +72,12 @@
         \item Praises US states allowing autonomous cars
         \item (Table of real world crashes very small whereas explained as ``several'')
         \item (Introduction very broadly explains problems in trying to test \glspl{dnn} like traditional software)
-        \item Is neuron coverage enough? Similar problems as with branch or line coverage?
+        \item Is neuron coverage enough? Similar problems as with branch or line coverage? (Neuron coverage may not be useful if inputs are not likely to appear) \(=>\) generating realistic synthetic images
         \item (``We implement to the best of our knowledge.'' Really?!)
         \item (Found thousands of erroneous behavior; Udacity; test three top performing \gls{dnn}) Three times word by word
+        \item (Adobe Photoshop? Transform manually?)
+        \item (RQ3.i has slight problems with sentence structure)
+        \item Has section about threads to validity
     \end{itemize}
 }
 
