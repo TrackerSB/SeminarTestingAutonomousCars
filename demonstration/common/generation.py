@@ -72,7 +72,6 @@ class GenerationHelp:
                                     valid_converted[transformed.time_step] = []
                                 valid_converted[transformed.time_step].append((transformed, converted))
                                 current_states.put(transformed)
-                                DrawHelp.draw(converted)
                 current_states.task_done()
                 num_states_processed += 1
 
