@@ -61,22 +61,15 @@ According to the paper table 1 clearly shows that fatal crashes often happen und
 Since the table contains exactly three very short examples it is not convincing that fatal crashes are a result of unseen corner cases.\\
 I would use the approach since it allows to test \glspl{dnn} but with a comparable low amount of data needed to be collected manually due to it generates much additional data using the described transformations.\\
 I like the paper since it explains the main ideas, the reasoning behind the neuron coverage and the strategies for maximizing it very accurately and it has a section dedicated to threads to validity.
-\draft{%
-    \begin{itemize}
-        \item (Introduction very broadly explains problems in trying to test \glspl{dnn} like traditional software)
-        \item Is neuron coverage enough? Similar problems as with branch or line coverage? (Neuron coverage may not be useful if inputs are not likely to appear) \(=>\) generating realistic synthetic images
-        \item (``We implement to the best of our knowledge.'' Really?!)
-        \item (Found thousands of erroneous behavior; Udacity; test three top performing \gls{dnn}) Three times word by word
-        \item (RQ3.i has slight problems with sentence structure)
-    \end{itemize}
-}
 
 \section{Critical Questions}
-\draft{%
-    \begin{enumerate}
-        \item Realistic synthetic inputs by transforming seed images \(=>\) Increase dependence on seed images
-    \end{enumerate}
-}
+\begin{enumerate}
+    \item The paper mentions that testing techniques for \gls{dnn} driven autonomous vehicles are heavily dependent on the manually collected data.
+        Since transformations of seed images are used to increase the neuron coverage the quality of the seed images is crucial.
+        How can be assured that the seed images are appropriate?
+    \item The paper focuses on maximizing the neuron coverage and also presents the reasoning behind it.
+        Could there be further aspects to consider for identifying regions within the neurons which are activated when testing a scenario triggering faulty behavior?
+\end{enumerate}
 
 \section{References}
 \begingroup
