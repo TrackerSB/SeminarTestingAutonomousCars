@@ -76,7 +76,8 @@ class GenerationHelp:
                 current_states.task_done()
                 num_states_processed += 1
 
-        current_states: Queue = StatesQueue(GenerationConfig.position_threshold, GenerationConfig.angle_threshold)
+        current_states: Queue[State] \
+            = StatesQueue(GenerationConfig.position_threshold, GenerationConfig.angle_threshold)
         current_states.put(planning_problem.initial_state)
         for i in range(GenerationConfig.num_threads):
             worker: Thread = Thread(target=generate_next_states, args=(), daemon=True)

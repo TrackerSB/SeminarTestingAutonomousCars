@@ -14,7 +14,7 @@ from common.types import drawable_types
 _T = TypeVar('_T')
 
 
-def flatten_dict_values(dictionary: Dict[Any, _T]) -> List[_T]:
+def flatten_dict_values(dictionary: Dict[Any, List[_T]]) -> List[_T]:
     """
     Returns a flat list of all values of the given dictionary.
     :param dictionary: The dictionary whose value to take.
