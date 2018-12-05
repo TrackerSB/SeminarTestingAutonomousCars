@@ -45,24 +45,14 @@
 \maketitle
 
 \section{Summary}
-\draft{%
-    \begin{itemize}
-        \item \gls{dnn} driven vehicles heavily dependent on manual collection of data under different driving conditions
-            \begin{itemize}
-                \item labeled data
-                \item \(=>\) very expensive
-                \item unguided simulations
-                \item \(=>\) miss numerous corner cases
-            \end{itemize}
-        \item Design, implement and evaluate DeepTest
-        \item Systematic testing tool for automatically detecting erroneous behaviors of \gls{dnn}-driven vehicles that potentially lead to fatal crashes
-        \item tool generate test cases leveraging real world changes in driving conditions
-        \item systematically explore different parts of the \gls{dnn} logic by generating test inputs that maximize the number of activated neurons
-        \item \(=>\) Found thousands of erroneous behaviors under different realistic driving conditions
-        \item neuron coverage = good approximation for estimating diversity of output
-        \item neuron coverage increases adding transformed images and combinations of transformations
-    \end{itemize}
-}
+In autonomous driving \glspl{dnn} have an increasing importance due to the advantages of the past years.
+A major problem of \glspl{dnn} is that they are heavily dependent on training data which has to be collected and labeled manually or generated using unguided simulations.
+Besides these strategies are very time consuming both have the problem of not finding corner cases or erroneous behavior and having a high diversity like different driving conditions.
+This paper introduces a systematic testing tool for automatically detecting erroneous behaviors of \glspl{dnn} called DeepTest.
+The paper explains its design and its implementation and evaluates the tool.\\
+To find as many faulty behaviors of a \gls{dnn} as possible DeepTest tries to generate test cases which maximize the number of activated neurons of the \gls{dnn}.
+The investigations of this approach shows that transformations shearing, scaling, translating, rotating them or applying different realistic driving conditions like rain, fog or blurring increase the number of different activated neurons.
+The neuron coverage can be further increased according to the paper by combining such transformations to generate additional test cases.
 
 \section{Critical Content}
 \draft{%
