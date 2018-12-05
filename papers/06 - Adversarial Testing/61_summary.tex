@@ -47,25 +47,26 @@
 \section{Summary}
 In autonomous driving \glspl{dnn} have an increasing importance due to the advantages of the past years.
 A major problem of \glspl{dnn} is that they are heavily dependent on training data which has to be collected and labeled manually or generated using unguided simulations.
-Besides these strategies are very time consuming both have the problem of not finding corner cases or erroneous behavior and having a high diversity like different driving conditions.
+Further these strategies are very time consuming have have the problem of not finding corner cases or erroneous behavior and often not having a high diversity like different driving conditions.
 This paper introduces a systematic testing tool for automatically detecting erroneous behaviors of \glspl{dnn} called DeepTest.
-The paper explains its design and its implementation and evaluates the tool.\\
+The paper explains its design and its implementation and evaluates the tool.\par
 To find as many faulty behaviors of a \gls{dnn} as possible DeepTest tries to generate test cases which maximize the number of activated neurons of the \gls{dnn}.
-The investigations of this approach shows that transformations shearing, scaling, translating, rotating them or applying different realistic driving conditions like rain, fog or blurring increase the number of different activated neurons.
-The neuron coverage can be further increased according to the paper by combining such transformations to generate additional test cases.
+In this paper only a set of seed images is used because the investigations of the authors show that transformations like shearing, scaling, translating, rotating the seed images or applying different realistic driving conditions like rain, fog or blurring on them contributes to the neuron coverage.
+The neuron coverage can be further increased according to the paper by combining such transformations to generate additional test cases.\par
+As a result DeepTest was according to the paper able to find thousands of erroneous behaviors many of them lead to potentially fatal crashes in the three top performing \glspl{dnn} in the Udacity self driving car challenge.
 
 \section{Critical Content}
-The paper starts with explaining the spectacular/tremendous/great/significant progress in machine learning and \glspl{dnn} excessively.
-It also describes broadly the progress certain companies made, the millions of miles they drove without any human interaction and that many US states already passed legislation to enable testing and deployment of autonomous vehicles.\\
+The paper starts with explaining the spectacular/tremendous/great/significant progress in machine learning and \glspl{dnn} to excessively.
+It also describes broadly the progress certain companies made, the millions of miles they drove without any human interaction and that many US states already passed legislation to enable testing and deployment of autonomous vehicles.\par
 According to the paper table 1 clearly shows that fatal crashes often happen under rare corner cases.
-Since the table contains exactly three very short examples it is not convincing that fatal crashes are a result of unseen corner cases.\\
-I would use the approach since it allows to test \glspl{dnn} but with a comparable low amount of data needed to be collected manually due to it generates much additional data using the described transformations.\\
+Since the table contains only three very short examples it is not convincing when only considering this table that fatal crashes are a result of unseen corner cases.\par
+I would use the approach since it allows to test \glspl{dnn} but with a comparable low amount of data needed to be collected manually due to it generates much additional data using the described transformations.\par
 I like the paper since it explains the main ideas, the reasoning behind the neuron coverage and the strategies for maximizing it very accurately and it has a section dedicated to threads to validity.
 
 \section{Critical Questions}
 \begin{enumerate}
     \item The paper mentions that testing techniques for \gls{dnn} driven autonomous vehicles are heavily dependent on the manually collected data.
-        Since transformations of seed images are used to increase the neuron coverage the quality of the seed images is crucial.
+        Since transformations of seed images are used to increase the neuron coverage the quality of the seed images may be crucial.
         How can be assured that the seed images are appropriate?
     \item The paper focuses on maximizing the neuron coverage and also presents the reasoning behind it.
         Could there be further aspects to consider for identifying regions within the neurons which are activated when testing a scenario triggering faulty behavior?
