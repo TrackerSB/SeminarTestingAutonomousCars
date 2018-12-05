@@ -55,19 +55,19 @@ The investigations of this approach shows that transformations shearing, scaling
 The neuron coverage can be further increased according to the paper by combining such transformations to generate additional test cases.
 
 \section{Critical Content}
+The paper starts with explaining the spectacular/tremendous/great/significant progress in machine learning and \glspl{dnn} excessively.
+It also describes broadly the progress certain companies made, the millions of miles they drove without any human interaction and that many US states already passed legislation to enable testing and deployment of autonomous vehicles.\\
+According to the paper table 1 clearly shows that fatal crashes often happen under rare corner cases.
+Since the table contains exactly three very short examples it is not convincing that fatal crashes are a result of unseen corner cases.\\
+I would use the approach since it allows to test \glspl{dnn} but with a comparable low amount of data needed to be collected manually due to it generates much additional data using the described transformations.\\
+I like the paper since it explains the main ideas, the reasoning behind the neuron coverage and the strategies for maximizing it very accurately and it has a section dedicated to threads to validity.
 \draft{%
     \begin{itemize}
-        \item Praises companies
-        \item Praises progress made (tremendous, significant, millions of kilometers, spectacular,\ldots)
-        \item Praises US states allowing autonomous cars
-        \item (Table of real world crashes very small whereas explained as ``several'')
         \item (Introduction very broadly explains problems in trying to test \glspl{dnn} like traditional software)
         \item Is neuron coverage enough? Similar problems as with branch or line coverage? (Neuron coverage may not be useful if inputs are not likely to appear) \(=>\) generating realistic synthetic images
         \item (``We implement to the best of our knowledge.'' Really?!)
         \item (Found thousands of erroneous behavior; Udacity; test three top performing \gls{dnn}) Three times word by word
-        \item (Adobe Photoshop? Transform manually?)
         \item (RQ3.i has slight problems with sentence structure)
-        \item Has section about threads to validity
     \end{itemize}
 }
 
