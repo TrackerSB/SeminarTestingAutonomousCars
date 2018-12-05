@@ -44,8 +44,9 @@ def dijkstra_search(start_state: State, goal_states: List[State], states: List[S
         white_nodes.append(next_white)
         for black in black_nodes:
             if next_white.state.time_step == black.state.time_step - 1:
-                # FIXME Costs should be influenced by the orientation difference
-                costs: float = black.costs + norm(next_white.state.position - black.state.position)
+                costs: float = black.costs \
+                               + norm(next_white.state.position - black.state.position) \
+                               * abs(next_white.state.orientation - black.state.orientation)
                 grey_nodes.append(
                     DijkstraNode(black.state, is_goal_node=black.is_goal_node, costs=costs, previous=next_white))
                 black_nodes.remove(black)
