@@ -1,11 +1,15 @@
 # Variables of the paper:
 # k                                                     time step
 # t_k                                                   time at step k
+# delta t                                               time step size
+# q                                                     total number of time steps
+# A(S, t)                                               drivable area at time t (summing up from t_0 to t)
 # a_ref,k = A_ref(t_k)                                  q-dimensional vector reference area over time
 # gamma(S) := [a_1,...,a_q], a_k = A(S, t_k)            area profile (development of the drivable area over discrete
 #                                                       times t_k)
 # arg min_S(gamma(S) - a_ref)^T * W(gamma(S) - a_ref)   discrete-time approximation of the optimization problem
 # W = diag(w(t_1),...,w(t_q))
+# w(t)                                                  weight
 # V_1,...,V_p                                           vehicles
 # p                                                     total number of considered traffic participants
 # S_0                                                   initial scenario
@@ -43,9 +47,14 @@
 # 2D => invariant to orientation and position => only such as velocity optimized
 # delta a_0^T * W * delta a_0 can be removed in quadratic optimization problem
 # interest in minimizing delta x_0 => optimizing over the shift of delta x_0
+from collections import OrderedDict
+from queue import Queue
+from typing import Tuple, Dict
+
+import numpy as np
 
 
-def binary_search(x_before, x_after, my):
+def binary_search(x_before, x_after, my, vehicles):
     # Require
     # x_{0,before,i}^j      initial state before last quadratic update
     # x_{0,after,i}^j       initial state after last quadratic update
@@ -57,7 +66,7 @@ def binary_search(x_before, x_after, my):
     # b_max <- 0
     # for j = 1...p
     #     for i = 1...n(j)
-    #         b_{abs,i}^j <- abs(the new area profile)
+    #         b_{abs,i}^j <- abs((the new area profile - initial profile) / variation of i-th component of initial state of vehicle V_j)
     #     end for
     # end for
     # b_sorted = sort(b_abs)
@@ -74,15 +83,31 @@ def binary_search(x_before, x_after, my):
     #     end for
     # end while
     # return x_{0,before,sI}^vI
+
+    b_max = 0
+    b_abs: Dict[Tuple[int, int], float] = {}
+    for j in range(1, len(vehicles)):
+        for i in range(1, len(vehicles[j].states)):
+            new_area_profile = None
+            initial_area_profile = None
+            variation_ij = None
+            b_abs = abs((new_area_profile - initial_area_profile) / variation_ij)
+    b_sorted: Queue[Tuple[Tuple[int, int], float]] = Queue()
+    for bij in sorted(b_abs, key=lambda e: e[1]):
+        print(type(bij))
+        b_sorted.put(bij)
+
     raise Exception("Not implemented yet")
 
 
-def kappa(S, a_ref, W):
+def kappa(gamma_s: np.matrix, a_ref: np.matrix, W: np.matrix) -> float:
     """
     Cost function
     """
     # kappa = (gamma(S) - a_ref)^T * W * (gamma(S) - a_ref)
-    raise Exception("Not implemented yet")
+
+    diff: np.matrix = gamma_s - a_ref
+    return diff.transpose() * W * diff
 
 
 def updateScenario(S, x_0sv):
