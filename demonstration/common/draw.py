@@ -99,7 +99,7 @@ class DrawHelp:
         elif isinstance(to_draw, Patch):
             artist = gca().add_patch(to_draw)
         else:
-            error("Could not draw a converted object of type " + str(type(to_draw)) + ".")
+            error("Drawing " + str(type(to_draw)) + " is not implemented, yet.")
             artist = None
 
         return artist
@@ -118,5 +118,5 @@ class DrawHelp:
                 else:
                     warning("Created an invalid polygon.")
             else:
-                warning("Can not convert " + str(type(drawable)) + " to a shapely representation.")
+                warning("Union with " + str(type(drawable)) + " not implemented, yet.")
         return unary_union(polygons)
