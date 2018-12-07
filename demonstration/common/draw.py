@@ -117,6 +117,8 @@ class DrawHelp:
                     polygons.append(polygon)
                 else:
                     warning("Created an invalid polygon.")
+            elif isinstance(drawable, Polygon):
+                polygons.append(drawable)
             else:
                 warning("Union with " + str(type(drawable)) + " not implemented, yet.")
         return unary_union(polygons)
