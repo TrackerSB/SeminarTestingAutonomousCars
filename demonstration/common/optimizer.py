@@ -47,11 +47,28 @@
 # 2D => invariant to orientation and position => only such as velocity optimized
 # delta a_0^T * W * delta a_0 can be removed in quadratic optimization problem
 # interest in minimizing delta x_0 => optimizing over the shift of delta x_0
-from collections import OrderedDict
 from queue import Queue
-from typing import Tuple, Dict
+from typing import Tuple, Dict, List
 
 import numpy as np
+from shapely.geometry import MultiPolygon
+
+from common import drawable_types
+from common.draw import DrawHelp
+
+
+def generate_area_profile(states: Dict[int, List[drawable_types]]) -> List[float]:
+    area_profile: List[float] = []
+    current_area: MultiPolygon = None
+    for key in sorted(states.keys()):
+        to_union: List[drawable_types] = []
+        if current_area:
+            to_union.append(current_area)
+        for state in states[key]:
+            to_union.append(state)
+        current_area = DrawHelp.union_to_polygon(to_union)
+        area_profile.append(current_area.area)
+    return area_profile
 
 
 def binary_search(x_before, x_after, my, vehicles):
