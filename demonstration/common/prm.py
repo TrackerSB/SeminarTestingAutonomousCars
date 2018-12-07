@@ -44,6 +44,7 @@ def dijkstra_search(start_state: State, goal_states: List[State], states: List[S
         white_nodes.append(next_white)
         for black in black_nodes:
             if next_white.state.time_step == black.state.time_step - 1:
+                # NOTE The costs recognize the distance of positions and the difference in the orientation of two states
                 costs: float = black.costs \
                                + norm(next_white.state.position - black.state.position) \
                                * abs(next_white.state.orientation - black.state.orientation)
