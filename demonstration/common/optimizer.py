@@ -57,7 +57,7 @@ from common import drawable_types
 from common.draw import DrawHelp
 
 
-def generate_area_profile(states: Dict[int, List[drawable_types]]) -> List[float]:
+def generate_area_profile(states: Dict[int, List[drawable_types]]) -> np.ndarray:
     area_profile: List[float] = []
     current_area: MultiPolygon = None
     for key in sorted(states.keys()):
@@ -68,7 +68,7 @@ def generate_area_profile(states: Dict[int, List[drawable_types]]) -> List[float
             to_union.append(state)
         current_area = DrawHelp.union_to_polygon(to_union)
         area_profile.append(current_area.area)
-    return area_profile
+    return np.array(area_profile)
 
 
 def binary_search(x_before, x_after, my, vehicles):
