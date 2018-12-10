@@ -1,0 +1,86 @@
+\documentclass[oneside, notitlepage, twocolumn]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage[acronym, automake, nopostdot, nomain, nonumberlist, numberedsection, section]{glossaries}
+\usepackage{adjustbox}
+\usepackage{biblatex}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{makecell}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{xspace}
+
+\geometry{%
+    left=1in,
+    right=1in,
+}
+
+\newcommand{\tableheadline}[1]{\textbf{#1}}
+\newcommand{\draft}[1]{\textcolor{red}{\textit{#1}}}
+\newcommand{\eg}{e.\,g.\xspace}
+\newcommand{\ie}{i.\,e.\xspace}
+
+\renewcommand\cellalign{lt}
+
+\setlength{\parskip}{1mm}
+\setlength{\parindent}{0pt}
+\titlespacing\section{0pt}{12pt plus 4pt minus 2pt}{2pt plus 2pt minus 2pt}
+
+\title{\LARGE 6.2 --- DeepRoad: \glstext{gan}-Based Metamorphic Testing and Input Validation Framework for Autonomous Driving Systems}
+\subtitle{Summary}
+\author{Stefan Huber}
+
+\addbibresource{62references.bib}
+
+\makeglossaries%
+\loadglsentries{../acronyms.tex}
+
+\begin{document}
+
+\maketitle
+
+\section{Summary}
+\draft{%
+    \begin{itemize}
+        \item Testing techniques for automatically generating tests
+            \begin{itemize}
+                \item Lack of diversity
+                \item mismatch training and application domain
+                \item \(=>\) compromise efficacy and reliability and degrade system accuracy
+            \end{itemize}
+        \item \(=>\) DeepRoad: unsupervised \gls{dnn} based framework for automatically testing the consistency of \gls{dnn} based autonomous driving systems and online validation.
+        \item First, synthesize large amounts of diverse driving scenarios without using image transformation rules (with weather conditions) by applying \gls{gan}
+        \item Second, utilizes metamorphic testing techniques to check consistency
+        \item Third, Validate input images by measuring the distance of input and training images using their VGGNet features
+        \item Test three well recognized \gls{dnn} based autonomous driving systems in Udacity \(=>\) Detected thousands of inconsistent behaviors and effectively validated input images to potentially enhance the systems robustness as well.
+    \end{itemize}
+}
+
+\section{Critical Content}
+\draft{%
+    \begin{itemize}
+        \item Includes citation
+        \item Broadly explains benefits/advantages of DeepRoad compared to DeepXplore and DeepTest
+    \end{itemize}
+}
+
+\section{Critical Questions}
+% At least 2
+\begin{enumerate}
+    \item First question
+    \item Second question
+\end{enumerate}
+
+\section{References}
+\begingroup
+\renewcommand{\section}[2]{}%
+\nocite{*}
+\printbibliography%
+\endgroup
+
+\end{document}
