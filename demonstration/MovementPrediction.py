@@ -3,11 +3,10 @@ from datetime import datetime
 from typing import List, Dict, Tuple, Optional
 
 import matplotlib.pyplot as plt
-from commonroad.common.util import AngleInterval
 from commonroad.geometry.shape import Rectangle
 from commonroad.scenario.trajectory import State
 
-from common import load_scenario, drawable_types, flatten_dict_values, VehicleInfo
+from common import load_scenario, flatten_dict_values, VehicleInfo
 from common.draw import DrawHelp
 from common.generation import GenerationHelp
 from common.prm import dijkstra_search
