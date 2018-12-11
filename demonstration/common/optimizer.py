@@ -51,10 +51,16 @@ from queue import Queue
 from typing import Tuple, Dict, List
 
 import numpy as np
+from commonroad.planning.planning_problem import PlanningProblem
+from commonroad.scenario.scenario import Scenario
 from shapely.geometry import MultiPolygon
 
 from common import drawable_types, VehicleInfo
 from common.draw import DrawHelp
+from common.generation import GenerationHelp
+
+
+total_steps: int = 5  # FIXME Recognize the total time steps of the scenario
 
 
 def calculate_area_profile(states: Dict[int, List[VehicleInfo]]) -> np.ndarray:
@@ -76,7 +82,7 @@ def calculate_area_profile(states: Dict[int, List[VehicleInfo]]) -> np.ndarray:
     return np.array(area_profile)
 
 
-def binary_search(x_before, x_after, my, vehicles):
+def binary_search(x_before, x_after, my, vehicles, scenario: Scenario, planning_problem: PlanningProblem):
     # Require
     # x_{0,before,i}^j      initial state before last quadratic update
     # x_{0,after,i}^j       initial state after last quadratic update
@@ -109,12 +115,13 @@ def binary_search(x_before, x_after, my, vehicles):
     b_max = 0
     b_abs: Dict[Tuple[int, int], float] = {}
     for j in range(1, len(vehicles)):
+        new_states, num_processed = GenerationHelp.generate_states(scenario, planning_problem, total_steps)
+        new_area_profile = calculate_area_profile(new_states)
+        initial_area_profile = None
         for i in range(1, len(vehicles[j].states)):
-            new_area_profile = None
-            initial_area_profile = None
             variation_ij = None
             b_abs = abs((new_area_profile - initial_area_profile) / variation_ij)
-    b_sorted: Queue[Tuple[Tuple[int, int], float]] = Queue()
+    b_sorted: Queue[Dict[Tuple[int, int], float]] = Queue()
     for bij in sorted(b_abs, key=lambda e: e[1]):
         print(type(bij))
         b_sorted.put(bij)
