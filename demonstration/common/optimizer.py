@@ -53,11 +53,11 @@ from typing import Tuple, Dict, List
 import numpy as np
 from shapely.geometry import MultiPolygon
 
-from common import drawable_types, Vehicle
+from common import drawable_types, VehicleInfo
 from common.draw import DrawHelp
 
 
-def calculate_area_profile(states: Dict[int, List[Vehicle]]) -> np.ndarray:
+def calculate_area_profile(states: Dict[int, List[VehicleInfo]]) -> np.ndarray:
     """
     Generates a list [a_1,...,a_q] where a_i represents the drivable area at time step i.
     :param states: All the states at any time step to recognize.

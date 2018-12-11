@@ -5,7 +5,7 @@ from typing import List
 import matplotlib.pyplot as plt
 from shapely.geometry import MultiPolygon
 
-from common import load_scenario, flatten_dict_values, Vehicle
+from common import load_scenario, flatten_dict_values, VehicleInfo
 from common.draw import DrawHelp
 from common.generation import GenerationHelp
 
@@ -22,7 +22,7 @@ def main() -> None:
     valid_converted, num_states_processed = GenerationHelp.generate_states(scenario, planning_problem, 15)
     print("Processed " + str(num_states_processed) + " states in " + str(datetime.now() - start_time))
 
-    all_states: List[Vehicle] = flatten_dict_values(valid_converted)
+    all_states: List[VehicleInfo] = flatten_dict_values(valid_converted)
 
     for vehicle in all_states:
         DrawHelp.draw(vehicle.drawable)

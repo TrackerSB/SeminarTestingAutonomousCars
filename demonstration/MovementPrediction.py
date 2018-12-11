@@ -7,7 +7,7 @@ from commonroad.common.util import AngleInterval
 from commonroad.geometry.shape import Rectangle
 from commonroad.scenario.trajectory import State
 
-from common import load_scenario, drawable_types, flatten_dict_values, Vehicle
+from common import load_scenario, drawable_types, flatten_dict_values, VehicleInfo
 from common.draw import DrawHelp
 from common.generation import GenerationHelp
 from common.prm import dijkstra_search
@@ -22,11 +22,11 @@ def main() -> None:
     DrawHelp.draw(DrawHelp.convert_to_drawable(planning_problem.initial_state))
 
     start_time: datetime = datetime.now()
-    generation_result: Tuple[Dict[int, List[Vehicle]], int] \
+    generation_result: Tuple[Dict[int, List[VehicleInfo]], int] \
         = GenerationHelp.generate_states(scenario, planning_problem, 15)
     # NOTE The value 50 is taken from the commonroad file
     num_states_processed: int = generation_result[1]
-    valid_converted: Dict[int, List[Vehicle]] = generation_result[0]
+    valid_converted: Dict[int, List[VehicleInfo]] = generation_result[0]
     valid_states: List[State] = list(map(lambda v: v.state, flatten_dict_values(valid_converted)))
     print("Processed " + str(num_states_processed) + " states in " + str(datetime.now() - start_time))
 

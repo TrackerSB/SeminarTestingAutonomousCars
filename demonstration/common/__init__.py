@@ -61,7 +61,7 @@ def is_valid(to_check: drawable_types, scenario: Scenario) -> Optional[bool]:
     return is_within_lane and not intersects_with_obstacle
 
 
-class Vehicle(object):
+class VehicleInfo(object):
     state: State = None
     drawable: drawable_types = None
 
