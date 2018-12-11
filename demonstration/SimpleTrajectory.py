@@ -17,11 +17,11 @@ def main() -> None:
     DrawHelp.draw(DrawHelp.convert_to_drawable(planning_problem.initial_state))
 
     start_time: datetime = datetime.now()
-    prediction, valid_converted = GenerationHelp.generate_trajectory(scenario, planning_problem, 70)
+    prediction, vehicles = GenerationHelp.generate_trajectory(scenario, planning_problem, 70)
     print("Generation took " + str(datetime.now() - start_time))
 
-    for converted in valid_converted:
-        DrawHelp.draw(converted)
+    for vehicle in vehicles:
+        DrawHelp.draw(vehicle.drawable)
 
     plt.gca().set_aspect('equal')
     plt.show()

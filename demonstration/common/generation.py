@@ -13,7 +13,7 @@ from numpy.core.multiarray import ndarray
 from numpy.core.umath import pi, cos, sin
 from numpy.random.mtrand import uniform
 
-from common import is_valid
+from common import is_valid, Vehicle
 from common.StatesQueue import StatesQueue
 from common.draw import DrawHelp, DrawConfig
 from common.types import drawable_types
@@ -39,7 +39,7 @@ class GenerationHelp:
 
     @staticmethod
     def generate_states(scenario: Scenario, planning_problem: PlanningProblem, time_steps: int) \
-            -> Tuple[Dict[int, List[Tuple[State, drawable_types]]], int]:
+            -> Tuple[Dict[int, List[Vehicle]], int]:
         """
         Generates all positions the ego vehicle can have within the next steps in the given scenario and considering the
         given preplanning problem.
@@ -50,7 +50,7 @@ class GenerationHelp:
         representation of that time step and the number of total states processed.
         """
         num_states_processed: int = 0
-        valid_converted: Dict[int, List[Tuple[State, drawable_types]]] = {}
+        valid_converted: Dict[int, List[Vehicle]] = {}
 
         def generate_next_states() -> None:
             nonlocal num_states_processed
@@ -70,7 +70,7 @@ class GenerationHelp:
                                 transformed.time_step += 1
                                 if transformed.time_step not in valid_converted.keys():
                                     valid_converted[transformed.time_step] = []
-                                valid_converted[transformed.time_step].append((transformed, converted))
+                                valid_converted[transformed.time_step].append(Vehicle(transformed, converted))
                                 current_states.put(transformed)
                 current_states.task_done()
                 num_states_processed += 1
@@ -87,7 +87,7 @@ class GenerationHelp:
 
     @staticmethod
     def generate_trajectory(scenario: Scenario, planning_problem: PlanningProblem, time_steps: int,
-                            max_tries: int = 1000) -> Tuple[TrajectoryPrediction, List[drawable_types]]:
+                            max_tries: int = 1000) -> Tuple[TrajectoryPrediction, List[Vehicle]]:
         """
         Generates an as straight as possible linear trajectory.
         :param scenario: The scenario the car is driving in.
@@ -101,7 +101,8 @@ class GenerationHelp:
         shape: Shape = Rectangle(DrawConfig.car_length, DrawConfig.car_width,
                                  planning_problem.initial_state.position, planning_problem.initial_state.orientation)
         states: List[State] = [planning_problem.initial_state]
-        drawables: List[drawable_types] = [DrawHelp.convert_to_drawable(planning_problem.initial_state)]
+        vehicles: List[Vehicle] = [Vehicle(planning_problem.initial_state,
+                                           DrawHelp.convert_to_drawable(planning_problem.initial_state))]
         for i in range(1, time_steps):
             last_state_copy: State = deepcopy(states[i - 1])
             found_valid_next: bool = False
@@ -111,7 +112,7 @@ class GenerationHelp:
                 next_state_converted: drawable_types = DrawHelp.convert_to_drawable(next_state)
                 if is_valid(next_state_converted, scenario):
                     states.append(next_state)
-                    drawables.append(next_state_converted)
+                    vehicles.append(Vehicle(next_state, next_state_converted))
                     found_valid_next = True
                 else:
                     tries += 1
@@ -119,4 +120,4 @@ class GenerationHelp:
                         = states[i - 1].orientation + uniform(-GenerationConfig.max_yaw, GenerationConfig.max_yaw)
             if not found_valid_next:
                 break
-        return TrajectoryPrediction(Trajectory(0, states), shape), drawables
+        return TrajectoryPrediction(Trajectory(0, states), shape), vehicles

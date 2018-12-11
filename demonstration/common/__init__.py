@@ -5,6 +5,7 @@ import numpy as np
 from commonroad.common.file_reader import CommonRoadFileReader
 from commonroad.planning.planning_problem import PlanningProblem
 from commonroad.scenario.scenario import Scenario
+from commonroad.scenario.trajectory import State
 
 from common.coords import CoordsHelp
 from common.draw import DrawConfig
@@ -58,3 +59,17 @@ def is_valid(to_check: drawable_types, scenario: Scenario) -> Optional[bool]:
             intersects_with_obstacle = True
             break
     return is_within_lane and not intersects_with_obstacle
+
+
+class Vehicle(object):
+    state: State = None
+    drawable: drawable_types = None
+
+    def __init__(self, state: State, drawable: drawable_types):
+        """
+        Constructs a vehicle having a state and represented by a drawable type.
+        :param state: The state of the car (See commonroad).
+        :param drawable: The drawable representing the car.
+        """
+        self.state = state
+        self.drawable = drawable

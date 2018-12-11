@@ -8,7 +8,7 @@ from shapely.geometry import MultiPolygon
 from common import load_scenario, flatten_dict_values, drawable_types
 from common.draw import DrawHelp
 from common.generation import GenerationHelp
-from common.optimizer import generate_area_profile
+from common.optimizer import calculate_area_profile
 
 
 def main() -> None:
@@ -26,7 +26,7 @@ def main() -> None:
     drawables: Dict[int, List[drawable_types]] = {}
     for time_step, converted in valid_converted.items():
         drawables[time_step] = list(map(lambda c: c[1], converted))
-    print(generate_area_profile(drawables))
+    print(calculate_area_profile(drawables))
 
     plt.gca().set_aspect('equal')
     plt.show()

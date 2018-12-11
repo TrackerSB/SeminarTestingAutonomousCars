@@ -53,11 +53,16 @@ from typing import Tuple, Dict, List
 import numpy as np
 from shapely.geometry import MultiPolygon
 
-from common import drawable_types
+from common import drawable_types, Vehicle
 from common.draw import DrawHelp
 
 
-def generate_area_profile(states: Dict[int, List[drawable_types]]) -> np.ndarray:
+def calculate_area_profile(states: Dict[int, List[Vehicle]]) -> np.ndarray:
+    """
+    Generates a list [a_1,...,a_q] where a_i represents the drivable area at time step i.
+    :param states: All the states at any time step to recognize.
+    :return: The area profile (In the paper: gamma(S)).
+    """
     area_profile: List[float] = []
     current_area: MultiPolygon = None
     for key in sorted(states.keys()):
@@ -65,7 +70,7 @@ def generate_area_profile(states: Dict[int, List[drawable_types]]) -> np.ndarray
         if current_area:
             to_union.append(current_area)
         for state in states[key]:
-            to_union.append(state)
+            to_union.append(state.drawable)
         current_area = DrawHelp.union_to_polygon(to_union)
         area_profile.append(current_area.area)
     return np.array(area_profile)
