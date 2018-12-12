@@ -45,38 +45,33 @@
 \maketitle
 
 \section{Summary}
-Current testing techniques for automatically generating tests have problems including a lack of diversity in the generated tests and a low accuracy if the training and application domains mismatch.
-This may compromise the efficacy and reliability of the testing methods.\par
+Current testing techniques for automatically generating tests have problems including a lack of generating diverse tests and a low accuracy if the training and application domains mismatch.
+This may compromise the efficacy and reliability of the test results.
 To solve these problems this paper introduces an unsupervised \gls{dnn} based framework for automatically testing the consistency of \gls{dnn} based autonomous systems and online validation called DeepRoad.\par
 At first DeepRoad synthesizes large amounts of diverse driving scenarios by applying \glspl{gan} and without using simple image transformations.
-The main focus is on changing the weather conditions of the images.\par
-Afterwards DeepRoad checks the consistency of the \gls{dnn} under test using these synthetic images.
-A \gls{dnn} is considered consistent if the deviation between the steering predictions of the initial and the transformed image is small.\par
-DeepRoad also validates input images by measuring the distance of the input image to the training images \draft{using their VGGNet features}.
-According to the paper the input validation turns out to be not appropriate.\par
+The main focus is changing the weather conditions of the images to hard rain or heavy snow.\par
+Using these synthetic images DeepRoad checks the consistency of the \gls{dnn} under test.
+A \gls{dnn} is considered consistent if the deviation between the steering predictions of the initial and the transformed image is small enough.\par
+Further DeepRoad validates input images by measuring the distance of the input image to the training images.
+According to the paper the input validation is not appropriate.\par
 DeepRoad detected thousands of inconsistent behaviors among three well recognized \gls{dnn} based driving systems in Udacity and validated input images which potentially enhance the robustness of the system.
 
 \section{Critical Content}
-To clarify the goals of the paper starts with broadly explaining the proposed benefits and advantages of DeepRoad compared to other systems like DeepXplore and DeepTest.\par
-The paper also describes that DeepRoad is in contrast to other systems able to allow online input validation which could be used to warn the driver if the autonomous is currently not able to handle the situation itself (\eg{} snow covered road).\par
-The authors also mention the testing oracle problem which is essential for the consistency check.\par
-\draft{continue\ldots}\par
+To clarify the goals of the paper starts with explaining the proposed benefits and advantages of DeepRoad compared to other systems like DeepXplore and DeepTest.\par
+The paper also describes that DeepRoad is in contrast to other systems able to allow online input validation which could be used to warn the driver if the autonomous is currently not able to handle the situation itself.\par
+Additionally the authors mention the testing oracle problem which is essential for the consistency check of DeepRoad.\par
+The image sets are not precisely described.
+It is mentioned that one YouTube video for hard rain and one for heavy snow is used having a certain length.
+The content of the videos is not clear (Same driver? Straight/curvy road? Same camera angle?).\par
 I would use the approach since the results shown in figure 8 are very convincing about the capability of changing the weather conditions of an image.\par
-I like the paper especially since it explicitly distinguishes this approach from other approaches and compares it to them.
-\draft{%
-    \begin{itemize}
-        \item Contains section about threads to validity
-        \item Input validation == Distance between input and training images \(=>\) new images accepted? \(=>\) distance not proper metric
-        \item Only one with hard rain and one with heavy snow \(=>\) Same car, same camera, same angle, similar/same road (only highway?, accidents?)
-    \end{itemize}
-}
+I like the paper especially since it explicitly distinguishes this approach from other approaches, compares it to them and motivates DeepRoad.
 
 \section{Critical Questions}
 \begin{enumerate}
-    \item DeepRoad is able to generate synthetic images with weather conditions like heavy rain or heavy snow.
+    \item DeepRoad is able to generate synthetic images showing weather conditions like hard rain or heavy snow.
         How could the intensity of the rain or snow be controlled to further increase the diversity of input images?
-    \item The paper describes that other approaches get confused if input images are disturbed (\eg{} by little black squares) but the paper only deals with consistency concerning changes in the weather conditions.
-        Is DeepRoad able to check inconsistencies arising from disturbances of input images?
+    \item The paper describes that \glspl{dnn} get confused if input images are disturbed (\eg{} by little black squares).
+        Is DeepRoad able to check inconsistencies arising from other disturbances of input images than changes in weather conditions?
 \end{enumerate}
 
 \section{References}
