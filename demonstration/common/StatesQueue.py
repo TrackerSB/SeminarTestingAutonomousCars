@@ -1,4 +1,4 @@
-from multiprocessing import Queue
+from queue import Queue
 
 from commonroad.scenario.trajectory import State
 

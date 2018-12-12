@@ -1,8 +1,11 @@
+import time
 from copy import deepcopy
+from multiprocessing import Process, Manager
+from multiprocessing.managers import BaseManager
 from queue import Queue
-from multiprocessing import Process
 from typing import Tuple, Union, Optional, Dict, List
 
+import psutil
 from commonroad.geometry.shape import Shape, Rectangle
 from commonroad.planning.planning_problem import PlanningProblem
 from commonroad.prediction.prediction import TrajectoryPrediction
@@ -79,11 +82,27 @@ class GenerationHelp:
         current_states: Queue[State] \
             = StatesQueue(GenerationConfig.position_threshold, GenerationConfig.angle_threshold)
         current_states.put(planning_problem.initial_state)
+
+        # Start workers
+        workers: List[psutil.Process] = []
         for i in range(GenerationConfig.num_threads):
             worker: Process = Process(target=generate_next_states, args=(), daemon=True)
             worker.start()
+            workers.append(psutil.Process(worker.pid))
 
-        current_states.join()
+        # Wait for workers to finish
+        def wait():
+            do_all_sleep = False
+            while not do_all_sleep:
+                time.sleep(1)
+                do_all_sleep = all(map(lambda w: w.status() == "sleeping", workers))
+        waiter: Process = Process(target=wait, args=(), daemon=True)
+        waiter.start()
+        print("before waiter.join()")
+        waiter.join()
+        print("after waiter.join()")
+        for worker in workers:
+            worker.terminate()
         return valid_converted, num_states_processed
 
     @staticmethod
