@@ -1,6 +1,6 @@
 from copy import deepcopy
 from queue import Queue
-from threading import Thread
+from multiprocessing import Process
 from typing import Tuple, Union, Optional, Dict, List
 
 from commonroad.geometry.shape import Shape, Rectangle
@@ -80,7 +80,7 @@ class GenerationHelp:
             = StatesQueue(GenerationConfig.position_threshold, GenerationConfig.angle_threshold)
         current_states.put(planning_problem.initial_state)
         for i in range(GenerationConfig.num_threads):
-            worker: Thread = Thread(target=generate_next_states, args=(), daemon=True)
+            worker: Process = Process(target=generate_next_states, args=(), daemon=True)
             worker.start()
 
         current_states.join()
