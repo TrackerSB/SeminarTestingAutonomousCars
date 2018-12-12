@@ -26,7 +26,7 @@ def main() -> None:
     # NOTE The value 50 is taken from the commonroad file
     num_states_processed: int = generation_result[1]
     valid_converted: Dict[int, List[VehicleInfo]] = generation_result[0]
-    valid_states: List[State] = list(map(lambda v: v.state, flatten_dict_values(valid_converted)))
+    valid_states: List[State] = list(map(lambda v: v.state.state, flatten_dict_values(valid_converted)))
     print("Processed " + str(num_states_processed) + " states in " + str(datetime.now() - start_time))
 
     # FIXME Properly define goal states

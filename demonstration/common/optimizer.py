@@ -53,6 +53,7 @@ from typing import Tuple, Dict, List
 import numpy as np
 from commonroad.planning.planning_problem import PlanningProblem
 from commonroad.scenario.scenario import Scenario
+from numpy.core.multiarray import ndarray
 from shapely.geometry import MultiPolygon
 
 from common import drawable_types, VehicleInfo
@@ -63,20 +64,20 @@ from common.generation import GenerationHelp
 total_steps: int = 5  # FIXME Recognize the total time steps of the scenario
 
 
-def calculate_area_profile(states: Dict[int, List[VehicleInfo]]) -> np.ndarray:
+def calculate_area_profile(infos: Dict[int, List[VehicleInfo]]) -> ndarray:
     """
     Generates a list [a_1,...,a_q] where a_i represents the drivable area at time step i.
-    :param states: All the states at any time step to recognize.
+    :param infos: All the states at any time step to recognize.
     :return: The area profile (In the paper: gamma(S)).
     """
     area_profile: List[float] = []
     current_area: MultiPolygon = None
-    for key in sorted(states.keys()):
+    for key in sorted(infos.keys()):
         to_union: List[drawable_types] = []
         if current_area:
             to_union.append(current_area)
-        for state in states[key]:
-            to_union.append(state.drawable)
+        for info in infos[key]:
+            to_union.append(info.drawable)
         current_area = DrawHelp.union_to_polygon(to_union)
         area_profile.append(current_area.area)
     return np.array(area_profile)
@@ -112,15 +113,18 @@ def binary_search(x_before, x_after, my, vehicles, scenario: Scenario, planning_
     # end while
     # return x_{0,before,sI}^vI
 
+    initial_area_profiles: Dict[int, ndarray] = {}
+    for j in range(1, len(vehicles)):
+        initial_area_profiles[j], _ = GenerationHelp.generate_states(scenario, planning_problem, total_steps)
+
     b_max = 0
     b_abs: Dict[Tuple[int, int], float] = {}
     for j in range(1, len(vehicles)):
-        new_states, num_processed = GenerationHelp.generate_states(scenario, planning_problem, total_steps)
-        new_area_profile = calculate_area_profile(new_states)
-        initial_area_profile = None
-        for i in range(1, len(vehicles[j].states)):
+        new_states, _ = GenerationHelp.generate_states(scenario, planning_problem, total_steps)
+        new_area_profile: ndarray = calculate_area_profile(new_states)
+        for i in range(1, len(vehicles[j].state.variables)):
             variation_ij = None
-            b_abs = abs((new_area_profile - initial_area_profile) / variation_ij)
+            b_abs = abs((new_area_profile - initial_area_profiles[j]) / variation_ij)
     b_sorted: Queue[Dict[Tuple[int, int], float]] = Queue()
     for bij in sorted(b_abs, key=lambda e: e[1]):
         print(type(bij))
@@ -129,7 +133,7 @@ def binary_search(x_before, x_after, my, vehicles, scenario: Scenario, planning_
     raise Exception("Not implemented yet")
 
 
-def kappa(gamma_s: np.matrix, a_ref: np.matrix, W: np.matrix) -> float:
+def kappa(gamma_s: ndarray, a_ref: ndarray, W: np.matrix) -> float:
     """
     Cost function
     """

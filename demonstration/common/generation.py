@@ -8,12 +8,12 @@ from commonroad.planning.planning_problem import PlanningProblem
 from commonroad.prediction.prediction import TrajectoryPrediction
 from commonroad.scenario.scenario import Scenario
 from commonroad.scenario.trajectory import State, Trajectory
-from numpy import linspace, inf
+from numpy import linspace
 from numpy.core.multiarray import ndarray
 from numpy.core.umath import pi, cos, sin
 from numpy.random.mtrand import uniform
 
-from common import is_valid, VehicleInfo
+from common import is_valid, VehicleInfo, MyState
 from common.StatesQueue import StatesQueue
 from common.draw import DrawHelp, DrawConfig
 from common.types import drawable_types
@@ -70,7 +70,8 @@ class GenerationHelp:
                                 transformed.time_step += 1
                                 if transformed.time_step not in valid_converted.keys():
                                     valid_converted[transformed.time_step] = []
-                                valid_converted[transformed.time_step].append(VehicleInfo(transformed, converted))
+                                valid_converted[transformed.time_step]\
+                                    .append(VehicleInfo(MyState(transformed), converted))
                                 current_states.put(transformed)
                 current_states.task_done()
                 num_states_processed += 1
@@ -101,7 +102,7 @@ class GenerationHelp:
         shape: Shape = Rectangle(DrawConfig.car_length, DrawConfig.car_width,
                                  planning_problem.initial_state.position, planning_problem.initial_state.orientation)
         states: List[State] = [planning_problem.initial_state]
-        vehicles: List[VehicleInfo] = [VehicleInfo(planning_problem.initial_state,
+        vehicles: List[VehicleInfo] = [VehicleInfo(MyState(planning_problem.initial_state),
                                                    DrawHelp.convert_to_drawable(planning_problem.initial_state))]
         for i in range(1, time_steps):
             last_state_copy: State = deepcopy(states[i - 1])
@@ -112,7 +113,7 @@ class GenerationHelp:
                 next_state_converted: drawable_types = DrawHelp.convert_to_drawable(next_state)
                 if is_valid(next_state_converted, scenario):
                     states.append(next_state)
-                    vehicles.append(VehicleInfo(next_state, next_state_converted))
+                    vehicles.append(VehicleInfo(MyState(next_state), next_state_converted))
                     found_valid_next = True
                 else:
                     tries += 1

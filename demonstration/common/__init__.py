@@ -11,7 +11,6 @@ from common.coords import CoordsHelp
 from common.draw import DrawConfig
 from common.types import drawable_types
 
-
 _T = TypeVar('_T')
 
 
@@ -61,11 +60,26 @@ def is_valid(to_check: drawable_types, scenario: Scenario) -> Optional[bool]:
     return is_within_lane and not intersects_with_obstacle
 
 
-class VehicleInfo(object):
-    state: State = None
-    drawable: drawable_types = None
+class MyState(object):
+    # Lists functions for accessing certain properties of a state. This way the properties of a state can be accessed
+    # like state.variable(j)
+    variables = [lambda s: s.velocity]
 
-    def __init__(self, state: State, drawable: drawable_types):
+    def __init__(self, state: State):
+        self.state = state
+
+    def variable(self, j: int) -> Any:
+        """
+        Returns the jth variable of this state.
+        :param j: The index of the variable to return.
+        :return: The value of the jth variable of the current state.
+        """
+        return MyState.variables[j](self)
+
+
+class VehicleInfo(object):
+
+    def __init__(self, state: MyState, drawable: drawable_types):
         """
         Constructs a vehicle having a state and represented by a drawable type.
         :param state: The state of the car (See commonroad).
