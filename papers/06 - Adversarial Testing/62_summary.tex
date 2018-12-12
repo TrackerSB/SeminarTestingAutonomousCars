@@ -45,34 +45,29 @@
 \maketitle
 
 \section{Summary}
-\draft{%
-    \begin{itemize}
-        \item Testing techniques for automatically generating tests
-            \begin{itemize}
-                \item Lack of diversity
-                \item mismatch training and application domain
-                \item \(=>\) compromise efficacy and reliability and degrade system accuracy
-            \end{itemize}
-        \item \(=>\) DeepRoad: unsupervised \gls{dnn} based framework for automatically testing the consistency of \gls{dnn} based autonomous driving systems and online validation.
-        \item First, synthesize large amounts of diverse driving scenarios without using image transformation rules (with weather conditions) by applying \gls{gan}
-        \item Second, utilizes metamorphic testing techniques to check consistency
-        \item Third, Validate input images by measuring the distance of input and training images using their VGGNet features
-        \item Test three well recognized \gls{dnn} based autonomous driving systems in Udacity \(=>\) Detected thousands of inconsistent behaviors and effectively validated input images to potentially enhance the systems robustness as well.
-    \end{itemize}
-}
+Current testing techniques for automatically generating tests have problems including a lack of diversity in the generated tests and a low accuracy if the training and application domains mismatch.
+This may compromise the efficacy and reliability of the testing methods.\par
+To solve these problems this paper introduces an unsupervised \gls{dnn} based framework for automatically testing the consistency of \gls{dnn} based autonomous systems and online validation called DeepRoad.\par
+At first DeepRoad synthesizes large amounts of diverse driving scenarios by applying \glspl{gan} and without using simple image transformations.
+The main focus is on changing the weather conditions of the images.\par
+Afterwards DeepRoad checks the consistency of the \gls{dnn} under test using these synthetic images.
+A \gls{dnn} is considered consistent if the deviation between the steering predictions of the initial and the transformed image is small.\par
+DeepRoad also validates input images by measuring the distance of the input image to the training images \draft{using their VGGNet features}.
+According to the paper the input validation turns out to be not appropriate.\par
+DeepRoad detected thousands of inconsistent behaviors among three well recognized \gls{dnn} based driving systems in Udacity and validated input images which potentially enhance the robustness of the system.
 
 \section{Critical Content}
+To clarify the goals of the paper starts with broadly explaining the proposed benefits and advantages of DeepRoad compared to other systems like DeepXplore and DeepTest.\par
+The paper also describes that DeepRoad is in contrast to other systems able to allow online input validation which could be used to warn the driver if the autonomous is currently not able to handle the situation itself (\eg{} snow covered road).\par
+The authors also mention the testing oracle problem which is essential for the consistency check.\par
+\draft{continue\ldots}\par
+I would use the approach since the results shown in figure 8 are very convincing about the capability of changing the weather conditions of an image.\par
+I like the paper especially since it explicitly distinguishes this approach from other approaches and compares it to them.
 \draft{%
     \begin{itemize}
-        \item Includes citation
-        \item Broadly explains benefits/advantages of DeepRoad compared to DeepXplore and DeepTest
-        \item Mentions testing oracle problem
-        \item Approach allows online input validation \(=>\) Could warn driver if the autonomous car is not able to handle the situation itself (\eg{} snow covered road)
         \item Contains section about threads to validity
-        \item Inconsistent == Big change in steering angle after changing weather (Relies on steering angle prediction)
         \item Input validation == Distance between input and training images \(=>\) new images accepted? \(=>\) distance not proper metric
         \item Only one with hard rain and one with heavy snow \(=>\) Same car, same camera, same angle, similar/same road (only highway?, accidents?)
-        \item Results shown in figure 8 quite impressive compared to the simple transformations of DeepTest
     \end{itemize}
 }
 
