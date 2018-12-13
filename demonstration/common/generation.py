@@ -53,6 +53,9 @@ class GenerationHelp:
         """
         num_states_processed: Value = Value('i', 0)
         valid_converted: Dict[int, List[VehicleInfo]] = {}
+        current_states: Queue[State] \
+            = StatesQueue(GenerationConfig.position_threshold, GenerationConfig.angle_threshold)
+        current_states.put(planning_problem.initial_state)
 
         def generate_next_states() -> None:
             nonlocal num_states_processed
@@ -77,10 +80,6 @@ class GenerationHelp:
                                 current_states.put(transformed)
                 current_states.task_done()
                 num_states_processed.value += 1
-
-        current_states: Queue[State] \
-            = StatesQueue(GenerationConfig.position_threshold, GenerationConfig.angle_threshold)
-        current_states.put(planning_problem.initial_state)
 
         # Start workers
         workers: List[psutil.Process] = []
