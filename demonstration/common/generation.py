@@ -1,7 +1,6 @@
 import time
 from copy import deepcopy
-from multiprocessing import Process, Manager
-from multiprocessing.managers import BaseManager
+from multiprocessing import Process, Value
 from queue import Queue
 from typing import Tuple, Union, Optional, Dict, List
 
@@ -52,7 +51,7 @@ class GenerationHelp:
         :return: A tuple containing a dictionary mapping a time step to all generated valid states and their drawable
         representation of that time step and the number of total states processed.
         """
-        num_states_processed: int = 0
+        num_states_processed: Value = Value('i', 0)
         valid_converted: Dict[int, List[VehicleInfo]] = {}
 
         def generate_next_states() -> None:
@@ -73,11 +72,11 @@ class GenerationHelp:
                                 transformed.time_step += 1
                                 if transformed.time_step not in valid_converted.keys():
                                     valid_converted[transformed.time_step] = []
-                                valid_converted[transformed.time_step]\
+                                valid_converted[transformed.time_step] \
                                     .append(VehicleInfo(MyState(transformed), converted))
                                 current_states.put(transformed)
                 current_states.task_done()
-                num_states_processed += 1
+                num_states_processed.value += 1
 
         current_states: Queue[State] \
             = StatesQueue(GenerationConfig.position_threshold, GenerationConfig.angle_threshold)
@@ -96,14 +95,14 @@ class GenerationHelp:
             while not do_all_sleep:
                 time.sleep(1)
                 do_all_sleep = all(map(lambda w: w.status() == "sleeping", workers))
+
         waiter: Process = Process(target=wait, args=(), daemon=True)
         waiter.start()
-        print("before waiter.join()")
         waiter.join()
-        print("after waiter.join()")
         for worker in workers:
             worker.terminate()
-        return valid_converted, num_states_processed
+
+        return valid_converted, num_states_processed.value
 
     @staticmethod
     def generate_trajectory(scenario: Scenario, planning_problem: PlanningProblem, time_steps: int,
