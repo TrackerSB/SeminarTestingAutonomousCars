@@ -1,7 +1,6 @@
 import time
 from copy import deepcopy
-from multiprocessing import Process, Value
-from queue import Queue
+from multiprocessing import Process, Value, Manager
 from typing import Tuple, Union, Optional, Dict, List
 
 import psutil
@@ -52,13 +51,11 @@ class GenerationHelp:
         representation of that time step and the number of total states processed.
         """
         num_states_processed: Value = Value('i', 0)
-        valid_converted: Dict[int, List[VehicleInfo]] = {}
-        current_states: Queue[State] \
-            = StatesQueue(GenerationConfig.position_threshold, GenerationConfig.angle_threshold)
+        valid_converted: Dict[int, List[VehicleInfo]] = Manager().dict()
+        current_states: StatesQueue = StatesQueue(GenerationConfig.position_threshold, GenerationConfig.angle_threshold)
         current_states.put(planning_problem.initial_state)
 
         def generate_next_states() -> None:
-            nonlocal num_states_processed
             while True:
                 state: State = current_states.get()
                 if state.time_step < time_steps:
@@ -75,8 +72,8 @@ class GenerationHelp:
                                 transformed.time_step += 1
                                 if transformed.time_step not in valid_converted.keys():
                                     valid_converted[transformed.time_step] = []
-                                valid_converted[transformed.time_step] \
-                                    .append(VehicleInfo(MyState(transformed), converted))
+                                valid_converted[transformed.time_step] += [VehicleInfo(MyState(transformed), converted)]
+                                # NOTE Usage of += [...] is mandatory. Calling append does not work.
                                 current_states.put(transformed)
                 current_states.task_done()
                 num_states_processed.value += 1
