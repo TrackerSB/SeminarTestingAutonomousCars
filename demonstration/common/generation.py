@@ -51,9 +51,10 @@ class GenerationHelp:
         representation of that time step and the number of total states processed.
         """
         num_states_processed: Value = Value('i', 0)
-        valid_converted: Dict[int, List[VehicleInfo]] = Manager().dict()
+        manager: Manager = Manager()
+        valid_converted: Dict[int, List[VehicleInfo]] = manager.dict()
         for step in range(1, time_steps + 1):
-            valid_converted[step] = []
+            valid_converted[step] = manager.list()
         current_states: StatesQueue = StatesQueue(GenerationConfig.position_threshold, GenerationConfig.angle_threshold)
         current_states.put(planning_problem.initial_state)
 
@@ -72,7 +73,8 @@ class GenerationHelp:
                             converted: drawable_types = DrawHelp.convert_to_drawable(transformed)
                             if is_valid(converted, scenario):
                                 transformed.time_step += 1
-                                valid_converted[transformed.time_step] += [VehicleInfo(MyState(transformed), converted)]
+                                valid_converted[transformed.time_step]\
+                                    .append(VehicleInfo(MyState(transformed), converted))
                                 # NOTE Usage of += [...] is mandatory. Calling append does not work.
                                 current_states.put(transformed)
                 current_states.task_done()
