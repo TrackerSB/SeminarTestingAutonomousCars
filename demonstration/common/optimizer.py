@@ -118,7 +118,7 @@ def binary_search(x_before, x_after, my, initial_vehicles: List[VehicleInfo], ve
         initial_area_profiles[j], _ = GenerationHelp.generate_states(scenario, planning_problem, total_steps)
 
     b_max = 0
-    b_abs: Dict[Tuple[int, int], float] = {}
+    b_abs: Dict[Tuple[int, int], ndarray] = {}
     for j in range(0, len(vehicles)):
         new_states, _ = GenerationHelp.generate_states(scenario, planning_problem, total_steps)
         new_area_profile: ndarray = calculate_area_profile(new_states)
@@ -126,11 +126,14 @@ def binary_search(x_before, x_after, my, initial_vehicles: List[VehicleInfo], ve
         initial_state_j: MyState = initial_vehicles[j].state
         for i in range(0, len(state_j.variables)):
             variation_ij = state_j.variable(i) - initial_state_j.variable(i)
-            b_abs[(i, j)] = abs((new_area_profile - initial_area_profiles[j]) / variation_ij)
+            if variation_ij == 0:
+                b_abs[(i, j)] = np.array([0] * len(new_area_profile))
+            else:
+                b_abs[(i, j)] = abs((new_area_profile - initial_area_profiles[j]) / variation_ij)
     b_sorted: Queue[Tuple[Tuple[int, int], float]] = Queue()
-    for bij in sorted(b_abs, key=lambda e: e[1]):  # Sort based on drivable area?
+    for bij in sorted(b_abs, key=lambda e: e[1]):  # Sort based on area profile?
         print(type(bij))
-        print(bij)
+        print(str(bij) + " --> " + str(b_abs[bij]))
         b_sorted.put(bij)
 
     # raise Exception("Not implemented yet")
