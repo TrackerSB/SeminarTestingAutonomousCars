@@ -1,9 +1,11 @@
 import datetime
 from datetime import datetime
+from typing import List
 
-from common import load_scenario
+from common import load_scenario, VehicleInfo, MyState
+from common.draw import DrawHelp
 from common.generation import GenerationHelp
-from common.optimizer import calculate_area_profile
+from common.optimizer import calculate_area_profile, binary_search
 
 
 def main() -> None:
@@ -12,6 +14,9 @@ def main() -> None:
     start_time: datetime = datetime.now()
     valid_converted, num_states_processed = GenerationHelp.generate_states(scenario, planning_problem, 5)
     print("Processed " + str(num_states_processed) + " states in " + str(datetime.now() - start_time))
+
+    vehicles: List[VehicleInfo] = [VehicleInfo(MyState(planning_problem.initial_state), DrawHelp.convert_to_drawable(planning_problem.initial_state))]
+    binary_search(None, None, None, vehicles, vehicles, scenario, planning_problem)
 
     print(calculate_area_profile(valid_converted))
 

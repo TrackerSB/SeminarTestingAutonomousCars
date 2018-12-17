@@ -56,7 +56,7 @@ from commonroad.scenario.scenario import Scenario
 from numpy.core.multiarray import ndarray
 from shapely.geometry import MultiPolygon
 
-from common import drawable_types, VehicleInfo
+from common import drawable_types, VehicleInfo, MyState
 from common.draw import DrawHelp
 from common.generation import GenerationHelp
 
@@ -83,7 +83,7 @@ def calculate_area_profile(infos: Dict[int, List[VehicleInfo]]) -> ndarray:
     return np.array(area_profile)
 
 
-def binary_search(x_before, x_after, my, vehicles, scenario: Scenario, planning_problem: PlanningProblem):
+def binary_search(x_before, x_after, my, initial_vehicles: List[VehicleInfo], vehicles: List[VehicleInfo], scenario: Scenario, planning_problem: PlanningProblem):
     # Require
     # x_{0,before,i}^j      initial state before last quadratic update
     # x_{0,after,i}^j       initial state after last quadratic update
@@ -114,23 +114,26 @@ def binary_search(x_before, x_after, my, vehicles, scenario: Scenario, planning_
     # return x_{0,before,sI}^vI
 
     initial_area_profiles: Dict[int, ndarray] = {}
-    for j in range(1, len(vehicles)):
+    for j in range(0, len(vehicles)):
         initial_area_profiles[j], _ = GenerationHelp.generate_states(scenario, planning_problem, total_steps)
 
     b_max = 0
     b_abs: Dict[Tuple[int, int], float] = {}
-    for j in range(1, len(vehicles)):
+    for j in range(0, len(vehicles)):
         new_states, _ = GenerationHelp.generate_states(scenario, planning_problem, total_steps)
         new_area_profile: ndarray = calculate_area_profile(new_states)
-        for i in range(1, len(vehicles[j].state.variables)):
-            variation_ij = None
-            b_abs = abs((new_area_profile - initial_area_profiles[j]) / variation_ij)
-    b_sorted: Queue[Dict[Tuple[int, int], float]] = Queue()
-    for bij in sorted(b_abs, key=lambda e: e[1]):
+        state_j: MyState = vehicles[j].state
+        initial_state_j: MyState = initial_vehicles[j].state
+        for i in range(0, len(state_j.variables)):
+            variation_ij = state_j.variable(i) - initial_state_j.variable(i)
+            b_abs[(i, j)] = abs((new_area_profile - initial_area_profiles[j]) / variation_ij)
+    b_sorted: Queue[Tuple[Tuple[int, int], float]] = Queue()
+    for bij in sorted(b_abs, key=lambda e: e[1]):  # Sort based on drivable area?
         print(type(bij))
+        print(bij)
         b_sorted.put(bij)
 
-    raise Exception("Not implemented yet")
+    # raise Exception("Not implemented yet")
 
 
 def kappa(gamma_s: ndarray, a_ref: ndarray, W: np.matrix) -> float:

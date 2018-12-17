@@ -74,7 +74,7 @@ class MyState(object):
         :param j: The index of the variable to return.
         :return: The value of the jth variable of the current state.
         """
-        return MyState.variables[j](self)
+        return MyState.variables[j](self.state)
 
 
 class VehicleInfo(object):
