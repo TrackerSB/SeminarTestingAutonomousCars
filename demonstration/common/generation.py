@@ -93,9 +93,12 @@ class GenerationHelp:
                 time.sleep(1)
                 do_all_sleep = all(map(lambda w: w.status() == "sleeping", workers))
                 if do_all_sleep:
+                    print("Generation workers fell asleep.")
                     time.sleep(3)
                     # Still sleeping?
                     do_all_sleep = all(map(lambda w: w.status() == "sleeping", workers))
+                    if do_all_sleep:
+                        print("Generation workers still sleeping --> Assume generation finished.")
 
         waiter: Process = Process(target=wait, args=(), daemon=True)
         waiter.start()
