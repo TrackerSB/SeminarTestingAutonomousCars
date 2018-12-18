@@ -75,7 +75,6 @@ class GenerationHelp:
                                 transformed.time_step += 1
                                 valid_converted[transformed.time_step]\
                                     .append(VehicleInfo(MyState(transformed), converted))
-                                # NOTE Usage of += [...] is mandatory. Calling append does not work.
                                 current_states.put(transformed)
                 current_states.task_done()
                 num_states_processed.value += 1
