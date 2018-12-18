@@ -73,7 +73,7 @@ class GenerationHelp:
                             converted: drawable_types = DrawHelp.convert_to_drawable(transformed)
                             if is_valid(converted, scenario):
                                 transformed.time_step += 1
-                                valid_converted[transformed.time_step]\
+                                valid_converted[transformed.time_step] \
                                     .append(VehicleInfo(MyState(transformed), converted))
                                 current_states.put(transformed)
                 current_states.task_done()
