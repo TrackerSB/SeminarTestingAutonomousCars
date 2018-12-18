@@ -54,6 +54,7 @@ import numpy as np
 from commonroad.planning.planning_problem import PlanningProblem
 from commonroad.scenario.scenario import Scenario
 from numpy.core.multiarray import ndarray
+from numpy.linalg import norm
 from shapely.geometry import MultiPolygon
 
 from common import drawable_types, VehicleInfo, MyState
@@ -83,7 +84,8 @@ def calculate_area_profile(infos: Dict[int, List[VehicleInfo]]) -> ndarray:
     return np.array(area_profile)
 
 
-def binary_search(x_before, x_after, my, initial_vehicles: List[VehicleInfo], vehicles: List[VehicleInfo], scenario: Scenario, planning_problem: PlanningProblem):
+def binary_search(x_before, x_after, my: int, initial_vehicles: List[VehicleInfo], vehicles: List[VehicleInfo],
+                  scenario: Scenario, planning_problem: PlanningProblem):
     # Require
     # x_{0,before,i}^j      initial state before last quadratic update
     # x_{0,after,i}^j       initial state after last quadratic update
@@ -117,8 +119,8 @@ def binary_search(x_before, x_after, my, initial_vehicles: List[VehicleInfo], ve
     for j in range(0, len(vehicles)):
         initial_area_profiles[j], _ = GenerationHelp.generate_states(scenario, planning_problem, total_steps)
 
-    b_max = 0
-    b_abs: Dict[Tuple[int, int], ndarray] = {}
+    b_max = 0  # FIXME What is this variable for?
+    b_abs: Dict[Tuple[int, int], float] = {}  # Absolute values of sensitivities
     for j in range(0, len(vehicles)):
         new_states, _ = GenerationHelp.generate_states(scenario, planning_problem, total_steps)
         new_area_profile: ndarray = calculate_area_profile(new_states)
@@ -127,14 +129,16 @@ def binary_search(x_before, x_after, my, initial_vehicles: List[VehicleInfo], ve
         for i in range(0, len(state_j.variables)):
             variation_ij = state_j.variable(i) - initial_state_j.variable(i)
             if variation_ij == 0:
-                b_abs[(i, j)] = np.array([0] * len(new_area_profile))
+                b_abs[(i, j)] = -1
             else:
-                b_abs[(i, j)] = abs((new_area_profile - initial_area_profiles[j]) / variation_ij)
-    b_sorted: Queue[Tuple[Tuple[int, int], float]] = Queue()
-    for bij in sorted(b_abs, key=lambda e: e[1]):  # Sort based on area profile?
-        print(type(bij))
-        print(str(bij) + " --> " + str(b_abs[bij]))
+                b_abs[(i, j)] = norm((new_area_profile - initial_area_profiles[j]) / variation_ij)
+    b_sorted: Queue[Tuple[int, int]] = Queue()
+    for bij in sorted(b_abs, key=lambda key: b_abs[key], reverse=True):  # Sort based on sensitivity descending
+        print(bij)
         b_sorted.put(bij)
+    while b_sorted:
+        i, j = b_sorted.get()
+        # FIXME Now to get vI, sI?
 
     # raise Exception("Not implemented yet")
 
