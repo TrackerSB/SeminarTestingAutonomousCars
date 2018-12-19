@@ -40,6 +40,9 @@
 #                                                       velocity constraint
 # for all i in [0, q]: gamma(S_0)_i + (B * delta x_0)_i >= 0
 #                                                       area constraint
+# x                                                     state vector
+# x(t)                                                  state vector at time t
+# x_i^j                                                 ith state of jth vehicle
 # x_{0,before}                                          initial state before last quadratic update
 # x_{0,after}                                           initial state after last quadratic update
 
@@ -57,35 +60,41 @@ from numpy.core.multiarray import ndarray
 from numpy.linalg import norm
 from shapely.geometry import MultiPolygon
 
-from common import drawable_types, VehicleInfo, MyState
+from common import drawable_types, VehicleInfo, MyState, flatten_dict_values
 from common.draw import DrawHelp
 from common.generation import GenerationHelp
-
 
 total_steps: int = 5  # FIXME Recognize the total time steps of the scenario
 
 
-def calculate_area_profile(infos: Dict[int, List[VehicleInfo]]) -> ndarray:
+def calculate_area_profile(infos: List[VehicleInfo]) -> ndarray:
     """
     Generates a list [a_1,...,a_q] where a_i represents the drivable area at time step i.
     :param infos: All the states at any time step to recognize.
     :return: The area profile (In the paper: gamma(S)).
     """
+    partitioned_infos: Dict[int, List[VehicleInfo]] = {}
+    for info in infos:
+        time_step: int = info.state.state.time_step
+        if time_step not in partitioned_infos:
+            partitioned_infos[time_step] = []
+        partitioned_infos[time_step].append(info)
+
     area_profile: List[float] = []
     current_area: MultiPolygon = None
-    for key in sorted(infos.keys()):
+    for key in sorted(partitioned_infos.keys()):
         to_union: List[drawable_types] = []
         if current_area:
             to_union.append(current_area)
-        for info in infos[key]:
+        for info in partitioned_infos[key]:
             to_union.append(info.drawable)
         current_area = DrawHelp.union_to_polygon(to_union)
         area_profile.append(current_area.area)
     return np.array(area_profile)
 
 
-def binary_search(x_before, x_after, my: int, initial_vehicles: List[VehicleInfo], vehicles: List[VehicleInfo],
-                  scenario: Scenario, planning_problem: PlanningProblem):
+def binary_search(my: int, initial_vehicles_before: List[VehicleInfo], initial_vehicles_after: List[VehicleInfo],
+                  scenario: Scenario) -> float:
     # Require
     # x_{0,before,i}^j      initial state before last quadratic update
     # x_{0,after,i}^j       initial state after last quadratic update
@@ -116,17 +125,20 @@ def binary_search(x_before, x_after, my: int, initial_vehicles: List[VehicleInfo
     # return x_{0,before,sI}^vI
 
     initial_area_profiles: Dict[int, ndarray] = {}
-    for j in range(0, len(vehicles)):
-        initial_area_profiles[j], _ = GenerationHelp.generate_states(scenario, planning_problem, total_steps)
+    for j in range(len(initial_vehicles_after)):
+        initial_area_profiles[j], _ \
+            = GenerationHelp.generate_states(scenario, initial_vehicles_before[j].state, total_steps)
 
     b_max = 0  # FIXME What is this variable for?
     b_abs: Dict[Tuple[int, int], float] = {}  # Absolute values of sensitivities
-    for j in range(0, len(vehicles)):
-        new_states, _ = GenerationHelp.generate_states(scenario, planning_problem, total_steps)
-        new_area_profile: ndarray = calculate_area_profile(new_states)
-        state_j: MyState = vehicles[j].state
-        initial_state_j: MyState = initial_vehicles[j].state
-        for i in range(0, len(state_j.variables)):
+    p: int = len(initial_vehicles_before)
+    for j in range(p):
+        new_states, _ = GenerationHelp.generate_states(scenario, initial_vehicles_after[j].state, total_steps)
+        new_area_profile: ndarray = calculate_area_profile(flatten_dict_values(new_states))
+        state_j: MyState = initial_vehicles_after[j].state
+        initial_state_j: MyState = initial_vehicles_before[j].state
+        n_j: int = len(state_j.variables)
+        for i in range(n_j):
             variation_ij = state_j.variable(i) - initial_state_j.variable(i)
             if variation_ij == 0:
                 b_abs[(i, j)] = -1
@@ -136,11 +148,22 @@ def binary_search(x_before, x_after, my: int, initial_vehicles: List[VehicleInfo
     for bij in sorted(b_abs, key=lambda key: b_abs[key], reverse=True):  # Sort based on sensitivity descending
         print(bij)
         b_sorted.put(bij)
-    while b_sorted:
-        i, j = b_sorted.get()
-        # FIXME Now to get vI, sI?
+    current_vehicles: List[VehicleInfo] = initial_vehicles_before  # States to be modified step by step
+    while not b_sorted.empty():
+        v_i, s_i = b_sorted.get()
+        for theta in range(my):
+            state_sum: float = initial_vehicles_before[s_i].state.variable(v_i) \
+                               + initial_vehicles_after[s_i].state.variable(v_i)
+            current_vehicles[s_i].state.set_variable(v_i, 0.5 * state_sum)
+            current_area: ndarray = calculate_area_profile(
+                flatten_dict_values(
+                    GenerationHelp.generate_states(scenario, current_vehicles[s_i].state, total_steps)[0]))
+            if all(current_area > 0):
+                return current_vehicles[s_i].state.variable(v_i)
+            else:
+                initial_vehicles_after[s_i].state.set_variable(v_i, current_vehicles[s_i].state.variable(v_i))
 
-    # raise Exception("Not implemented yet")
+    return initial_vehicles_before[s_i].state.variable(v_i)
 
 
 def kappa(gamma_s: ndarray, a_ref: ndarray, W: np.matrix) -> float:

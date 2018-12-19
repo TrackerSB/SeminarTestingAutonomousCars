@@ -17,7 +17,7 @@ def main() -> None:
     print("Processed " + str(num_states_processed) + " states in " + str(datetime.now() - start_time))
 
     vehicles: List[VehicleInfo] = [VehicleInfo(MyState(planning_problem.initial_state), DrawHelp.convert_to_drawable(planning_problem.initial_state))]
-    binary_search(10, vehicles, vehicles, scenario, planning_problem)
+    binary_search(10, vehicles, vehicles, scenario)
 
     print(calculate_area_profile(flatten_dict_values(valid_converted)))
 

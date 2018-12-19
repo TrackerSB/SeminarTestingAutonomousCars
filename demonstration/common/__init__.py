@@ -76,6 +76,18 @@ class MyState(object):
         """
         return MyState.variables[j](self.state)
 
+    def set_variable(self, j: int, value: Any):
+        """
+        Sets the given value to the jth state variable.
+        :param j: The index of the state variable to set.
+        :param value: The value to set for the jth state variable.
+        """
+        # FIXME Is there a way to use MyState.variables?
+        if j == 0:
+            self.state.velocity = value
+        else:
+            raise Exception("No state with index " + str(j) + " defined.")
+
 
 class VehicleInfo(object):
 
