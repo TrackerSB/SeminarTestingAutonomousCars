@@ -180,9 +180,10 @@ def update_scenario(scenario: Scenario, s_i: int, v_i: int, x_0sv: float):
     MyState.set_variable_to(scenario.dynamic_obstacles[s_i].initial_state, v_i, x_0sv)
 
 
-def optimized_scenario(x_0, epsilon, it_max, my, W, a_ref):
+def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_max: int, my: int, W, a_ref: ndarray,
+                       scenario: Scenario):
     # Require
-    # x_0       initial state
+    # x_0       initial state vector
     # epsilon   threshold
     # it_max    iteration limit
     # my        binary search iteration limit
@@ -209,4 +210,22 @@ def optimized_scenario(x_0, epsilon, it_max, my, W, a_ref):
     #     kappa_new <- kappa(S, a_ref, W)
     #     it <- it + 1
     # end while
-    raise Exception("Not implemented yet")
+
+    kappa_new: float = 0
+    kappa_old: float = -np.inf
+    it: int = 0
+    current_vehicles = initial_vehicles
+    while abs(kappa_new - kappa_old) >= epsilon and it < it_max:
+        success: bool = True
+        while abs(kappa_new - kappa_old) >= epsilon and success:
+            kappa_old = kappa_new
+            old_vehicles: List[VehicleInfo] = current_vehicles
+            # x_{0,curr}, S, success <- quadProg(solve(quadratic optimization problem))  # FIXME What to do here? ECOS?
+            # kappa_new = kappa(None, a_ref, W)
+        x_0sv: float = binary_search(my, old_vehicles, current_vehicles, scenario)
+        # initial_vehicles[s_i].state.set_variable(v_i, x_0sv)
+        # update_scenario(scenario, s_i, v_i, x_0sv)
+        kappa_new = kappa(None, a_ref, W)
+        it += 1
+
+    # FIXME What to return? Treat scenario as output parameter?
