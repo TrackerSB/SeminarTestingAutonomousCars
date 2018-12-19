@@ -8,7 +8,7 @@ from commonroad.scenario.scenario import Scenario
 from commonroad.scenario.trajectory import State
 
 from common.coords import CoordsHelp
-from common.draw import DrawConfig
+from common.draw import DrawConfig, DrawHelp
 from common.types import drawable_types
 
 _T = TypeVar('_T')
@@ -91,11 +91,14 @@ class MyState(object):
 
 class VehicleInfo(object):
 
-    def __init__(self, state: MyState, drawable: drawable_types):
+    def __init__(self, state: MyState, drawable: drawable_types = None):
         """
         Constructs a vehicle having a state and represented by a drawable type.
         :param state: The state of the car (See commonroad).
-        :param drawable: The drawable representing the car.
+        :param drawable: The drawable representing the car. If None is passed the drawable representation is generated.
         """
         self.state = state
-        self.drawable = drawable
+        if drawable:
+            self.drawable = drawable
+        else:
+            self.drawable = DrawHelp.convert_to_drawable(state)
