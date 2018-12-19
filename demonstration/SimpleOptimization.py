@@ -15,11 +15,10 @@ def main() -> None:
     ego_vehicle: MyState = MyState(planning_problem.initial_state)
     valid_converted, num_states_processed = GenerationHelp.generate_states(scenario, ego_vehicle, 5)
     print("Processed " + str(num_states_processed) + " states in " + str(datetime.now() - start_time))
+    print(calculate_area_profile(flatten_dict_values(valid_converted)))
 
     vehicles: List[VehicleInfo] = [VehicleInfo(MyState(planning_problem.initial_state))]
     binary_search(10, vehicles, vehicles, scenario)
-
-    print(calculate_area_profile(flatten_dict_values(valid_converted)))
 
 
 if __name__ == '__main__':
