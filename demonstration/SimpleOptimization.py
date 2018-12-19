@@ -3,7 +3,6 @@ from datetime import datetime
 from typing import List
 
 from common import load_scenario, VehicleInfo, MyState, flatten_dict_values
-from common.draw import DrawHelp
 from common.generation import GenerationHelp
 from common.optimizer import calculate_area_profile, binary_search
 
