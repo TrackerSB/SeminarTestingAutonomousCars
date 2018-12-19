@@ -176,8 +176,8 @@ def kappa(gamma_s: ndarray, a_ref: ndarray, W: np.matrix) -> float:
     return diff.transpose() * W * diff
 
 
-def updateScenario(S, x_0sv):
-    raise Exception("Not implemented yet")
+def update_scenario(scenario: Scenario, s_i: int, v_i: int, x_0sv: float):
+    MyState.set_variable_to(scenario.dynamic_obstacles[s_i].initial_state, v_i, x_0sv)
 
 
 def optimized_scenario(x_0, epsilon, it_max, my, W, a_ref):

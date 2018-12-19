@@ -88,6 +88,14 @@ class MyState(object):
         else:
             raise Exception("No state with index " + str(j) + " defined.")
 
+    @staticmethod
+    def set_variable_to(state: State, j: int, value: Any):
+        # FIXME Is there a way to use MyState.variables?
+        if j == 0:
+            state.velocity = value
+        else:
+            raise Exception("No state with index " + str(j) + " defined.")
+
 
 class VehicleInfo(object):
 
