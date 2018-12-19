@@ -30,22 +30,22 @@ class GenerationConfig:
 
 class GenerationHelp:
     @staticmethod
-    def predict_next_state(scenario: Scenario, current: State) -> State:
-        next: State = deepcopy(current)
-        delta_x: float = cos(next.orientation) * next.velocity * scenario.dt
-        delta_y: float = sin(next.orientation) * next.velocity * scenario.dt
-        next.position[0] += delta_x
-        next.position[1] += delta_y
+    def predict_next_state(scenario: Scenario, current: MyState) -> MyState:
+        next: MyState = deepcopy(current)
+        delta_x: float = cos(next.state.orientation) * next.state.velocity * scenario.dt
+        delta_y: float = sin(next.state.orientation) * next.state.velocity * scenario.dt
+        next.state.position[0] += delta_x
+        next.state.position[1] += delta_y
         return next
 
     @staticmethod
-    def generate_states(scenario: Scenario, planning_problem: PlanningProblem, time_steps: int) \
+    def generate_states(scenario: Scenario, ego_vehicle: MyState, time_steps: int) \
             -> Tuple[Dict[int, List[VehicleInfo]], int]:
         """
         Generates all positions the ego vehicle can have within the next steps in the given scenario and considering the
         given preplanning problem.
         :param scenario: The scenario the ego vehicle is driving in.
-        :param planning_problem: The preplanning problem to solve.
+        :param ego_vehicle: The initial state of the ego vehicle.
         :param time_steps: The number of steps to simulate.
         :return: A tuple containing a dictionary mapping a time step to all generated valid states and their drawable
         representation of that time step and the number of total states processed.
@@ -56,25 +56,25 @@ class GenerationHelp:
         for step in range(1, time_steps + 1):
             valid_converted[step] = manager.list()
         current_states: StatesQueue = StatesQueue(GenerationConfig.position_threshold, GenerationConfig.angle_threshold)
-        current_states.put(planning_problem.initial_state)
+        current_states.put(ego_vehicle)
 
         def generate_next_states() -> None:
             while True:
-                state: State = current_states.get()
-                if state.time_step < time_steps:
+                state: MyState = current_states.get()
+                if state.state.time_step < time_steps:
                     yaw_steps: Union[ndarray, Tuple[ndarray, Optional[float]]] \
                         = linspace(-GenerationConfig.max_yaw, GenerationConfig.max_yaw,
                                    num=GenerationConfig.yaw_steps, endpoint=True)
                     for yaw in yaw_steps:
-                        transformed: State = deepcopy(state)
-                        transformed.orientation += yaw
+                        transformed: MyState = deepcopy(state)
+                        transformed.state.orientation += yaw
                         transformed = GenerationHelp.predict_next_state(scenario, transformed)
                         if transformed not in current_states:
                             converted: drawable_types = DrawHelp.convert_to_drawable(transformed)
                             if is_valid(converted, scenario):
-                                transformed.time_step += 1
-                                valid_converted[transformed.time_step] \
-                                    .append(VehicleInfo(MyState(transformed), converted))
+                                transformed.state.time_step += 1
+                                valid_converted[transformed.state.time_step] \
+                                    .append(VehicleInfo(transformed, converted))
                                 current_states.put(transformed)
                 current_states.task_done()
                 num_states_processed.value += 1

@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from commonroad.geometry.shape import Rectangle
 from commonroad.scenario.trajectory import State
 
-from common import load_scenario, flatten_dict_values, VehicleInfo
+from common import load_scenario, flatten_dict_values, VehicleInfo, MyState
 from common.draw import DrawHelp
 from common.generation import GenerationHelp
 from common.prm import dijkstra_search
@@ -22,7 +22,7 @@ def main() -> None:
 
     start_time: datetime = datetime.now()
     generation_result: Tuple[Dict[int, List[VehicleInfo]], int] \
-        = GenerationHelp.generate_states(scenario, planning_problem, 15)
+        = GenerationHelp.generate_states(scenario, MyState(planning_problem.initial_state), 15)
     # NOTE The value 50 is taken from the commonroad file
     num_states_processed: int = generation_result[1]
     valid_converted: Dict[int, List[VehicleInfo]] = generation_result[0]

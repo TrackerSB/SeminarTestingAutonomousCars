@@ -5,7 +5,7 @@ from typing import List
 import matplotlib.pyplot as plt
 from shapely.geometry import MultiPolygon
 
-from common import load_scenario, flatten_dict_values, VehicleInfo
+from common import load_scenario, flatten_dict_values, VehicleInfo, MyState
 from common.draw import DrawHelp
 from common.generation import GenerationHelp
 
@@ -19,7 +19,8 @@ def main() -> None:
     DrawHelp.draw(DrawHelp.convert_to_drawable(planning_problem.initial_state))
 
     start_time: datetime = datetime.now()
-    valid_converted, num_states_processed = GenerationHelp.generate_states(scenario, planning_problem, 15)
+    valid_converted, num_states_processed \
+        = GenerationHelp.generate_states(scenario, MyState(planning_problem.initial_state), 5)
     print("Processed " + str(num_states_processed) + " states in " + str(datetime.now() - start_time))
 
     all_states: List[VehicleInfo] = flatten_dict_values(valid_converted)

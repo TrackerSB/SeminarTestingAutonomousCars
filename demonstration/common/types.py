@@ -8,4 +8,4 @@ from matplotlib.patches import Patch, Rectangle
 from shapely.geometry import MultiPolygon, LineString, MultiLineString
 
 drawable_types = Union[Patch, Scenario, LaneletNetwork, MultiPolygon, Rectangle, LineString, MultiLineString]
-convertible_types = Union[Scenario, LaneletNetwork, List[plottable_types], State]
+convertible_types = Union[Scenario, LaneletNetwork, List[plottable_types], State]  # FIXME Include MyState

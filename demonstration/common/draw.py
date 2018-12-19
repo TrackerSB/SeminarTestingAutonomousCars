@@ -54,8 +54,11 @@ class DrawHelp:
         :param to_draw: The object to draw.
         :return: The plottable representation of the given object.
         """
+        from common import MyState
         if isinstance(to_draw, (Scenario, LaneletNetwork, List)):  # FIXME Use List[plottable_types]
             converted = to_draw
+        elif isinstance(to_draw, MyState):
+            converted = DrawHelp.convert_to_drawable(to_draw.state)
         elif isinstance(to_draw, State):
             pos = CoordsHelp.center_to_right_bottom_pos(
                 to_draw.position, to_draw.orientation, DrawConfig.car_length, DrawConfig.car_width)

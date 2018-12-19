@@ -1,6 +1,6 @@
 from queue import Queue
 
-from commonroad.scenario.trajectory import State
+from common import MyState
 
 
 class StatesQueue(Queue):
@@ -10,14 +10,14 @@ class StatesQueue(Queue):
         self.position_threshold = position_threshold
         self.angle_threshold = angle_threshold
 
-    def _put(self, item):
+    def _put(self, item: MyState):
         self.queue.add(item)
 
     def _get(self):
         return self.queue.pop()
 
-    def __contains__(self, item: State):
+    def __contains__(self, item: MyState):
         with self.mutex:
             return any(map(
-                lambda s: all(abs(s.position - item.position) <= self.position_threshold)
-                          and abs(s.orientation - item.orientation) <= self.angle_threshold, self.queue))
+                lambda s: all(abs(s.state.position - item.state.position) <= self.position_threshold)
+                          and abs(s.state.orientation - item.state.orientation) <= self.angle_threshold, self.queue))
