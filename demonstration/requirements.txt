@@ -1,3 +1,4 @@
+ecos
 psutil
 shapely
 numpy
