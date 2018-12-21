@@ -9,7 +9,7 @@ from common.generation import GenerationHelp
 
 
 def main() -> None:
-    scenario, planning_problem = load_scenario('scenarios/DEU_B471-1_1_T-1/DEU_B471-1_1_T-1.xml')
+    scenario, planning_problem = load_scenario('scenarios/DEU_B471-1_1_T-1.xml')
 
     plt.figure(figsize=(25, 10))
 

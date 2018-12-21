@@ -7,7 +7,7 @@ from common.optimizer import binary_search, update_scenario
 
 
 def main() -> None:
-    scenario, planning_problem = load_scenario('scenarios/DEU_B471-1_1_T-1/DEU_B471-1_1_T-1.xml')
+    scenario, planning_problem = load_scenario('scenarios/DEU_B471-1_1_T-1.xml')
 
     start_time: datetime = datetime.now()
     ego_vehicle: MyState = MyState(planning_problem.initial_state)
