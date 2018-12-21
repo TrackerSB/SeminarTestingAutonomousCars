@@ -57,6 +57,7 @@ from typing import Tuple, Dict, List
 import numpy as np
 from commonroad.planning.planning_problem import PlanningProblem
 from commonroad.scenario.scenario import Scenario
+from commonroad.scenario.trajectory import State
 from cvxpy import Variable, ECOS, Problem, Minimize
 from numpy.core.multiarray import ndarray
 from numpy.linalg import norm
