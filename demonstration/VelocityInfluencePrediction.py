@@ -13,7 +13,7 @@ def main() -> None:
 
     for velocity in range(18, 50):
         planning_problem.initial_state.velocity = velocity
-        plt.figure(figsize=(25, 10))
+        plt.figure(figsize=(19.20, 10.80), dpi=100)
 
         DrawHelp.draw(DrawHelp.convert_to_drawable(scenario))
         DrawHelp.draw(DrawHelp.convert_to_drawable(planning_problem.initial_state))
