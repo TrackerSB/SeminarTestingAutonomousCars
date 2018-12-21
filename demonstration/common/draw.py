@@ -27,7 +27,7 @@ class DrawConfig:
         'scenario': {
             'dynamic_obstacle': {
                 'occupancy': {
-                    'draw_occupancies': 1
+                    'draw_occupancies': 0
                 },
                 'shape': shape_params,
                 'draw_shape': True,
