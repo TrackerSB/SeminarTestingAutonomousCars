@@ -23,6 +23,7 @@
 # n(j)                                                  number of states of V_j
 # B = [b_1^1,...,b_n(1)^1,b_1^2,...,b_n(2)^2,...,b_n(p)^p] in IR^{q,r}
 #                                                       All changes in area profile
+# r                                                     Number of states per car considered
 # delta x_0 = [delta x_{0,1}^1, delta x_{0,2}^1,...,delta x_{0,n(1)}^1,...,delta x_{0,n(p)}^p]
 #                                                       All variations of initial states
 # S(delta x_0)                                          new scenario after change delta x_0
@@ -51,11 +52,11 @@
 # delta a_0^T * W * delta a_0 can be removed in quadratic optimization problem
 # interest in minimizing delta x_0 => optimizing over the shift of delta x_0
 from queue import Queue
-from typing import Tuple, Dict, List
+from typing import Tuple, Dict, List, Any, Union
 
 import numpy as np
-from commonroad.planning.planning_problem import PlanningProblem
 from commonroad.scenario.scenario import Scenario
+from cvxpy import Variable, ECOS, Problem, Minimize
 from numpy.core.multiarray import ndarray
 from numpy.linalg import norm
 from shapely.geometry import MultiPolygon
@@ -180,8 +181,8 @@ def update_scenario(scenario: Scenario, s_i: int, v_i: int, x_0sv: float):
     MyState.set_variable_to(scenario.dynamic_obstacles[s_i].initial_state, v_i, x_0sv)
 
 
-def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_max: int, my: int, W, a_ref: ndarray,
-                       scenario: Scenario):
+def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_max: int, my: int, W: np.matrix,
+                       a_ref: ndarray, scenario: Scenario):
     # Require
     # x_0       initial state vector
     # epsilon   threshold
@@ -220,7 +221,17 @@ def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_m
         while abs(kappa_new - kappa_old) >= epsilon and success:
             kappa_old = kappa_new
             old_vehicles: List[VehicleInfo] = current_vehicles
-            # x_{0,curr}, S, success <- quadProg(solve(quadratic optimization problem))  # FIXME What to do here? ECOS?
+            # x_{0,curr}, S, success <- quadProg(solve(quadratic optimization problem))
+            delta_x: Variable = Variable(len(MyState.variables))
+            B = None  # FIXME Calculate B
+            W_tilde: np.matrix = B.transpos() * W * B
+            delta_a0: ndarray = calculate_area_profile(current_vehicles) - a_ref
+            c: ndarray = delta_a0.transpose() * (W * B + W.transpose() * B)
+            objective: Minimize = Minimize(delta_x * W_tilde * delta_x + c.transpose() * delta_x)
+            constraints = []  # FIXME Insert consraints mentioned in the paper
+            problem = Problem(objective, constraints)
+            problem.solve(solver=ECOS)
+            print(problem.value)
             # kappa_new = kappa(None, a_ref, W)
         x_0sv: float = binary_search(my, old_vehicles, current_vehicles, scenario)
         # initial_vehicles[s_i].state.set_variable(v_i, x_0sv)
