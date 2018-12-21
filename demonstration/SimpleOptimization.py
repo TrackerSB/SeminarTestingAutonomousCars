@@ -2,9 +2,8 @@ import datetime
 from datetime import datetime
 from typing import List
 
-from common import load_scenario, VehicleInfo, MyState, flatten_dict_values
-from common.generation import GenerationHelp
-from common.optimizer import calculate_area_profile, binary_search, update_scenario
+from common import load_scenario, VehicleInfo, MyState
+from common.optimizer import binary_search, update_scenario
 
 
 def main() -> None:
