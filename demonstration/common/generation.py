@@ -70,11 +70,10 @@ class GenerationHelp:
                         transformed.state.orientation += yaw
                         transformed = GenerationHelp.predict_next_state(scenario, transformed)
                         if transformed not in current_states:
-                            converted: drawable_types = DrawHelp.convert_to_drawable(transformed)
-                            if is_valid(converted, scenario):
+                            vehicle: VehicleInfo = VehicleInfo(transformed, None)
+                            if is_valid(vehicle, scenario):
                                 transformed.state.time_step += 1
-                                valid_converted[transformed.state.time_step] \
-                                    .append(VehicleInfo(transformed, None, converted))
+                                valid_converted[transformed.state.time_step].append(vehicle)
                                 current_states.put(transformed)
                 current_states.task_done()
                 num_states_processed.value += 1
@@ -132,10 +131,10 @@ class GenerationHelp:
             tries: int = 0
             while not found_valid_next and tries < max_tries:
                 next_state: MyState = GenerationHelp.predict_next_state(scenario, last_state_copy)
-                next_state_converted: drawable_types = DrawHelp.convert_to_drawable(next_state)
-                if is_valid(next_state_converted, scenario):
+                next_vehicle: VehicleInfo = VehicleInfo(next_state, None)
+                if is_valid(next_vehicle, scenario):
                     states.append(next_state)
-                    vehicles.append(VehicleInfo(next_state, None, next_state_converted))
+                    vehicles.append(next_vehicle)
                     found_valid_next = True
                 else:
                     tries += 1
