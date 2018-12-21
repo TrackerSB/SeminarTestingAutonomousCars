@@ -123,11 +123,11 @@ class GenerationHelp:
         """
         shape: Shape = Rectangle(DrawConfig.car_length, DrawConfig.car_width,
                                  planning_problem.initial_state.position, planning_problem.initial_state.orientation)
-        states: List[State] = [planning_problem.initial_state]
+        states: List[MyState] = [MyState(planning_problem.initial_state)]
         vehicles: List[VehicleInfo] = [VehicleInfo(MyState(planning_problem.initial_state), None,
                                                    DrawHelp.convert_to_drawable(planning_problem.initial_state))]
         for i in range(1, time_steps):
-            last_state_copy: State = deepcopy(states[i - 1])
+            last_state_copy: MyState = deepcopy(states[i - 1])
             found_valid_next: bool = False
             tries: int = 0
             while not found_valid_next and tries < max_tries:
@@ -140,7 +140,7 @@ class GenerationHelp:
                 else:
                     tries += 1
                     last_state_copy.orientation \
-                        = states[i - 1].orientation + uniform(-GenerationConfig.max_yaw, GenerationConfig.max_yaw)
+                        = states[i - 1].state.orientation + uniform(-GenerationConfig.max_yaw, GenerationConfig.max_yaw)
             if not found_valid_next:
                 break
-        return TrajectoryPrediction(Trajectory(0, states), shape), vehicles
+        return TrajectoryPrediction(Trajectory(0, list(map(lambda s: s.state, states))), shape), vehicles
