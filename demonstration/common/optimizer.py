@@ -126,6 +126,9 @@ def binary_search(my: int, initial_vehicles_before: List[VehicleInfo], initial_v
     # end while
     # return x_{0,before,sI}^vI
 
+    p: int = len(initial_vehicles_before)
+    print("binary search called: " + str(p) + " vehicles and " + str(len(MyState.variables)) + " variables.")
+
     initial_area_profiles: Dict[int, ndarray] = {}
     for j in range(len(initial_vehicles_after)):
         initial_area_profiles[j], _ \
@@ -133,7 +136,6 @@ def binary_search(my: int, initial_vehicles_before: List[VehicleInfo], initial_v
 
     b_max = 0  # FIXME What is this variable for?
     b_abs: Dict[Tuple[int, int], float] = {}  # Absolute values of sensitivities
-    p: int = len(initial_vehicles_before)
     for j in range(p):
         new_states, _ = GenerationHelp.generate_states(scenario, initial_vehicles_after[j].state, total_steps)
         new_area_profile: ndarray = calculate_area_profile(flatten_dict_values(new_states))
@@ -226,6 +228,8 @@ def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_m
     #     kappa_new <- kappa(S, a_ref, W)
     #     it <- it + 1
     # end while
+
+    print("optmized_scenario called: " + str(len(initial_vehicles)) + ".")
 
     kappa_new: float = 0
     kappa_old: float = -np.inf
