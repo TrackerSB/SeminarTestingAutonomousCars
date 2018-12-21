@@ -12,16 +12,16 @@ def main() -> None:
 
     start_time: datetime = datetime.now()
     ego_vehicle: MyState = MyState(planning_problem.initial_state)
-    valid_converted, num_states_processed = GenerationHelp.generate_states(scenario, ego_vehicle, 5)
-    print("Processed " + str(num_states_processed) + " states in " + str(datetime.now() - start_time))
-    print(calculate_area_profile(flatten_dict_values(valid_converted)))
 
-    binary_search(10, vehicles, vehicles, scenario)
     ego_info: VehicleInfo = VehicleInfo(ego_vehicle, -1)
     vehicles: List[VehicleInfo] = [ego_info]
     print("Before update: " + str(planning_problem.initial_state.velocity))
     update_scenario(scenario, planning_problem, ego_info, 0, 42)
     print("After update: " + str(planning_problem.initial_state.velocity))
+
+    print(binary_search(10, vehicles, vehicles, scenario))
+
+    print("Optimization in " + str(datetime.now() - start_time))
 
 
 if __name__ == '__main__':
