@@ -122,6 +122,9 @@ class DrawHelp:
                     warning("Created an invalid polygon.")
             elif isinstance(drawable, Polygon):
                 polygons.append(drawable)
+            elif isinstance(drawable, MultiPolygon):
+                for polygon in drawable:
+                    polygons.append(polygon)
             else:
                 warning("Union with " + str(type(drawable)) + " not implemented, yet.")
         return unary_union(polygons)
