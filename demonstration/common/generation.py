@@ -131,11 +131,11 @@ class GenerationHelp:
             found_valid_next: bool = False
             tries: int = 0
             while not found_valid_next and tries < max_tries:
-                next_state: State = GenerationHelp.predict_next_state(scenario, last_state_copy)
+                next_state: MyState = GenerationHelp.predict_next_state(scenario, last_state_copy)
                 next_state_converted: drawable_types = DrawHelp.convert_to_drawable(next_state)
                 if is_valid(next_state_converted, scenario):
                     states.append(next_state)
-                    vehicles.append(VehicleInfo(MyState(next_state), None, next_state_converted))
+                    vehicles.append(VehicleInfo(next_state, None, next_state_converted))
                     found_valid_next = True
                 else:
                     tries += 1
