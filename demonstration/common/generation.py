@@ -74,7 +74,7 @@ class GenerationHelp:
                             if is_valid(converted, scenario):
                                 transformed.state.time_step += 1
                                 valid_converted[transformed.state.time_step] \
-                                    .append(VehicleInfo(transformed, converted))
+                                    .append(VehicleInfo(transformed, None, converted))
                                 current_states.put(transformed)
                 current_states.task_done()
                 num_states_processed.value += 1
@@ -124,7 +124,7 @@ class GenerationHelp:
         shape: Shape = Rectangle(DrawConfig.car_length, DrawConfig.car_width,
                                  planning_problem.initial_state.position, planning_problem.initial_state.orientation)
         states: List[State] = [planning_problem.initial_state]
-        vehicles: List[VehicleInfo] = [VehicleInfo(MyState(planning_problem.initial_state),
+        vehicles: List[VehicleInfo] = [VehicleInfo(MyState(planning_problem.initial_state), None,
                                                    DrawHelp.convert_to_drawable(planning_problem.initial_state))]
         for i in range(1, time_steps):
             last_state_copy: State = deepcopy(states[i - 1])
@@ -135,7 +135,7 @@ class GenerationHelp:
                 next_state_converted: drawable_types = DrawHelp.convert_to_drawable(next_state)
                 if is_valid(next_state_converted, scenario):
                     states.append(next_state)
-                    vehicles.append(VehicleInfo(MyState(next_state), next_state_converted))
+                    vehicles.append(VehicleInfo(MyState(next_state), None, next_state_converted))
                     found_valid_next = True
                 else:
                     tries += 1

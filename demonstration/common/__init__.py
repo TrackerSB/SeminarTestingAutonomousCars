@@ -99,13 +99,17 @@ class MyState(object):
 
 class VehicleInfo(object):
 
-    def __init__(self, state: MyState, drawable: drawable_types = None):
+    def __init__(self, state: MyState, dynamic_obs_index: Optional[int], drawable: drawable_types = None):
         """
         Constructs a vehicle having a state and represented by a drawable type.
         :param state: The state of the car (See commonroad).
+        :param dynamic_obs_index: The index within the dynamic obstacles list attached to the scenario. -1 represents
+        the ego vehicle shipped with the planning problem. None represents a VehicleInfo that does not represent an
+        initial state.
         :param drawable: The drawable representing the car. If None is passed the drawable representation is generated.
         """
         self.state = state
+        self.dynamic_obs_index = dynamic_obs_index
         if drawable:
             self.drawable = drawable
         else:

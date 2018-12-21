@@ -52,9 +52,10 @@
 # delta a_0^T * W * delta a_0 can be removed in quadratic optimization problem
 # interest in minimizing delta x_0 => optimizing over the shift of delta x_0
 from queue import Queue
-from typing import Tuple, Dict, List, Any, Union
+from typing import Tuple, Dict, List
 
 import numpy as np
+from commonroad.planning.planning_problem import PlanningProblem
 from commonroad.scenario.scenario import Scenario
 from cvxpy import Variable, ECOS, Problem, Minimize
 from numpy.core.multiarray import ndarray
@@ -177,8 +178,22 @@ def kappa(gamma_s: ndarray, a_ref: ndarray, W: np.matrix) -> float:
     return diff.transpose() * W * diff
 
 
-def update_scenario(scenario: Scenario, s_i: int, v_i: int, x_0sv: float):
-    MyState.set_variable_to(scenario.dynamic_obstacles[s_i].initial_state, v_i, x_0sv)
+def update_scenario(scenario: Scenario, planning_problem: PlanningProblem, s_i: VehicleInfo, v_i: int, x_0sv: float):
+    """
+    Modifies a certain state of a certain vehicle within the scenario.
+    :param scenario: The scenario to modify
+    :param planning_problem: The preplanning problem containing the initial state of the ego vehicle.
+    :param s_i: The VehicleInfo containing the index of the vehicle within the scenario.
+    :param v_i: The index of the variable to modify.
+    :param x_0sv: The new value of the variable of the vehicle.
+    """
+    s_idx: int = s_i.dynamic_obs_index
+    initial_state: State
+    if s_idx > -1:
+        initial_state = scenario.dynamic_obstacles[s_idx].initial_state
+    else:
+        initial_state = planning_problem.initial_state
+    MyState.set_variable_to(initial_state, v_i, x_0sv)
 
 
 def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_max: int, my: int, W: np.matrix,
