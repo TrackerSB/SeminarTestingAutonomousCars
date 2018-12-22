@@ -2,8 +2,10 @@ import datetime
 from datetime import datetime
 from typing import List
 
+from numpy.ma import array
+
 from common import load_scenario, VehicleInfo, MyState
-from common.optimizer import binary_search, update_scenario
+from common.optimizer import update_scenario, optimized_scenario
 
 
 def main() -> None:
@@ -18,7 +20,7 @@ def main() -> None:
     update_scenario(scenario, planning_problem, ego_info, 0, 42)
     print("After update: " + str(planning_problem.initial_state.velocity))
 
-    print(binary_search(10, vehicles, vehicles, scenario))
+    optimized_scenario(vehicles, 1000, 10, 10, array([5, 4, 3, 2, 1]), scenario)
 
     print("Optimization in " + str(datetime.now() - start_time))
 

@@ -8,7 +8,7 @@
 # gamma(S) := [a_1,...,a_q], a_k = A(S, t_k)            area profile (development of the drivable area over discrete
 #                                                       times t_k)
 # arg min_S(gamma(S) - a_ref)^T * W(gamma(S) - a_ref)   discrete-time approximation of the optimization problem
-# W = diag(w(t_1),...,w(t_q))
+# W = diag(w(t_1),...,w(t_q))                           weights matrix in IR^{p, p}
 # w(t)                                                  weight
 # V_1,...,V_p                                           vehicles
 # p                                                     total number of considered traffic participants
@@ -21,7 +21,7 @@
 # gamma(S(<i,j>, delta x_{0,i}^j)) ~~ gamma(S_0) + b_i^j * delta x_{0,i}^j)
 #                                                       the new area profile
 # n(j)                                                  number of states of V_j
-# B = [b_1^1,...,b_n(1)^1,b_1^2,...,b_n(2)^2,...,b_n(p)^p] in IR^{q,r}
+# B = [b_1^1,...,b_n(1)^1,b_1^2,...,b_n(2)^2,...,b_n(p)^p] in IR^{p,r}
 #                                                       All changes in area profile
 # r                                                     Number of states per car considered
 # delta x_0 = [delta x_{0,1}^1, delta x_{0,2}^1,...,delta x_{0,n(1)}^1,...,delta x_{0,n(p)}^p]
@@ -33,7 +33,7 @@
 # delta a_0 := gamma(S_0) - a_ref
 # arg min_{delta x_0}(delta x_0^T * W~ * delta x_0 + c^T * delta x_0
 #                                                       quadratic optimization problem
-# W~ = B^T * W * B
+# W~ = B^T * W * B                                      in IR^{r, r}
 # c = delta a_0^T * (W * B + W^T * B)
 # [0, v_max]                                            restriction of speed of vehicles
 # velInd(j)                                             index of state x^j representing velocity of j-th vehicle
@@ -41,7 +41,7 @@
 #                                                       velocity constraint
 # for all i in [0, q]: gamma(S_0)_i + (B * delta x_0)_i >= 0
 #                                                       area constraint
-# x                                                     state vector
+# x                                                     state vector in IR^r
 # x(t)                                                  state vector at time t
 # x_i^j                                                 ith state of jth vehicle
 # x_{0,before}                                          initial state before last quadratic update
@@ -54,11 +54,13 @@
 from queue import Queue
 from typing import Tuple, Dict, List
 
+import cvxpy
 import numpy as np
 from commonroad.planning.planning_problem import PlanningProblem
 from commonroad.scenario.scenario import Scenario
 from commonroad.scenario.trajectory import State
-from cvxpy import Variable, ECOS, Problem, Minimize
+from cvxpy import Variable, ECOS, Problem, Minimize, quad_form
+from numpy import eye, matrix
 from numpy.core.multiarray import ndarray
 from numpy.linalg import norm
 from shapely.geometry import MultiPolygon
@@ -199,8 +201,8 @@ def update_scenario(scenario: Scenario, planning_problem: PlanningProblem, s_i: 
     MyState.set_variable_to(initial_state, v_i, x_0sv)
 
 
-def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_max: int, my: int, W: np.matrix,
-                       a_ref: ndarray, scenario: Scenario):
+def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_max: int, my: int, a_ref: ndarray,
+                       scenario: Scenario, W: np.matrix = None):
     # Require
     # x_0       initial state vector
     # epsilon   threshold
@@ -230,7 +232,12 @@ def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_m
     #     it <- it + 1
     # end while
 
-    print("optmized_scenario called: " + str(len(initial_vehicles)) + ".")
+    p: int = len(initial_vehicles)
+    r: int = len(MyState.variables)
+    print("optmized_scenario called: " + str(p) + ".")
+
+    if not W:
+        W = eye(p)
 
     kappa_new: float = 0
     kappa_old: float = -np.inf
@@ -242,13 +249,18 @@ def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_m
             kappa_old = kappa_new
             old_vehicles: List[VehicleInfo] = current_vehicles
             # x_{0,curr}, S, success <- quadProg(solve(quadratic optimization problem))
-            delta_x: Variable = Variable(len(MyState.variables))
-            B = None  # FIXME Calculate B
-            W_tilde: np.matrix = B.transpos() * W * B
-            delta_a0: ndarray = calculate_area_profile(current_vehicles) - a_ref
+            B: matrix = eye(r, p)  # FIXME Calculate B
+            W_tilde: matrix = np.asmatrix(B.transpose() * W * B)
+            delta_a0: matrix = np.asmatrix(calculate_area_profile(current_vehicles) - a_ref)
             c: ndarray = delta_a0.transpose() * (W * B + W.transpose() * B)
-            objective: Minimize = Minimize(delta_x * W_tilde * delta_x + c.transpose() * delta_x)
-            constraints = []  # FIXME Insert consraints mentioned in the paper
+            delta_x: Variable = Variable((1, r))
+            print((c * delta_x).is_dcp())
+            print(quad_form(delta_x, W_tilde).is_dcp())
+            print((quad_form(delta_x, W_tilde) + c * delta_x).is_dcp())
+            print(cvxpy.abs(quad_form(delta_x, W_tilde) + c * delta_x).is_dcp())
+            # FIXME abs() violates DCP ruleset by making the expression non convex.
+            objective: Minimize = Minimize(cvxpy.abs(quad_form(delta_x, W_tilde) + c * delta_x))
+            constraints = []  # FIXME Insert constraints mentioned in the paper
             problem = Problem(objective, constraints)
             problem.solve(solver=ECOS)
             print(problem.value)
