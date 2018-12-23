@@ -255,8 +255,6 @@ def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_m
             delta_a0: matrix = np.asmatrix(calculate_area_profile(current_vehicles) - a_ref)
             c: ndarray = delta_a0.transpose() * (W * B + W.transpose() * B)
             delta_x: Variable = Variable((1, r))
-            # FIXME norm() violates DCP ruleset by making the expression non convex.
-            # FIXME Is really norm(...) wanted
             objective: Minimize = Minimize(cvxpy.norm(quad_form(delta_x, W_tilde) + c * delta_x))
             constraints = [delta_x >= 0, delta_a0 + B * delta_x >= 0]  # FIXME Really use delta_a0?
             problem = Problem(objective, constraints)
@@ -269,5 +267,3 @@ def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_m
         # update_scenario(scenario, s_i, v_i, x_0sv)
         kappa_new = kappa(None, a_ref, W)
         it += 1
-
-    # FIXME What to return? Treat scenario as output parameter?
