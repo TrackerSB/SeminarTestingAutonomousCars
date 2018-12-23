@@ -59,11 +59,12 @@ import numpy as np
 from commonroad.planning.planning_problem import PlanningProblem
 from commonroad.scenario.scenario import Scenario
 from commonroad.scenario.trajectory import State
-from cvxpy import Variable, ECOS, Problem, Minimize, quad_form
+from cvxpy import Variable, Problem, Minimize, quad_form
 from numpy import eye, matrix
 from numpy.core.multiarray import ndarray
 from numpy.linalg import norm
 from shapely.geometry import MultiPolygon
+from dccp import is_dccp  # Make sure there is at least one dccp import. Otherwise dccp is not registered to cvxpy.
 
 from common import drawable_types, VehicleInfo, MyState, flatten_dict_values
 from common.draw import DrawHelp
@@ -254,16 +255,14 @@ def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_m
             delta_a0: matrix = np.asmatrix(calculate_area_profile(current_vehicles) - a_ref)
             c: ndarray = delta_a0.transpose() * (W * B + W.transpose() * B)
             delta_x: Variable = Variable((1, r))
-            print((c * delta_x).is_dcp())
-            print(quad_form(delta_x, W_tilde).is_dcp())
-            print((quad_form(delta_x, W_tilde) + c * delta_x).is_dcp())
-            print(cvxpy.abs(quad_form(delta_x, W_tilde) + c * delta_x).is_dcp())
-            # FIXME abs() violates DCP ruleset by making the expression non convex.
-            objective: Minimize = Minimize(cvxpy.abs(quad_form(delta_x, W_tilde) + c * delta_x))
-            constraints = []  # FIXME Insert constraints mentioned in the paper
+            # FIXME norm() violates DCP ruleset by making the expression non convex.
+            # FIXME Is really norm(...) wanted
+            objective: Minimize = Minimize(cvxpy.norm(quad_form(delta_x, W_tilde) + c * delta_x))
+            constraints = [delta_x >= 0, delta_a0 +  B *  delta_x >= 0]  # FIXME Insert constraints mentioned in the paper
             problem = Problem(objective, constraints)
-            problem.solve(solver=ECOS)
-            print(problem.value)
+            assert is_dccp(problem)
+            print(problem.solve(method='dccp', solver='ECOS'))
+            print(delta_x.value)
             # kappa_new = kappa(None, a_ref, W)
         x_0sv: float = binary_search(my, old_vehicles, current_vehicles, scenario)
         # initial_vehicles[s_i].state.set_variable(v_i, x_0sv)
