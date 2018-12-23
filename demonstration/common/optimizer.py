@@ -258,7 +258,7 @@ def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_m
             # FIXME norm() violates DCP ruleset by making the expression non convex.
             # FIXME Is really norm(...) wanted
             objective: Minimize = Minimize(cvxpy.norm(quad_form(delta_x, W_tilde) + c * delta_x))
-            constraints = [delta_x >= 0, delta_a0 +  B *  delta_x >= 0]  # FIXME Insert constraints mentioned in the paper
+            constraints = [delta_x >= 0, delta_a0 + B * delta_x >= 0]  # FIXME Really use delta_a0?
             problem = Problem(objective, constraints)
             assert is_dccp(problem)
             print(problem.solve(method='dccp', solver='ECOS'))
