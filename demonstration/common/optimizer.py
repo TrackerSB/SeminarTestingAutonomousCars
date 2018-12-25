@@ -61,7 +61,7 @@ from commonroad.scenario.scenario import Scenario
 from commonroad.scenario.trajectory import State
 from cvxpy import Variable, Problem, Minimize, quad_form
 from numpy import eye, matrix
-from numpy.core.multiarray import ndarray
+from numpy.core.multiarray import ndarray, inner
 from numpy.linalg import norm
 from shapely.geometry import MultiPolygon
 from dccp import is_dccp  # Make sure there is at least one dccp import. Otherwise dccp is not registered to cvxpy.
@@ -180,30 +180,41 @@ def kappa(gamma_s: ndarray, a_ref: ndarray, W: np.matrix) -> float:
     """
     # kappa = (gamma(S) - a_ref)^T * W * (gamma(S) - a_ref)
 
-    diff: np.matrix = gamma_s - a_ref
-    return diff.transpose() * W * diff
+    diff: ndarray = gamma_s - a_ref
+    return inner(diff * W, diff)
 
 
-def update_scenario(scenario: Scenario, planning_problem: PlanningProblem, s_i: VehicleInfo, v_i: int, x_0sv: float):
+def update_scenario_vehicle(scenario: Scenario, planning_problem: PlanningProblem, s_i: VehicleInfo, v_i: int):
     """
     Modifies a certain state of a certain vehicle within the scenario.
     :param scenario: The scenario to modify
     :param planning_problem: The preplanning problem containing the initial state of the ego vehicle.
-    :param s_i: The VehicleInfo containing the index of the vehicle within the scenario.
+    :param s_i: The VehicleInfo containing the index of the vehicle within the scenario and the new variable value to
+    set.
     :param v_i: The index of the variable to modify.
-    :param x_0sv: The new value of the variable of the vehicle.
     """
     s_idx: int = s_i.dynamic_obs_index
-    initial_state: State
     if s_idx > -1:
-        initial_state = scenario.dynamic_obstacles[s_idx].initial_state
+        initial_state: State = scenario.dynamic_obstacles[s_idx].initial_state
     else:
-        initial_state = planning_problem.initial_state
-    MyState.set_variable_to(initial_state, v_i, x_0sv)
+        initial_state: State = planning_problem.initial_state
+    MyState.set_variable_to(initial_state, v_i, s_i.state.variable(v_i))
+
+
+def update_scenario_vehicles(scenario: Scenario, planning_problem: PlanningProblem, vehicle_infos: List[VehicleInfo]):
+    """
+    Modifies all initial states of all vehicles of the scenario using the given infos.
+    :param scenario: The scenario to modify.
+    :param planning_problem: The preplanning problem containing the initial state of the ego vehicle.
+    :param vehicle_infos: The vehicle infos to set to the scenario
+    """
+    for info in vehicle_infos:
+        for v_i in range(len(MyState.variables)):
+            update_scenario_vehicle(scenario, planning_problem, info, v_i)
 
 
 def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_max: int, my: int, a_ref: ndarray,
-                       scenario: Scenario, W: np.matrix = None):
+                       scenario: Scenario, planning_problem: PlanningProblem, W: np.matrix = None):
     # Require
     # x_0       initial state vector
     # epsilon   threshold
@@ -261,9 +272,9 @@ def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_m
             assert is_dccp(problem)
             print(problem.solve(method='dccp', solver='ECOS'))
             print(delta_x.value)
-            # kappa_new = kappa(None, a_ref, W)
-        x_0sv: float = binary_search(my, old_vehicles, current_vehicles, scenario)
-        # initial_vehicles[s_i].state.set_variable(v_i, x_0sv)
-        # update_scenario(scenario, s_i, v_i, x_0sv)
-        kappa_new = kappa(None, a_ref, W)
+            kappa_new = kappa(delta_a0, a_ref, W)  # FIXME Really use delta_a0?
+        binary_search(my, old_vehicles, current_vehicles, scenario)
+        # initial_vehicles = ?
+        update_scenario_vehicles(scenario, planning_problem, initial_vehicles)
+        kappa_new = kappa(calculate_area_profile(initial_vehicles), a_ref, W)
         it += 1
