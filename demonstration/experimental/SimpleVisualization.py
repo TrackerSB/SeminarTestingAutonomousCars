@@ -79,8 +79,8 @@ def extend_frames_with_prediction(initial_state: State, frames: List[List[Artist
 
 
 def main() -> None:
-    figure = plt.figure()
-    file_path: os.path = os.path.join(os.getcwd(), '../scenarios/DEU_B471-1_1_T-1/DEU_B471-1_1_T-1.xml')
+    figure = plt.figure(figsize=(19.20, 10.80), dpi=100)
+    file_path: os.path = os.path.join(os.getcwd(), '../scenarios/DEU_B471-1_1_T-1.xml')
     common_road_input: Tuple[Scenario, PlanningProblemSet] = CommonRoadFileReader(file_path).open()
     scenario: Scenario = common_road_input[0]
     planning_problem: Optional[PlanningProblem] = common_road_input[1].planning_problem_dict.get(800)
@@ -103,7 +103,8 @@ def main() -> None:
 
     # Add an animation of the frames
     # NOTE The assignment is needed to force execution
-    ani = ArtistAnimation(figure, frames, blit=True, interval=int(round(scenario.dt * 1000)), repeat=True)
+    ani: ArtistAnimation = ArtistAnimation(figure, frames, blit=True, interval=int(round(scenario.dt * 1000)), repeat=True)
+    ani.save("2018-12-26_BasicUnoptimzedScenario.mp4", writer="ffmpeg")
 
     plt.gca().set_aspect('equal')
     plt.show()
