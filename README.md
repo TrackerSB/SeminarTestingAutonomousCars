@@ -1,4 +1,4 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9f1bdd0e3554446eb3698d9eb0b2b4e6)](https://www.codacy.com/app/junktogo/SeminarTestingAutonomousCars?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=TrackerSB/SeminarTestingAutonomousCars&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/dc7e319804a344da9c365413121575ce)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=TrackerSB/SeminarTestingAutonomousCars&amp;utm_campaign=Badge_Grade)
 
 # Search-Based Software Engineering for Testing Autonomous Cars (Seminar Winterterm 18/19)
 
