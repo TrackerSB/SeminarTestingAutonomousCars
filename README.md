@@ -1,4 +1,5 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/dc7e319804a344da9c365413121575ce)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=TrackerSB/SeminarTestingAutonomousCars&amp;utm_campaign=Badge_Grade)
+[![](https://tokei.rs/b1/github/TrackerSB/SeminarTestingAutonomousCars)](https://github.com/TrackerSB/SeminarTestingAutonomousCars)
 
 # Search-Based Software Engineering for Testing Autonomous Cars (Seminar Winterterm 18/19)
 
