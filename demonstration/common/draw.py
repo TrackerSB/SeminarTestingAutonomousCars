@@ -110,7 +110,7 @@ class DrawHelp:
             artist = None  # In case the polygon had no boundary
             for line_string in to_draw.boundary:
                 artist = DrawHelp.draw(line_string)
-                # FIXME Only the artist is returned
+                # FIXME Only the last artist is returned
         elif isinstance(to_draw, Polygon):
             artist = DrawHelp.draw(to_draw.boundary)
         elif isinstance(to_draw, Patch):
