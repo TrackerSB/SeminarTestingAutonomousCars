@@ -1,7 +1,11 @@
 from logging import error, warning
 from typing import Optional, List, Tuple
 
-from commonroad.scenario.lanelet import LaneletNetwork
+import commonroad
+from commonroad.geometry.shape import Shape
+from commonroad.planning.goal import GoalRegion
+from commonroad.scenario.lanelet import LaneletNetwork, Lanelet
+from commonroad.scenario.obstacle import StaticObstacle, DynamicObstacle
 from commonroad.scenario.scenario import Scenario
 from commonroad.scenario.trajectory import State
 from commonroad.visualization.draw_dispatch_cr import draw_object
@@ -10,7 +14,7 @@ from matplotlib.lines import Line2D
 from matplotlib.patches import Rectangle, Patch
 from matplotlib.pyplot import gca
 from numpy.core.multiarray import ndarray
-from numpy.core.umath import degrees
+from numpy.core.umath import degrees, pi
 from shapely.geometry import MultiPolygon, Polygon, LineString, MultiLineString
 from shapely.ops import unary_union
 
@@ -33,7 +37,7 @@ class DrawConfig:
                 'draw_shape': True,
                 'draw_icon': True,  # FIXME Without drawing the icon the initial view is to small
                 'draw_bounding_box': True,
-                'show_label': False,
+                'show_label': True,
                 'zorder': 2
             },
             'static_obstacle': {
@@ -48,15 +52,22 @@ class DrawConfig:
 
 class DrawHelp:
     @staticmethod
-    def convert_to_drawable(to_draw: convertible_types) -> Optional[drawable_types]:
+    def convert_to_drawable(to_draw: convertible_types, time_step: int = 0) -> Optional[drawable_types]:
         """
         Converts the given object to a representation which can be draw on a plot using draw(...).
         :param to_draw: The object to draw.
+        :param time_step: This parameter defines the time step to calculate the occupancy for in the case of
+        DynamicObstacles.
         :return: The plottable representation of the given object.
         """
         from common import MyState
-        if isinstance(to_draw, (Scenario, LaneletNetwork, List)):  # FIXME Use List[plottable_types]
+        if isinstance(to_draw, (Scenario, LaneletNetwork, Lanelet, StaticObstacle, GoalRegion, List)):  # FIXME Use List[plottable_types]
             converted = to_draw
+        elif isinstance(to_draw, DynamicObstacle):
+            shape: Shape = to_draw.occupancy_at_time(time_step).shape
+            left, bottom = shape.center / 2
+            angle: float = to_draw.initial_state.orientation * 360 / 2 / pi
+            converted = Rectangle((left, bottom), shape.length, shape.width, angle=angle)
         elif isinstance(to_draw, MyState):
             converted = DrawHelp.convert_to_drawable(to_draw.state)
         elif isinstance(to_draw, State):
@@ -80,8 +91,11 @@ class DrawHelp:
         """
         if not to_draw:
             artist = None
-        elif isinstance(to_draw, (Scenario, LaneletNetwork, List)):  # FIXME Use List[plottable_types]
+        elif isinstance(to_draw, (Scenario, LaneletNetwork, List, GoalRegion, StaticObstacle, commonroad.geometry.shape.Rectangle)):  # FIXME Use List[plottable_types]
             artist = draw_object(to_draw, draw_params=DrawConfig.draw_params)
+        elif isinstance(to_draw, DynamicObstacle):
+            error("Pass an occupancy of a DynamicObstacle instead of the obstacle itself.")
+            artist = None
         elif isinstance(to_draw, MultiLineString):
             artist = None  # In case the MultiLineString had no boundary
             for line_string in to_draw.boundary:
