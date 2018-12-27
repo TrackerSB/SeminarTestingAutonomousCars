@@ -1,5 +1,5 @@
 import os
-from typing import Tuple, List, Optional
+from typing import Tuple, List, Optional, Dict
 
 import matplotlib.patches as pltpat
 import matplotlib.pyplot as plt
@@ -15,12 +15,19 @@ from matplotlib.artist import Artist
 from common import DrawHelp
 
 
+arrowprops: Dict = dict(facecolor='black', width=3)
+
+
 def createDynamicObstaclesArtists(dynamic_obstacles: List[DynamicObstacle]) -> List[List[Artist]]:
     artists: List[List[Artist]] = []
     for time_step in range(0, 51):
         frame = []
         for obstacle in dynamic_obstacles:
-            frame.append(DrawHelp.draw(DrawHelp.convert_to_drawable(obstacle, time_step)))
+            position: pltpat.Rectangle = DrawHelp.convert_to_drawable(obstacle, time_step)
+            frame.append(DrawHelp.draw(position))
+            frame.append(plt.annotate("participant", xy=(position.get_x() - 3, position.get_y()),
+                                      xytext=(position.get_x(), position.get_y() + 20),
+                                      arrowprops=arrowprops))
         artists.append(frame)
 
     return artists
@@ -28,14 +35,16 @@ def createDynamicObstaclesArtists(dynamic_obstacles: List[DynamicObstacle]) -> L
 
 def extend_frames_with_prediction(initial_state: State, frames: List[List[Artist]], delay_time_step_sec: float) \
         -> List[List[Artist]]:
-    DrawHelp.draw(DrawHelp.convert_to_drawable(initial_state))
     current_state: State = initial_state
     for frame in frames:
         state_point: pltpat.Circle = pltpat.Circle(current_state.position, 2)
         frame.append(plt.gca().add_patch(state_point))
+        center = state_point.get_center()
+        annotation = plt.annotate("ego_vehicle", xy=center - (0, 2), xytext=center - (-2, 20), arrowprops=arrowprops)
+        frame.append(annotation)
+
         delta_x: float = np.cos(current_state.orientation) * current_state.velocity * delay_time_step_sec
         delta_y: float = np.sin(current_state.orientation) * current_state.velocity * delay_time_step_sec
-
         translation: np.ndarray = np.array([delta_x, delta_y])
         current_state = current_state.translate_rotate(translation, 0)
 
@@ -53,6 +62,7 @@ def main() -> None:
 
     # Draw goal region
     DrawHelp.draw(DrawHelp.convert_to_drawable(planning_problem.goal))
+    plt.annotate("goal region", xy=(117, 45), xytext=(150, 35), arrowprops=arrowprops)
 
     # Draw lanes
     DrawHelp.draw(DrawHelp.convert_to_drawable(scenario.lanelet_network))
@@ -60,6 +70,8 @@ def main() -> None:
     # Draw static obstacles
     for obstacle in scenario.static_obstacles:
         DrawHelp.draw(DrawHelp.convert_to_drawable(obstacle))
+        x, y = obstacle.occupancy_at_time(0).shape.center
+        plt.annotate("static obstacle", xy=(x + 2, y - 2), xytext=(x + 50, y - 20), arrowprops=arrowprops)
 
     # Generates frames of dynamic obstacles
     frames: List[List[Artist]] = createDynamicObstaclesArtists(scenario.dynamic_obstacles)
