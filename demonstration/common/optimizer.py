@@ -99,6 +99,42 @@ def calculate_area_profile(infos: List[VehicleInfo]) -> ndarray:
     return np.array(area_profile)
 
 
+def calculate_B(initial_vehicles: List[VehicleInfo], current_vehicles: List[VehicleInfo], scenario: Scenario) \
+        -> Dict[Tuple[int, int], float]:
+    p: int = len(initial_vehicles)
+    print("Calculate B for: " + str(p) + " vehicles and " + str(len(MyState.variables)) + " variables.")
+
+    initial_area_profiles: Dict[int, ndarray] = {}
+    for j in range(len(current_vehicles)):
+        initial_area_profiles[j], _ \
+            = GenerationHelp.generate_states(scenario, initial_vehicles[j].state, total_steps)
+
+    B: Dict[Tuple[int, int], float] = {}
+    for j in range(p):
+        new_states, _ = GenerationHelp.generate_states(scenario, current_vehicles[j].state, total_steps)
+        new_area_profile: ndarray = calculate_area_profile(flatten_dict_values(new_states))
+        state_j: MyState = current_vehicles[j].state
+        initial_state_j: MyState = initial_vehicles[j].state
+        n_j: int = len(state_j.variables)
+        for i in range(n_j):
+            variation_ij = state_j.variable(i) - initial_state_j.variable(i)
+            if variation_ij == 0:
+                B[(i, j)] = -1
+            else:
+                B[(i, j)] = norm((new_area_profile - initial_area_profiles[j]) / variation_ij)
+    return B
+
+
+def calculate_B_as_matrix(initial_vehicles: List[VehicleInfo], current_vehicles: List[VehicleInfo],
+                          scenario: Scenario) -> matrix:
+    B: Dict[Tuple[int, int], float] = calculate_B(initial_vehicles, current_vehicles, scenario)
+    B_mat: matrix = eye(len(MyState.variables), len(initial_vehicles))
+    for (i, j) in B.keys():
+        B_mat[i][j] = B[(i, j)]
+
+    return B_mat
+
+
 def binary_search(my: int, initial_vehicles_before: List[VehicleInfo], initial_vehicles_after: List[VehicleInfo],
                   scenario: Scenario) -> float:
     # Require
@@ -130,28 +166,12 @@ def binary_search(my: int, initial_vehicles_before: List[VehicleInfo], initial_v
     # end while
     # return x_{0,before,sI}^vI
 
-    p: int = len(initial_vehicles_before)
-    print("binary search called: " + str(p) + " vehicles and " + str(len(MyState.variables)) + " variables.")
-
-    initial_area_profiles: Dict[int, ndarray] = {}
-    for j in range(len(initial_vehicles_after)):
-        initial_area_profiles[j], _ \
-            = GenerationHelp.generate_states(scenario, initial_vehicles_before[j].state, total_steps)
-
     b_max = 0  # FIXME What is this variable for?
-    b_abs: Dict[Tuple[int, int], float] = {}  # Absolute values of sensitivities
-    for j in range(p):
-        new_states, _ = GenerationHelp.generate_states(scenario, initial_vehicles_after[j].state, total_steps)
-        new_area_profile: ndarray = calculate_area_profile(flatten_dict_values(new_states))
-        state_j: MyState = initial_vehicles_after[j].state
-        initial_state_j: MyState = initial_vehicles_before[j].state
-        n_j: int = len(state_j.variables)
-        for i in range(n_j):
-            variation_ij = state_j.variable(i) - initial_state_j.variable(i)
-            if variation_ij == 0:
-                b_abs[(i, j)] = -1
-            else:
-                b_abs[(i, j)] = norm((new_area_profile - initial_area_profiles[j]) / variation_ij)
+    # Absolute values of sensitivities
+    b_abs: Dict[Tuple[int, int], float] = calculate_B(initial_vehicles_before, initial_vehicles_after, scenario)
+    for key in b_abs.keys():
+        b_abs[key] = abs(b_abs[key])
+
     b_sorted: Queue[Tuple[int, int]] = Queue()
     for bij in sorted(b_abs, key=lambda key: b_abs[key], reverse=True):  # Sort based on sensitivity descending
         print(bij)
@@ -254,16 +274,19 @@ def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_m
     kappa_new: float = 0
     kappa_old: float = -np.inf
     it: int = 0
-    current_vehicles = initial_vehicles
+    current_initial_vehicles = initial_vehicles
     while abs(kappa_new - kappa_old) >= epsilon and it < it_max:
         success: bool = True
         while abs(kappa_new - kappa_old) >= epsilon and success:
             kappa_old = kappa_new
-            old_vehicles: List[VehicleInfo] = current_vehicles
+            old_initial_vehicles: List[VehicleInfo] = current_initial_vehicles
+            current_generated_vehicles, _ = GenerationHelp.generate_states(
+                scenario, current_initial_vehicles[0].state, total_steps)  # FIXME Only ego vehicle considered
             # x_{0,curr}, S, success <- quadProg(solve(quadratic optimization problem))
-            B: matrix = eye(r, p)  # FIXME Calculate B
+            B: matrix = calculate_B_as_matrix(old_initial_vehicles, current_initial_vehicles, scenario)
             W_tilde: matrix = np.asmatrix(B.transpose() * W * B)
-            delta_a0: matrix = np.asmatrix(calculate_area_profile(current_vehicles) - a_ref)
+            delta_a0: matrix = np.asmatrix(
+                calculate_area_profile(flatten_dict_values(current_generated_vehicles)) - a_ref)
             c: ndarray = delta_a0.transpose() * (W * B + W.transpose() * B)
             delta_x: Variable = Variable((1, r))
             objective: Minimize = Minimize(cvxpy.norm(quad_form(delta_x, W_tilde) + c * delta_x))
@@ -272,9 +295,10 @@ def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_m
             assert is_dccp(problem)
             print(problem.solve(method='dccp', solver='ECOS'))
             print(delta_x.value)
+            # FIXME Change current initial vehicles?
             kappa_new = kappa(delta_a0, a_ref, W)  # FIXME Really use delta_a0?
-        binary_search(my, old_vehicles, current_vehicles, scenario)
-        # initial_vehicles = ?
+        binary_search(my, old_initial_vehicles, current_initial_vehicles, scenario)  # FIXME What to do with this value?
+        # initial_vehicles = ?  # FIXME What to do here?
         update_scenario_vehicles(scenario, planning_problem, initial_vehicles)
         kappa_new = kappa(calculate_area_profile(initial_vehicles), a_ref, W)
         it += 1
