@@ -20,11 +20,11 @@ from common.draw import DrawHelp, DrawConfig
 
 
 class GenerationConfig:
-    max_yaw: float = pi / 16  # 11.25°
-    yaw_steps: int = 8
+    max_yaw: float = pi / 8  # 22.5°
+    yaw_steps: int = 32
     num_threads: int = 8
     position_threshold = 0.5
-    angle_threshold = max_yaw * 0.85  # NOTE Needs to be way smaller than max_yaw otherwise the car tends to the right.
+    angle_threshold = max_yaw * 0.5  # NOTE Needs to be way smaller than max_yaw otherwise the car tends to the right.
 
 
 class GenerationHelp:
