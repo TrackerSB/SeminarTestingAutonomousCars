@@ -59,7 +59,7 @@ def main() -> None:
 
         # Draw changes of drivable area
         area_fig.set_xlim([min_velocity, max_velocity])
-        area_fig.set_ylim([0, 60])
+        area_fig.set_ylim([0, max(90.0, max(drivable_areas.values()))])
         area_fig.plot(drivable_areas.keys(), drivable_areas.values(), 'x',
                       drivable_areas.keys(), drivable_areas.values(), '-')
         area_fig.set_xlabel("velocity [m/s]")
