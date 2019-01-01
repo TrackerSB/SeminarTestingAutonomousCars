@@ -8,7 +8,7 @@ from commonroad.geometry.shape import Shape, Rectangle
 from commonroad.planning.planning_problem import PlanningProblem
 from commonroad.prediction.prediction import TrajectoryPrediction
 from commonroad.scenario.scenario import Scenario
-from commonroad.scenario.trajectory import State, Trajectory
+from commonroad.scenario.trajectory import Trajectory
 from numpy import linspace
 from numpy.core.multiarray import ndarray
 from numpy.core.umath import pi, cos, sin
@@ -17,7 +17,6 @@ from numpy.random.mtrand import uniform
 from common import is_valid, VehicleInfo, MyState
 from common.StatesQueue import StatesQueue
 from common.draw import DrawHelp, DrawConfig
-from common.types import drawable_types
 
 
 class GenerationConfig:
