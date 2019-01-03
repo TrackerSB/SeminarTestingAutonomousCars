@@ -2060,24 +2060,24 @@
       <shape>
          <polygon>
             <point>
-               <x>86.3397</x>
-               <y>32.4356</y>
+               <x>116.3397</x>
+               <y>45.9356</y>
             </point>
             <point>
-               <x>85.1735</x>
-               <y>35.2239</y>
+               <x>115.1735</x>
+               <y>48.7239</y>
             </point>
             <point>
-               <x>91.828</x>
-               <y>38.1942</y>
+               <x>121.828</x>
+               <y>51.6942</y>
             </point>
             <point>
-               <x>93.0206</x>
-               <y>35.494</y>
+               <x>123.0206</x>
+               <y>48.994</y>
             </point>
             <point>
-               <x>86.3397</x>
-               <y>32.4356</y>
+               <x>116.3397</x>
+               <y>45.9356</y>
             </point>
          </polygon>
       </shape>
@@ -2097,8 +2097,8 @@
       <initialState>
          <position>
             <point>
-               <x>74</x>
-               <y>29</y>
+               <x>104</x>
+               <y>42</y>
             </point>
          </position>
          <velocity>
