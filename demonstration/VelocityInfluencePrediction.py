@@ -22,8 +22,8 @@ def main() -> None:
         for obs in scenario.dynamic_obstacles:
             fixed_drawables.append(DrawHelp.convert_to_drawable([obs.occupancy_at_time(time_step)]))
 
-    min_velocity: int = 15
-    max_velocity: int = 50
+    min_velocity: int = 20
+    max_velocity: int = 60
     drivable_areas: Dict[int, float] = {}
     for velocity in range(min_velocity, max_velocity + 1):
         # Prepare figure and subplots

@@ -20,7 +20,7 @@ from common.draw import DrawHelp, DrawConfig
 
 
 class GenerationConfig:
-    max_yaw: float = pi / 8  # 22.5°
+    max_yaw: float = pi / 16  # 11.25°
     yaw_steps: int = 32
     num_threads: int = 8
     position_threshold = 0.5
