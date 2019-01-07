@@ -1,7 +1,6 @@
 from typing import List, Tuple, Optional
 
 from commonroad.scenario.trajectory import State
-from numpy.core.umath import subtract
 from numpy.linalg import norm
 
 
