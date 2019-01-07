@@ -22,6 +22,9 @@ class DijkstraNode:
 
 def dijkstra_search(start_state: State, goal_states: List[State], states: List[State]) \
         -> Optional[Tuple[List[State], float]]:
+    # NOTE The names white/grey/black may be confusing. The naming is solely based on
+    # https://github.com/AtsushiSakai/PythonRobotics#probabilistic-road-map-prm-planning
+
     # NOTE Per definition there is an edge from state A to state B if and only if A.time_step == B.time_step - 1
     if start_state in states:
         states.remove(start_state)
