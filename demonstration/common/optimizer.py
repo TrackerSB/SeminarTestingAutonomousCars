@@ -102,7 +102,6 @@ def calculate_area_profile(infos: List[VehicleInfo]) -> ndarray:
 def calculate_B(initial_vehicles: List[VehicleInfo], current_vehicles: List[VehicleInfo], scenario: Scenario) \
         -> Dict[Tuple[int, int], float]:
     p: int = len(initial_vehicles)
-    print("Calculate B for: " + str(p) + " vehicles and " + str(len(MyState.variables)) + " variables.")
 
     initial_area_profiles: Dict[int, ndarray] = {}
     for j in range(len(current_vehicles)):
@@ -174,7 +173,6 @@ def binary_search(my: int, initial_vehicles_before: List[VehicleInfo], initial_v
 
     b_sorted: Queue[Tuple[int, int]] = Queue()
     for bij in sorted(b_abs, key=lambda key: b_abs[key], reverse=True):  # Sort based on sensitivity descending
-        print(bij)
         b_sorted.put(bij)
     current_vehicles: List[VehicleInfo] = initial_vehicles_before  # States to be modified step by step
     while not b_sorted.empty():
@@ -266,7 +264,6 @@ def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_m
 
     p: int = len(initial_vehicles)
     r: int = len(MyState.variables)
-    print("optmized_scenario called: " + str(p) + ".")
 
     if not W:
         W = eye(p)
@@ -293,10 +290,15 @@ def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_m
             constraints = [delta_x >= 0, delta_a0 + B * delta_x >= 0]  # FIXME Really use delta_a0?
             problem = Problem(objective, constraints)
             assert is_dccp(problem)
-            print(problem.solve(method='dccp', solver='ECOS'))
-            print(delta_x.value)
-            # FIXME Change current initial vehicles?
+            problem.solve(method='dccp', solver='ECOS')
+            print("Current optimization result: " + str(delta_x.value))
+            # FIXME Change current initial vehicles like this?
+            for i in range(len(current_initial_vehicles)):
+                for j in range(len(MyState.variables)):
+                    # FIXME Only ego vehicle considered
+                    current_initial_vehicles[i].state.set_variable(j, delta_x.value[i][j])
             kappa_new = kappa(delta_a0, a_ref, W)  # FIXME Really use delta_a0?
+            print("Difference between new and old costs: " + str(abs(kappa_new - kappa_old)))
         binary_search(my, old_initial_vehicles, current_initial_vehicles, scenario)  # FIXME What to do with this value?
         # initial_vehicles = ?  # FIXME What to do here?
         update_scenario_vehicles(scenario, planning_problem, initial_vehicles)
