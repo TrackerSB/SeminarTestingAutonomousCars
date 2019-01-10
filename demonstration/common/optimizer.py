@@ -297,6 +297,7 @@ def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_m
             min_velocity: float = distance_to_goal_region / (scenario.dt * total_steps)
             print("min_velocity: " + str(min_velocity))
             # FIXME Really use delta_a0?
+            # FIXME If min_velocity is greater than zero the optimization fails
             constraints = [delta_x >= 0, delta_a0 + B * delta_x >= 0, delta_x[0] >= min_velocity]
             problem = Problem(objective, constraints)
             assert is_dccp(problem)
