@@ -10,7 +10,7 @@ from common.optimizer import optimized_scenario
 
 
 def main() -> None:
-    scenario, planning_problem = load_scenario('scenarios/DEU_B471-1_1_T-1.xml')
+    scenario, planning_problem = load_scenario('scenarios/DEU_B471-1_1_T-1_mod.xml')
 
     start_time: datetime = datetime.now()
     ego_vehicle: MyState = MyState(copy(planning_problem.initial_state))

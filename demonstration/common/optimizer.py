@@ -60,17 +60,15 @@ from commonroad.planning.planning_problem import PlanningProblem
 from commonroad.scenario.scenario import Scenario
 from commonroad.scenario.trajectory import State
 from cvxpy import Variable, Problem, Minimize, quad_form
+from dccp import is_dccp  # Make sure there is at least one dccp import. Otherwise dccp is not registered to cvxpy.
 from numpy import eye, matrix
 from numpy.core.multiarray import ndarray, inner
 from numpy.linalg import norm
-from shapely.geometry import MultiPolygon
-from dccp import is_dccp  # Make sure there is at least one dccp import. Otherwise dccp is not registered to cvxpy.
+from shapely.geometry import MultiPolygon, Point, Polygon
 
 from common import drawable_types, VehicleInfo, MyState, flatten_dict_values
 from common.draw import DrawHelp
 from common.generation import GenerationHelp
-
-total_steps: int = 5  # FIXME Recognize the total time steps of the scenario
 
 
 def calculate_area_profile(infos: List[VehicleInfo]) -> ndarray:
@@ -99,8 +97,8 @@ def calculate_area_profile(infos: List[VehicleInfo]) -> ndarray:
     return np.array(area_profile)
 
 
-def calculate_B(initial_vehicles: List[VehicleInfo], current_vehicles: List[VehicleInfo], scenario: Scenario) \
-        -> Dict[Tuple[int, int], float]:
+def calculate_B(initial_vehicles: List[VehicleInfo], current_vehicles: List[VehicleInfo], scenario: Scenario,
+                total_steps: int) -> Dict[Tuple[int, int], float]:
     p: int = len(initial_vehicles)
 
     initial_area_profiles: Dict[int, ndarray] = {}
@@ -125,8 +123,8 @@ def calculate_B(initial_vehicles: List[VehicleInfo], current_vehicles: List[Vehi
 
 
 def calculate_B_as_matrix(initial_vehicles: List[VehicleInfo], current_vehicles: List[VehicleInfo],
-                          scenario: Scenario) -> matrix:
-    B: Dict[Tuple[int, int], float] = calculate_B(initial_vehicles, current_vehicles, scenario)
+                          scenario: Scenario, total_steps: int) -> matrix:
+    B: Dict[Tuple[int, int], float] = calculate_B(initial_vehicles, current_vehicles, scenario, total_steps)
     B_mat: matrix = eye(len(MyState.variables), len(initial_vehicles))
     for (i, j) in B.keys():
         B_mat[i][j] = B[(i, j)]
@@ -135,7 +133,7 @@ def calculate_B_as_matrix(initial_vehicles: List[VehicleInfo], current_vehicles:
 
 
 def binary_search(my: int, initial_vehicles_before: List[VehicleInfo], initial_vehicles_after: List[VehicleInfo],
-                  scenario: Scenario) -> float:
+                  scenario: Scenario, total_steps: int) -> float:
     # Require
     # x_{0,before,i}^j      initial state before last quadratic update
     # x_{0,after,i}^j       initial state after last quadratic update
@@ -167,7 +165,8 @@ def binary_search(my: int, initial_vehicles_before: List[VehicleInfo], initial_v
 
     b_max = 0  # FIXME What is this variable for?
     # Absolute values of sensitivities
-    b_abs: Dict[Tuple[int, int], float] = calculate_B(initial_vehicles_before, initial_vehicles_after, scenario)
+    b_abs: Dict[Tuple[int, int], float] \
+        = calculate_B(initial_vehicles_before, initial_vehicles_after, scenario, total_steps)
     for key in b_abs.keys():
         b_abs[key] = abs(b_abs[key])
 
@@ -264,6 +263,7 @@ def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_m
 
     p: int = len(initial_vehicles)
     r: int = len(MyState.variables)
+    total_steps: int = len(a_ref)
 
     if not W:
         W = eye(p)
@@ -280,17 +280,27 @@ def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_m
             current_generated_vehicles, _ = GenerationHelp.generate_states(
                 scenario, current_initial_vehicles[0].state, total_steps)  # FIXME Only ego vehicle considered
             # x_{0,curr}, S, success <- quadProg(solve(quadratic optimization problem))
-            B: matrix = calculate_B_as_matrix(old_initial_vehicles, current_initial_vehicles, scenario)
+            B: matrix = calculate_B_as_matrix(old_initial_vehicles, current_initial_vehicles, scenario, total_steps)
             W_tilde: matrix = np.asmatrix(B.transpose() * W * B)
             delta_a0: matrix = np.asmatrix(
                 calculate_area_profile(flatten_dict_values(current_generated_vehicles)) - a_ref)
             c: ndarray = delta_a0.transpose() * (W * B + W.transpose() * B)
             delta_x: Variable = Variable((1, r))
             objective: Minimize = Minimize(cvxpy.norm(quad_form(delta_x, W_tilde) + c * delta_x))
-            constraints = [delta_x >= 0, delta_a0 + B * delta_x >= 0]  # FIXME Really use delta_a0?
+            # Instead of the "real" goal region constraint use a minimum velocity needed for getting to the goal region
+            # within the given amount of steps
+            # FIXME Only ego vehicle considered
+            current_initial_position: Point = Point(current_initial_vehicles[0].state.state.position)
+            # FIXME Only first goal region entry recognized
+            goal_region: Polygon = planning_problem.goal.state_list[0].position.shapely_object
+            distance_to_goal_region: float = current_initial_position.distance(goal_region)
+            min_velocity: float = distance_to_goal_region / (scenario.dt * total_steps)
+            print("min_velocity: " + str(min_velocity))
+            # FIXME Really use delta_a0?
+            constraints = [delta_x >= 0, delta_a0 + B * delta_x >= 0, delta_x >= min_velocity]
             problem = Problem(objective, constraints)
             assert is_dccp(problem)
-            problem.solve(method='dccp', solver='ECOS')
+            print("Problem solve result: " + str(problem.solve(method='dccp', solver='ECOS')))
             print("Current optimization result: " + str(delta_x.value))
             # FIXME Change current initial vehicles like this?
             for i in range(len(current_initial_vehicles)):
@@ -299,7 +309,7 @@ def optimized_scenario(initial_vehicles: List[VehicleInfo], epsilon: float, it_m
                     current_initial_vehicles[i].state.set_variable(j, delta_x.value[i][j])
             kappa_new = kappa(delta_a0, a_ref, W)  # FIXME Really use delta_a0?
             print("Difference between new and old costs: " + str(abs(kappa_new - kappa_old)))
-        binary_search(my, old_initial_vehicles, current_initial_vehicles, scenario)  # FIXME What to do with this value?
+        binary_search(my, old_initial_vehicles, current_initial_vehicles, scenario, total_steps)  # FIXME What to do with this value?
         # initial_vehicles = ?  # FIXME What to do here?
         update_scenario_vehicles(scenario, planning_problem, initial_vehicles)
         kappa_new = kappa(calculate_area_profile(initial_vehicles), a_ref, W)
