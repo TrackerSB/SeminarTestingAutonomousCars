@@ -11,12 +11,15 @@ from common.generation import GenerationHelp
 
 
 def main() -> None:
-    scenario, planning_problem = load_scenario('scenarios/DEU_B471-1_1_T-1.xml')
+    scenario, planning_problem = load_scenario('scenarios/DEU_B471-1_1_T-1_mod.xml')
 
     plt.figure(figsize=(25, 10))
 
     DrawHelp.draw(DrawHelp.convert_to_drawable(scenario))
     DrawHelp.draw(DrawHelp.convert_to_drawable(planning_problem.initial_state))
+    DrawHelp.draw(DrawHelp.convert_to_drawable(planning_problem.goal))
+
+    MyState.set_variable_to(planning_problem.initial_state, 0, 8)
 
     start_time: datetime = datetime.now()
     valid_converted, num_states_processed \
