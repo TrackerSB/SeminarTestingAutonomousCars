@@ -16,7 +16,7 @@ def main() -> None:
     ego_vehicle: MyState = MyState(copy(planning_problem.initial_state))
     vehicles: List[VehicleInfo] = [VehicleInfo(ego_vehicle, -1)]
 
-    optimized_scenario(vehicles, 3000, 10, 10, array([5, 4, 3, 2, 1]), scenario, planning_problem)
+    optimized_scenario(vehicles, 3000, 10, 10, array([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]), scenario, planning_problem)
 
     print("Optimization in " + str(datetime.now() - start_time))
     print("Optimized velocity: " + str(planning_problem.initial_state.velocity))
