@@ -1,0 +1,67 @@
+# Description of the generated media files
+
+## 2018-12-19\_drivableArea\_8steps.png
+ - Shows drivable area
+ - Zoomed in
+ - unmodified scenario
+ - Velocity (maybe) 18
+ - 8 steps
+
+## 2018-12-19\_movementPrediction\_15steps.png
+ - Shows Probabilistic Road-Map (PRM)
+ - 15 steps
+ - Zoomed in
+ - unmodified scenario
+ - Velocity (maybe) 18
+
+## 2018-12-21\_manualVelocityModification
+ - Drivable area development changing velocity
+ - From velocity 18 to (maybe) 50
+ - 5 steps
+ - modified ego vehicle scenario
+ - without drivable area graph
+
+## 2018-12-26\_BasicUnoptimzedScenario.mp4
+ - Shows unmodified scenario
+ - 50 steps
+ - linear projection of ego vehicle
+ - without labels
+ - not zoomed in
+
+## 2018-12-26\_manualVelocityModification
+ - Drivable area development changing velocity
+ - From velocity 15 to 50
+ - 5 steps
+ - modified ego vehicle scenario
+ - with drivable area graph
+ - visible minimum
+
+## 2018-12-27\_BasicUnoptimzedScenario.mp4
+ - Shows unmodified scenario
+ - 50 steps
+ - linear projection of ego vehicle
+ - with labels
+ - not zoomed in
+
+## 2019-01-01\_manualVelocityModification
+ - Drivable area development changing velocity
+ - From velocity 15 to 50
+ - 10 steps
+ - modified ego vehicle scenario
+ - with drivable area graph
+ - No visible minimum
+
+## 2019-01-01\_RunTimeAnalysis.png
+ - Shows computation time of generation
+ - Generation steps between 0 and 20
+ - Shows exponential behavior
+
+## 2019-01-03\_manualVelocityModification
+ - Drivable area development changing velocity
+ - From velocity 20 to 60
+ - 10 steps
+ - modified ego vehicle
+ - modified traffic participants
+ - with drivable area graph
+ - Visible minimum
+ - Contains erroneous spike
