@@ -65,3 +65,14 @@
  - with drivable area graph
  - Visible minimum
  - Contains erroneous spike
+
+## 2019-01-20\_manualVelocityModification
+ - Drivable area development changing velocity
+ - From velocity 20 to 60
+ - 10 steps
+ - modified ego vehicle
+ - modified traffic participants
+ - with drivable area graph
+ - No clear minimum
+ - Contains erroneous spike
+ - Took 0:44:12.620628
