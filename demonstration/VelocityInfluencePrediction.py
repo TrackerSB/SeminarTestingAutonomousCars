@@ -25,7 +25,10 @@ def main() -> None:
     min_velocity: int = 20
     max_velocity: int = 60
     drivable_areas: Dict[int, float] = {}
+    overall_time: datetime = datetime.now()
     for velocity in range(min_velocity, max_velocity + 1):
+        print("Velocity: " + str(velocity))
+
         # Prepare figure and subplots
         main_fig, (scenario_fig, area_fig) = plt.subplots(nrows=1, ncols=2, figsize=(19.20, 10.80), dpi=100)
         main_fig.suptitle("Influence of velocity to drivable area", fontsize=32)
@@ -68,6 +71,8 @@ def main() -> None:
         # Save the figure
         plt.savefig("out_velocity_" + str(velocity))
         # plt.close()  # FIXME Causes EOFErrors
+
+    print("Overall generation took: " + str(datetime.now() - overall_time))
 
 
 if __name__ == '__main__':
