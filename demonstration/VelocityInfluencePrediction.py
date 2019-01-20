@@ -10,7 +10,7 @@ from common.generation import GenerationHelp, GenerationConfig
 
 
 def main() -> None:
-    scenario, planning_problem = load_scenario('scenarios/DEU_B471-1_1_T-1_mod.xml')
+    scenario, planning_problem = load_scenario('scenarios/DEU_B471-1_1_T-1_mod_2.xml')
 
     num_time_steps: int = 15
     fixed_drawables: List[drawable_types] = []
@@ -69,8 +69,8 @@ def main() -> None:
         drivable_areas[velocity] = union.area
 
         scenario_fig.set_aspect('equal')
-        scenario_fig.set_xlim([50, 200])
-        scenario_fig.set_ylim([0, 100])
+        scenario_fig.set_xlim([100, 200])
+        scenario_fig.set_ylim([30, 100])
         scenario_fig.set_xlabel("position [m]")
         scenario_fig.set_ylabel("position [m]")
 

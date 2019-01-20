@@ -31,8 +31,7 @@ draw_params = {
 
 
 def main():
-    #file_path: os.path = os.path.join(os.getcwd(), '../scenarios/ZAM_Straight-1_1.xml')
-    file_path: os.path = os.path.join(os.getcwd(), '../scenarios/DEU_B471-1_1_T-1/DEU_B471-1_1_T-1.xml')
+    file_path: os.path = os.path.join(os.getcwd(), '../scenarios/DEU_B471-1_1_T-1_mod_2.xml')
 
     common_road: Tuple[Scenario, PlanningProblemSet] = CommonRoadFileReader(file_path).open()
     scenario: Scenario = common_road[0]
