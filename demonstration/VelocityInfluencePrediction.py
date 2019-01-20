@@ -12,7 +12,7 @@ from common.generation import GenerationHelp, GenerationConfig
 def main() -> None:
     scenario, planning_problem = load_scenario('scenarios/DEU_B471-1_1_T-1_mod.xml')
 
-    num_time_steps: int = 10
+    num_time_steps: int = 15
     fixed_drawables: List[drawable_types] = []
     for obj in [scenario.lanelet_network, planning_problem.initial_state]:
         fixed_drawables.append(DrawHelp.convert_to_drawable(obj))
