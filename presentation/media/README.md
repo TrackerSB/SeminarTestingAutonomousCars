@@ -97,3 +97,15 @@
  - with drivable area graph
  - Somehow visible minimum
  - Took 0:28:48.799119
+
+## 2019-01-20\_manualVelocityModification\_3
+ - Drivable area development changing velocity
+ - From velocity 49 to 60
+ - Velocity step size 0.5
+ - 15 steps
+ - modified ego vehicle
+ - modified traffic participants
+ - modified static obstacle
+ - with drivable area graph
+ - **Visible** minimum
+ - Took 0:19:58.318031
