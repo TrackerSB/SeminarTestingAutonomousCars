@@ -3,6 +3,7 @@ from datetime import datetime
 from typing import List, Dict, TextIO
 
 import matplotlib.pyplot as plt
+from numpy.core.multiarray import arange
 from shapely.geometry import MultiPolygon
 
 from common import load_scenario, DrawHelp, MyState, flatten_dict_values, VehicleInfo, drawable_types, DrawConfig
@@ -22,8 +23,9 @@ def main() -> None:
         for obs in scenario.dynamic_obstacles:
             fixed_drawables.append(DrawHelp.convert_to_drawable([obs.occupancy_at_time(time_step)]))
 
-    min_velocity: int = 20
-    max_velocity: int = 60
+    min_velocity: int = 40
+    max_velocity: int = 59
+    velocity_step_size: float = 0.5
     drivable_areas: Dict[int, float] = {}
 
     config_file: TextIO = open("config.conf", "w")
@@ -40,7 +42,7 @@ def main() -> None:
     config_file.close()
 
     overall_time: datetime = datetime.now()
-    for velocity in range(min_velocity, max_velocity + 1):
+    for velocity in arange(min_velocity, max_velocity + velocity_step_size, velocity_step_size):
         print("Velocity: " + str(velocity))
 
         # Prepare figure and subplots
@@ -76,14 +78,14 @@ def main() -> None:
 
         # Draw changes of drivable area
         area_fig.set_xlim([min_velocity, max_velocity])
-        area_fig.set_ylim([0, max(90.0, max(drivable_areas.values()))])
+        area_fig.set_ylim([0, max(270.0, max(drivable_areas.values()))])
         area_fig.plot(drivable_areas.keys(), drivable_areas.values(), 'x',
                       drivable_areas.keys(), drivable_areas.values(), '-')
         area_fig.set_xlabel("velocity [m/s]")
         area_fig.set_ylabel("area [m²]")
 
         # Save the figure
-        plt.savefig("out_velocity_" + str(velocity))
+        plt.savefig("out_velocity_" + str(velocity) + ".png")
         # plt.close()  # FIXME Causes EOFErrors
 
     print("Overall generation took: " + str(datetime.now() - overall_time))
