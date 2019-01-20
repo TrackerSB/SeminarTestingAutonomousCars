@@ -1,12 +1,12 @@
 from copy import copy
 from datetime import datetime
-from typing import List, Dict
+from typing import List, Dict, TextIO
 
 import matplotlib.pyplot as plt
 from shapely.geometry import MultiPolygon
 
-from common import load_scenario, DrawHelp, MyState, flatten_dict_values, VehicleInfo, drawable_types
-from common.generation import GenerationHelp
+from common import load_scenario, DrawHelp, MyState, flatten_dict_values, VehicleInfo, drawable_types, DrawConfig
+from common.generation import GenerationHelp, GenerationConfig
 
 
 def main() -> None:
@@ -25,6 +25,20 @@ def main() -> None:
     min_velocity: int = 20
     max_velocity: int = 60
     drivable_areas: Dict[int, float] = {}
+
+    config_file: TextIO = open("config.conf", "w")
+    config_file.write("Velocities from " + str(min_velocity) + " to " + str(max_velocity))
+    config_file.write("num_time_steps: " + str(num_time_steps))
+    config_file.write("time_step_size: " + str(scenario.dt))
+    config_file.write("GenerationConfig.max_yaw: " + str(GenerationConfig.max_yaw))
+    config_file.write("GenerationConfig.yaw_steps: " + str(GenerationConfig.yaw_steps))
+    config_file.write("GenerationConfig.num_threads: " + str(GenerationConfig.num_threads))
+    config_file.write("GenerationConfig.position_threshold: " + str(GenerationConfig.position_threshold))
+    config_file.write("GenerationConfig.angle_threshold: " + str(GenerationConfig.angle_threshold))
+    config_file.write("DrawConfig.car_length: " + str(DrawConfig.car_length))
+    config_file.write("DrawConfig.car_width: " + str(DrawConfig.car_width))
+    config_file.close()
+
     overall_time: datetime = datetime.now()
     for velocity in range(min_velocity, max_velocity + 1):
         print("Velocity: " + str(velocity))
