@@ -25,7 +25,7 @@ def main() -> None:
 
     min_velocity: int = 40
     max_velocity: int = 59
-    velocity_step_size: float = 0.5
+    velocity_step_size: float = 0.2
     drivable_areas: Dict[int, float] = {}
 
     config_file: TextIO = open("config.conf", "w")
