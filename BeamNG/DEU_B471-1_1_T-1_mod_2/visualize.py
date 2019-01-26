@@ -9,20 +9,22 @@ rot_offset: float = 180
 
 def main() -> None:
     # Setup BeamNG
-    bng = BeamNGpy('localhost', 64256, home='G:/gitrepos/beamng-research_unlimited/trunk')
-    scenario = Scenario('GridMap', 'commonroad', authors='Stefan Huber',
+    bng = BeamNGpy('localhost', 64256, home='G:/gitrepos/beamng-research_unlimited/trunk',
+          user='G:/gitrepos/SeminarTestingAutonomousCars/BeamNG/BeamNGUserpath')
+    scenario = Scenario('smallgrid', 'commonroad', authors='Stefan Huber',
                         description='Simple visualization of the modified version of the CommonRoad scenario '
                                     'DEU_B471-1_1_T-1')
 
     # Add vehicle
     vehicle = Vehicle('ego_vehicle', model='etk800', licence='EGO', color='White')
-    scenario.add_vehicle(vehicle, pos=(0, z_offset, 0), rot=(0, 0, rot_offset))
+    scenario.add_vehicle(vehicle, pos=(0, 0, 0), rot=(0, 0, 0))
 
     # Create road
-    road = Road('track_editor_C_center')
+    road = Road('AsphaltRoad_variation_02')
     nodes = [
-        (0, z_offset, 0, 5),
-        (0, z_offset + 5, 0, 5)
+        (0, 0, 0, 5),
+        (0, 100, 0, 5),
+        (100, 0, 0, 5)
     ]
     road.nodes.extend(nodes)
     scenario.add_road(road)
