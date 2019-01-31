@@ -1,5 +1,7 @@
 from beamngpy import BeamNGpy, Scenario, Vehicle, Road, os
+from beamngpy.sensors import Camera
 from commonroad.common.file_reader import CommonRoadFileReader
+from commonroad.geometry.shape import Polygon
 from numpy.core._multiarray_umath import rad2deg
 
 # Visualize DEU_B471-1_1_T-1_mod_2
@@ -14,6 +16,7 @@ cr_road_material = 'track_editor_C_center'
 
 # Translation offsets from CommonRoad to BeamNG
 etk800_z_offset = 0.212443
+etk800_ontop_z_offset = 1.10547
 tanker_z_offset = 1.21453
 semi_z_offset = 0.605691
 # FIXME Why is the rot_offset so scary?
@@ -42,7 +45,7 @@ def main() -> None:
     for lane in lanes:
         lane_nodes = []
         for center in lane.center_vertices:
-            lane_nodes.append((center[0], center[1], 0, 3))  # FIXME Determine appropriate width
+            lane_nodes.append((center[0], center[1], 0, 4))  # FIXME Determine appropriate width
         road = Road(cr_road_material)
         road.nodes.extend(lane_nodes)
         bng_scenario.add_road(road)
@@ -66,7 +69,7 @@ def main() -> None:
                              rot=(0, 0, rot_offset + semi_rot))
 
     # Add truck trailer
-    tanker = Vehicle('truck_trailer', model='tanker')
+    tanker = Vehicle('truck_trailer', model='tanker', color='Red')
     tanker_pos = semi_init_state.position + [6, 3]
     tanker_rot = rad2deg(semi_init_state.orientation)
     bng_scenario.add_vehicle(tanker,
@@ -83,7 +86,16 @@ def main() -> None:
                              rot=(0, 0, rot_offset + opponent_rot))
 
     # Add static obstacle
-    #obstacle =
+    obstacle_shape: Polygon = cr_scenario.obstacle_by_id(399).obstacle_shape
+    obstacle_pos = obstacle_shape.center
+    obstacle_rot = rad2deg(opponent_init_state.orientation)
+    for w in range(3):
+        for h in range(3):
+            for d in range(3):
+                obstacle = Vehicle('obstacle' + str(w) + str(h) + str(d), model='haybale')  # Alternatives: caravan
+                bng_scenario.add_vehicle(obstacle,
+                                         pos=(d * 2 + obstacle_pos[0], -w * 1.5 + obstacle_pos[1], h * 1),
+                                         rot=(0, 180, rot_offset + obstacle_rot))
 
     bng_scenario.make(bng)
 
@@ -101,6 +113,38 @@ def main() -> None:
     try:
         bng.load_scenario(bng_scenario)
         bng.start_scenario()
+
+        # Make the opponent vehicle move
+        opponent.ai_drive_in_lane(False)
+        last_pos = cr_scenario.obstacle_by_id(207).occupancy_at_time(21).shape.center
+        opponent.ai_set_line([
+            {
+                'pos': opponent.state['pos'],
+                'speed': 60
+            }, {
+                'pos': (last_pos[0], last_pos[1], etk800_z_offset),
+                'speed': 30
+            }, {
+                'pos': (140, 57, etk800_z_offset),
+                'speed': 10
+            }
+        ])
+
+        # Make the ego vehicle move
+        ego_vehicle.ai_drive_in_lane(False)
+        ego_vehicle.ai_set_line([
+            {
+                'pos': ego_vehicle.state['pos'],
+                'speed': 10
+            }, {
+                'pos': (130, 57, etk800_z_offset),
+                'speed': 10
+            }, {
+                'pos': (142, 62, etk800_z_offset),
+                'speed': 10
+            }
+        ])
+
         input("Press enter to end simulation...")
     finally:
         bng.close()
