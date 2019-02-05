@@ -1,7 +1,11 @@
+from copy import copy
+from time import sleep
+
 from beamngpy import BeamNGpy, Scenario, Vehicle, Road, os
-from beamngpy.sensors import Camera
 from commonroad.common.file_reader import CommonRoadFileReader
 from commonroad.geometry.shape import Polygon
+from commonroad.prediction.prediction import TrajectoryPrediction
+from commonroad.scenario.obstacle import DynamicObstacle
 from numpy.core._multiarray_umath import rad2deg
 
 # Visualize DEU_B471-1_1_T-1_mod_2
@@ -11,7 +15,8 @@ user_path = 'G:/gitrepos/SeminarTestingAutonomousCars/BeamNG/BeamNGUserpath'
 home_path = 'G:/gitrepos/beamng-research_unlimited/trunk'
 bng_scenario_environment = 'smallgrid'
 bng_scenario_name = 'commonroad'
-cr_scenario_path = 'G:/gitrepos/SeminarTestingAutonomousCars/demonstration/scenarios/DEU_B471-1_1_T-1_mod_2.xml'
+cr_scenario_name = 'DEU_B471-1_1_T-1.xml'
+cr_scenario_path = 'G:/gitrepos/SeminarTestingAutonomousCars/demonstration/scenarios/' + cr_scenario_name
 cr_road_material = 'track_editor_C_center'
 
 # Translation offsets from CommonRoad to BeamNG
@@ -21,6 +26,31 @@ tanker_z_offset = 1.21453
 semi_z_offset = 0.605691
 # FIXME Why is the rot_offset so scary?
 rot_offset = -135  # BeamNG = degrees(CommonRoad) + rot_offset
+
+
+def generate_node_list(obstacle) -> list:
+    path = list()
+    if isinstance(obstacle, DynamicObstacle):
+        prediction = obstacle.prediction
+        if isinstance(prediction, TrajectoryPrediction):
+            for state in prediction.trajectory.state_list:
+                path.append({
+                    'pos': (state.position[0], state.position[1], etk800_z_offset),
+                    'speed': state.velocity * 3.6
+                })
+        else:
+            print(str(type(prediction)) + " not supported, yet.")
+    else:
+        print(str(type(obstacle)) + " not supported, yet.")
+    return path
+
+
+def add_vehicle_to_bng_scenario(bng_scenario, vehicle, init_state, z_offset) -> None:
+    pos = init_state.position
+    rot = rad2deg(init_state.orientation)
+    bng_scenario.add_vehicle(vehicle,
+                             pos=(pos[0], pos[1], z_offset),
+                             rot=(0, 0, rot_offset + rot))
 
 
 def main() -> None:
@@ -37,8 +67,7 @@ def main() -> None:
     # Setup BeamNG
     bng = BeamNGpy('localhost', 64256, home=home_path, user=user_path)
     bng_scenario = Scenario(bng_scenario_environment, bng_scenario_name, authors='Stefan Huber',
-                            description='Simple visualization of the modified version of the CommonRoad scenario '
-                                        'DEU_B471-1_1_T-1')
+                            description='Simple visualization of the CommonRoad scenario ' + cr_scenario_name)
 
     # Add lane network
     lanes = cr_scenario.lanelet_network.lanelets
@@ -52,47 +81,35 @@ def main() -> None:
 
     # Add ego vehicle
     ego_vehicle = Vehicle('ego_vehicle', model='etk800', licence='EGO', color='White')
-    ego_init_state = cr_planning_problem.initial_state
-    ego_pos = ego_init_state.position
-    ego_rot = rad2deg(ego_init_state.orientation)
-    bng_scenario.add_vehicle(ego_vehicle,
-                             pos=(ego_pos[0], ego_pos[1], etk800_z_offset),
-                             rot=(0, 0, rot_offset + ego_rot))
+    add_vehicle_to_bng_scenario(bng_scenario, ego_vehicle, cr_planning_problem.initial_state, etk800_z_offset)
+
+    obstacles_to_move = dict()
 
     # Add truck
     semi = Vehicle('truck', model='semi')
     semi_init_state = cr_scenario.obstacle_by_id(206).initial_state
-    semi_pos = semi_init_state.position
-    semi_rot = rad2deg(semi_init_state.orientation)
-    bng_scenario.add_vehicle(semi,
-                             pos=(semi_pos[0], semi_pos[1], semi_z_offset),
-                             rot=(0, 0, rot_offset + semi_rot))
+    add_vehicle_to_bng_scenario(bng_scenario, semi, semi_init_state, semi_z_offset)
+    obstacles_to_move[206] = semi
 
     # Add truck trailer
-    tanker = Vehicle('truck_trailer', model='tanker', color='Red')
-    tanker_pos = semi_init_state.position + [6, 3]
-    tanker_rot = rad2deg(semi_init_state.orientation)
-    bng_scenario.add_vehicle(tanker,
-                             pos=(tanker_pos[0], tanker_pos[1], tanker_z_offset),
-                             rot=(0, 0, rot_offset + tanker_rot))
+    tanker_init_state = copy(semi_init_state)
+    tanker_init_state.position += [6, 3]
+    add_vehicle_to_bng_scenario(bng_scenario, Vehicle('truck_trailer', model='tanker', color='Red'),
+                                tanker_init_state, tanker_z_offset)
 
     # Add other traffic participant
     opponent = Vehicle('opponent', model='etk800', licence='VS', color='Red')
-    opponent_init_state = cr_scenario.obstacle_by_id(207).initial_state
-    opponent_pos = opponent_init_state.position
-    opponent_rot = rad2deg(opponent_init_state.orientation)
-    bng_scenario.add_vehicle(opponent,
-                             pos=(opponent_pos[0], opponent_pos[1], etk800_z_offset),
-                             rot=(0, 0, rot_offset + opponent_rot))
+    add_vehicle_to_bng_scenario(bng_scenario, opponent, cr_scenario.obstacle_by_id(207).initial_state, etk800_z_offset)
+    obstacles_to_move[207] = opponent
 
     # Add static obstacle
     obstacle_shape: Polygon = cr_scenario.obstacle_by_id(399).obstacle_shape
     obstacle_pos = obstacle_shape.center
-    obstacle_rot = rad2deg(opponent_init_state.orientation)
+    obstacle_rot = rad2deg(semi_init_state.orientation)
     for w in range(3):
         for h in range(3):
             for d in range(3):
-                obstacle = Vehicle('obstacle' + str(w) + str(h) + str(d), model='haybale')  # Alternatives: caravan
+                obstacle = Vehicle('obstacle' + str(w) + str(h) + str(d), model='haybale', color='white')
                 bng_scenario.add_vehicle(obstacle,
                                          pos=(d * 2 + obstacle_pos[0], -w * 1.5 + obstacle_pos[1], h * 1),
                                          rot=(0, 180, rot_offset + obstacle_rot))
@@ -114,37 +131,27 @@ def main() -> None:
         bng.load_scenario(bng_scenario)
         bng.start_scenario()
 
-        # Make the opponent vehicle move
-        opponent.ai_drive_in_lane(False)
-        last_pos = cr_scenario.obstacle_by_id(207).occupancy_at_time(21).shape.center
-        opponent.ai_set_line([
-            {
-                'pos': opponent.state['pos'],
-                'speed': 60
-            }, {
-                'pos': (last_pos[0], last_pos[1], etk800_z_offset),
-                'speed': 30
-            }, {
-                'pos': (140, 57, etk800_z_offset),
-                'speed': 10
-            }
-        ])
+        for id, obstacle in obstacles_to_move.items():
+            obstacle.ai_drive_in_lane(False)
+            obstacle.ai_set_line(generate_node_list(cr_scenario.obstacle_by_id(id)))
 
-        # Make the ego vehicle move
         ego_vehicle.ai_drive_in_lane(False)
-        ego_vehicle.ai_set_line([
-            {
-                'pos': ego_vehicle.state['pos'],
-                'speed': 10
-            }, {
-                'pos': (130, 57, etk800_z_offset),
-                'speed': 10
-            }, {
-                'pos': (142, 62, etk800_z_offset),
-                'speed': 10
-            }
-        ])
+        ego_vehicle.ai_set_speed(cr_planning_problem.initial_state.velocity * 3.6, mode='limit')
+        ego_vehicle.ai_set_line([{
+            'pos': ego_vehicle.state['pos']
+        }, {
+            'pos': (84, 33, etk800_z_offset)
+        }])
+        # FIXME Setting the speed does not work as expected
+        # ego_vehicle.ai_set_speed(cr_planning_problem.initial_state.velocity * 3.6, mode='set')
 
+        bng.pause()
+        bng.display_gui_message("The scenario is fully prepared and paused. You may like to position the camera first.")
+        delay_to_resume = 15
+        input("Press enter to continue the simulation... You have " + str(delay_to_resume)
+              + " seconds to switch back to the BeamNG window.")
+        sleep(delay_to_resume)
+        bng.resume()
         input("Press enter to end simulation...")
     finally:
         bng.close()
