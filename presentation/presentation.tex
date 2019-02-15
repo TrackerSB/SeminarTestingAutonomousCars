@@ -24,10 +24,16 @@
             height=\paperheight,
             width=\paperwidth,
             addresource=#1,
-            activate=pageopen,
+            activate=pagevisible,
             flashvars={source=#1&autoPlay=true&loop=true}
         ]{}{VPlayer9.swf}
     \end{textblock*}
+}
+
+\newcommand{\videoframe}[1]{%
+    \begin{frame}[plain]
+        \includeFSVideo{#1}
+    \end{frame}
 }
 
 \begin{document}
@@ -40,35 +46,45 @@
 
 \maketitle
 
-\begin{frame}{Problems of other approaches}
-\end{frame}
+\begin{frame}{Differentiation to other approaches}
+    \begin{multicols}{2}
+        Other approaches:
+        \begin{tikzpicture}
+            \node[anchor=south west, inner sep=0] at (0,0) {\includegraphics[height=.9\textheight]{media/binoculars.jpg}};
+            \onslide<2->{%
+                \draw[red, line width=0.8mm, line cap=round] (0,1.5) -- (6.5,7) {};
+                \draw[red, line width=0.8mm, line cap=round] (0,7) -- (6.5,1.5) {};
+            }
+        \end{tikzpicture}
+        \vfill\null%
+        \columnbreak%
 
-\begin{frame}{How this approach solves that}
+        \pause%
+        This approach:
+        \includegraphics[height=.9\textheight]{media/maurer.jpg}
+    \end{multicols}
 \end{frame}
 
 \begin{frame}{Measurement of criticality}
 \end{frame}
 
-\begin{frame}[plain] % Unoptimized scenario in driver view
-    \includeFSVideo{./media/beamNG_driverView.mp4}
-\end{frame}
-
-\begin{frame}[plain] % Unoptimized scenario in free view
-    \includeFSVideo{./media/beamNG_freeView.mp4}
-\end{frame}
-
-\begin{frame}[plain] % Development of drivable area
-    \includeFSVideo{./media/drivableArea_development.mp4}
-\end{frame}
+\videoframe{media/beamNG_toSlow.mp4}
+\videoframe{media/beamNG_adequate.mp4}
+\videoframe{media/beamNG_toFast.mp4}
+\videoframe{media/beamNG_adequate_freeView.mp4}
+\videoframe{media/drivableArea_development.mp4}
 
 \begin{frame}{Analyze development of drivable area}
     \begin{tikzpicture}
-        \node[anchor=south west,inner sep=0] at (0,0) {\includegraphics[height=.95\textheight, trim=700 0 130 90, clip]{./media/drivableArea_development.png}};
+        \node[anchor=south west,inner sep=0] at (0,0) {\includegraphics[height=.95\textheight, trim=700 0 130 90, clip]{media/drivableArea_development.png}};
         % \draw[red,thick,rounded corners]5 (3.7,5.7) rectangle (4.8,6.2);
         \onslide<2->{%
             \draw[red] (3.84,5.85) circle (1.6pt) node[anchor=west] {};
+            \draw[red, dashed] (3.84,5.7) -- (3.84,1) {};
             \draw[red] (4.025,5.85) circle (1.6pt) node[anchor=west] {};
+            \draw[red, dashed] (4.025,5.7) -- (4.025,1) {};
             \draw[red] (4.56,5.81) circle (1.6pt) node[anchor=west] {};
+            \draw[red, dashed] (4.56,5.7) -- (4.56,1) {};
         }
     \end{tikzpicture}
 \end{frame}
