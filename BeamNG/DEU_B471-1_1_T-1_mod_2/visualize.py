@@ -1,3 +1,4 @@
+from cmath import pi
 from copy import copy
 from time import sleep
 
@@ -7,15 +8,16 @@ from commonroad.geometry.shape import Polygon
 from commonroad.prediction.prediction import TrajectoryPrediction
 from commonroad.scenario.obstacle import DynamicObstacle
 from numpy.core._multiarray_umath import rad2deg
+# Configuration
+from numpy.core.multiarray import ndarray, cos, sin, array, deg2rad
 
 # Visualize DEU_B471-1_1_T-1_mod_2
 
-# Configuration
 user_path = 'G:/gitrepos/SeminarTestingAutonomousCars/BeamNG/BeamNGUserpath'
 home_path = 'G:/gitrepos/beamng-research_unlimited/trunk'
 bng_scenario_environment = 'smallgrid'
 bng_scenario_name = 'commonroad'
-cr_scenario_name = 'DEU_B471-1_1_T-1.xml'
+cr_scenario_name = 'DEU_B471-1_1_T-1_mod_2.xml'
 cr_scenario_path = 'G:/gitrepos/SeminarTestingAutonomousCars/demonstration/scenarios/' + cr_scenario_name
 cr_road_material = 'track_editor_C_center'
 
@@ -36,7 +38,7 @@ def generate_node_list(obstacle) -> list:
             for state in prediction.trajectory.state_list:
                 path.append({
                     'pos': (state.position[0], state.position[1], etk800_z_offset),
-                    'speed': state.velocity * 3.6
+                    'speed': state.velocity * 3.6 / 6.5  # Manually slow down
                 })
         else:
             print(str(type(prediction)) + " not supported, yet.")
@@ -51,6 +53,12 @@ def add_vehicle_to_bng_scenario(bng_scenario, vehicle, init_state, z_offset) -> 
     bng_scenario.add_vehicle(vehicle,
                              pos=(pos[0], pos[1], z_offset),
                              rot=(0, 0, rot_offset + rot))
+
+
+def pol2cart(rho: float, phi: float) -> ndarray:
+    x = rho * cos(phi)
+    y = rho * sin(phi)
+    return array([x, y])
 
 
 def main() -> None:
@@ -105,14 +113,18 @@ def main() -> None:
     # Add static obstacle
     obstacle_shape: Polygon = cr_scenario.obstacle_by_id(399).obstacle_shape
     obstacle_pos = obstacle_shape.center
-    obstacle_rot = rad2deg(semi_init_state.orientation)
+    obstacle_rot_deg = rad2deg(semi_init_state.orientation) + rot_offset
+    obstacle_rot_rad = semi_init_state.orientation + deg2rad(rot_offset)
     for w in range(3):
         for h in range(3):
-            for d in range(3):
+            for d in range(2):
                 obstacle = Vehicle('obstacle' + str(w) + str(h) + str(d), model='haybale', color='white')
+                haybale_pos_diff = obstacle_pos \
+                    + pol2cart(1.3 * d, obstacle_rot_rad + pi / 4) \
+                    + pol2cart(2.2 * w, pi / 2 - obstacle_rot_rad)
                 bng_scenario.add_vehicle(obstacle,
-                                         pos=(d * 2 + obstacle_pos[0], -w * 1.5 + obstacle_pos[1], h * 1),
-                                         rot=(0, 180, rot_offset + obstacle_rot))
+                                         pos=(haybale_pos_diff[0], haybale_pos_diff[1], h * 1),
+                                         rot=(0, 0, obstacle_rot_deg))
 
     bng_scenario.make(bng)
 
@@ -130,28 +142,44 @@ def main() -> None:
     try:
         bng.load_scenario(bng_scenario)
         bng.start_scenario()
-
-        for id, obstacle in obstacles_to_move.items():
-            obstacle.ai_drive_in_lane(False)
-            obstacle.ai_set_line(generate_node_list(cr_scenario.obstacle_by_id(id)))
-
-        ego_vehicle.ai_drive_in_lane(False)
-        ego_vehicle.ai_set_speed(cr_planning_problem.initial_state.velocity * 3.6, mode='limit')
-        ego_vehicle.ai_set_line([{
-            'pos': ego_vehicle.state['pos']
-        }, {
-            'pos': (84, 33, etk800_z_offset)
-        }])
-        # FIXME Setting the speed does not work as expected
-        # ego_vehicle.ai_set_speed(cr_planning_problem.initial_state.velocity * 3.6, mode='set')
-
         bng.pause()
+
         bng.display_gui_message("The scenario is fully prepared and paused. You may like to position the camera first.")
         delay_to_resume = 15
         input("Press enter to continue the simulation... You have " + str(delay_to_resume)
               + " seconds to switch back to the BeamNG window.")
         sleep(delay_to_resume)
         bng.resume()
+
+        for id, obstacle in obstacles_to_move.items():
+            obstacle.ai_drive_in_lane(False)
+            obstacle.ai_set_line(generate_node_list(cr_scenario.obstacle_by_id(id)))
+
+        ego_vehicle.ai_drive_in_lane(False)
+        # ego_vehicle.ai_set_speed(cr_planning_problem.initial_state.velocity * 3.6, mode='limit')
+        speed = 10 / 3.6
+        sleep(3)
+        ego_vehicle.ai_set_line([{
+            'pos': ego_vehicle.state['pos']
+        }, {
+            'pos': (129.739, 56.907, etk800_z_offset),
+            'speed': speed
+        }, {
+            'pos': (139.4, 62.3211, etk800_z_offset),
+            'speed': speed
+        }, {
+            'pos': (149.442, 64.3655, etk800_z_offset),
+            'speed': speed
+        }, {
+            'pos': (150.168, 63.3065, etk800_z_offset),
+            'speed': speed
+        }, {
+            'pos': (188.495, 78.8517, etk800_z_offset),
+            'speed': speed
+        }])
+        # FIXME Setting the speed does not work as expected
+        # ego_vehicle.ai_set_speed(cr_planning_problem.initial_state.velocity * 3.6, mode='set')
+
         input("Press enter to end simulation...")
     finally:
         bng.close()
