@@ -38,7 +38,7 @@ def generate_node_list(obstacle) -> list:
             for state in prediction.trajectory.state_list:
                 path.append({
                     'pos': (state.position[0], state.position[1], etk800_z_offset),
-                    'speed': state.velocity * 3.6 / 6.5  # Manually slow down
+                    'speed': state.velocity * 3.6 / 6.3  # Manually slow down
                 })
         else:
             print(str(type(prediction)) + " not supported, yet.")
@@ -89,7 +89,10 @@ def main() -> None:
 
     # Add ego vehicle
     ego_vehicle = Vehicle('ego_vehicle', model='etk800', licence='EGO', color='White')
-    add_vehicle_to_bng_scenario(bng_scenario, ego_vehicle, cr_planning_problem.initial_state, etk800_z_offset)
+    ego_init_state = cr_planning_problem.initial_state
+    ego_init_state.position[0] = 85.8235
+    ego_init_state.position[1] = 33.5786
+    add_vehicle_to_bng_scenario(bng_scenario, ego_vehicle, ego_init_state, etk800_z_offset)
 
     obstacles_to_move = dict()
 
@@ -157,8 +160,7 @@ def main() -> None:
 
         ego_vehicle.ai_drive_in_lane(False)
         # ego_vehicle.ai_set_speed(cr_planning_problem.initial_state.velocity * 3.6, mode='limit')
-        speed = 10 / 3.6
-        sleep(3)
+        speed = 65 / 3.6
         ego_vehicle.ai_set_line([{
             'pos': ego_vehicle.state['pos']
         }, {
