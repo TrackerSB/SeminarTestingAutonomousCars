@@ -7,6 +7,8 @@
 \usepackage{multicol}
 \usepackage{tikz}
 
+\usetikzlibrary{arrows, decorations.markings}
+
 \usetheme{Madrid}
 \usecolortheme{crane}
 \setbeamertemplate{page number in head/foot}{}
@@ -47,22 +49,19 @@
 \maketitle
 
 \begin{frame}{Differentiation to other approaches}
-    \begin{multicols}{2}
-        Other approaches:
-        \begin{tikzpicture}
-            \node[anchor=south west, inner sep=0] at (0,0) {\includegraphics[height=.9\textheight]{media/binoculars.jpg}};
-            \onslide<2->{%
-                \draw[red, line width=0.8mm, line cap=round] (0,1.5) -- (6.5,7) {};
-                \draw[red, line width=0.8mm, line cap=round] (0,7) -- (6.5,1.5) {};
-            }
-        \end{tikzpicture}
-        \vfill\null%
-        \columnbreak%
+    \pause%
+    \begin{tikzpicture}
+        \node[anchor=south west, inner sep=0] at (0,0) {\includegraphics[height=.9\textheight]{media/binoculars.jpg}};
+        \node[draw=none] at (3,7.5) {Other approaches};
 
-        \pause%
-        This approach:
-        \includegraphics[height=.9\textheight]{media/maurer.jpg}
-    \end{multicols}
+        \onslide<3->{%
+            \node[anchor=south west, inner sep=0] at (8,0) {\includegraphics[height=.9\textheight]{media/maurer.jpg}};
+            \node[draw=none] at (11.2,7.5) {This approach};
+            \draw[red, line width=0.8mm, line cap=round] (0,1.5) -- (6.5,7);
+            \draw[red, line width=0.8mm, line cap=round] (0,7) -- (6.5,1.5);
+            \draw [->, red, line width=7mm, >=stealth] (6.5,4) -- (10,4);
+        }
+    \end{tikzpicture}
 \end{frame}
 
 \begin{frame}{Measurement of criticality}
