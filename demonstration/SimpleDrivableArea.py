@@ -35,7 +35,7 @@ def main() -> None:
     frames: list = []
 
     for i in range(1, num_steps + 1):
-        frame = list(map(lambda v: DrawHelp.draw(v.drawable), filter(lambda v: v.state.state.time_step == i, all_states)))
+        frame = list(map(lambda v: DrawHelp.draw(v.drawable), filter(lambda v: v.state.state.time_step <= i, all_states)))
         union: MultiPolygon = DrawHelp.union_to_polygon(frame)
         artist: Optional[Artist] = DrawHelp.draw(union)
         if artist is not None:
