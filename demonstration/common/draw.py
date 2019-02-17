@@ -105,7 +105,7 @@ class DrawHelp:
             coords = to_draw.coords
             x_data: List[Tuple[float, float]] = list(map(lambda l: l[0], coords))
             y_data: List[Tuple[float, float]] = list(map(lambda l: l[1], coords))
-            artist = gca().add_line(Line2D(x_data, y_data))
+            artist = gca().add_line(Line2D(x_data, y_data, color='orange'))
         elif isinstance(to_draw, MultiPolygon):
             artist = None  # In case the polygon had no boundary
             for line_string in to_draw.boundary:
