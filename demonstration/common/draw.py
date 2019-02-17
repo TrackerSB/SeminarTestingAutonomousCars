@@ -1,5 +1,5 @@
 from logging import error, warning
-from typing import Optional, List, Tuple
+from typing import Optional, List, Tuple, Union
 
 import commonroad
 from commonroad.geometry.shape import Shape
@@ -83,7 +83,7 @@ class DrawHelp:
         return converted
 
     @staticmethod
-    def draw(to_draw: drawable_types) -> Optional[Artist]:
+    def draw(to_draw: drawable_types) -> Union[Optional[Artist], list]:
         """
         Converts the given object to a drawable object, draws and returns it.
         :param to_draw: The object to draw.
@@ -97,20 +97,18 @@ class DrawHelp:
             error("Pass an occupancy of a DynamicObstacle instead of the obstacle itself.")
             artist = None
         elif isinstance(to_draw, MultiLineString):
-            artist = None  # In case the MultiLineString had no boundary
+            artist = []  # In case the MultiLineString had no boundary
             for line_string in to_draw.boundary:
-                artist = DrawHelp.draw(line_string)
-                # FIXME Only the artist is returned
+                artist.append(DrawHelp.draw(line_string))
         elif isinstance(to_draw, LineString):
             coords = to_draw.coords
             x_data: List[Tuple[float, float]] = list(map(lambda l: l[0], coords))
             y_data: List[Tuple[float, float]] = list(map(lambda l: l[1], coords))
             artist = gca().add_line(Line2D(x_data, y_data, color='orange'))
         elif isinstance(to_draw, MultiPolygon):
-            artist = None  # In case the polygon had no boundary
+            artist = []  # In case the polygon had no boundary
             for line_string in to_draw.boundary:
-                artist = DrawHelp.draw(line_string)
-                # FIXME Only the last artist is returned
+                artist.append(DrawHelp.draw(line_string))
         elif isinstance(to_draw, Polygon):
             artist = DrawHelp.draw(to_draw.boundary)
         elif isinstance(to_draw, Patch):
@@ -119,6 +117,8 @@ class DrawHelp:
             error("Drawing " + str(type(to_draw)) + " is not implemented, yet.")
             artist = None
 
+        if isinstance(artist, list) and artist == []:
+            artist = None
         return artist
 
     @staticmethod

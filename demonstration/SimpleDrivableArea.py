@@ -39,7 +39,10 @@ def main() -> None:
         union: MultiPolygon = DrawHelp.union_to_polygon(frame)
         artist: Optional[Artist] = DrawHelp.draw(union)
         if artist is not None:
-            frame.append(artist)
+            if isinstance(artist, list):
+                frame.extend(artist)
+            else:
+                frame.append(artist)
         frames.append(frame)
 
     print("Drivable area: " + str(union.area))
