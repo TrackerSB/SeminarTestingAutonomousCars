@@ -27,6 +27,7 @@
             width=\paperwidth,
             addresource=#1,
             activate=pageopen,
+            playbutton=none,
             flashvars={source=#1&autoPlay=true&loop=true}
         ]{}{VPlayer9.swf}
     \end{textblock*}
@@ -35,6 +36,13 @@
 \newcommand{\videoframe}[1]{%
     \begin{frame}[plain]
         \includeFSVideo{#1}
+    \end{frame}
+}
+
+\newcommand{\fsFrame}[1]{%
+    \begin{frame}[plain]
+        \centering
+        \Huge{#1}
     \end{frame}
 }
 
@@ -67,13 +75,18 @@
 \videoframe{media/drivableArea_slow.mp4}
 \videoframe{media/drivableArea_fast.mp4}
 
+\fsFrame{Limit 50 km/h}
 \videoframe{media/beamNG_toSlow.mp4}
+\fsFrame{Limit 70 km/h}
 \videoframe{media/beamNG_adequate.mp4}
+\fsFrame{Limit 80 km/h}
 \videoframe{media/beamNG_toFast.mp4}
+\fsFrame{Limit 70 km/h}
 \videoframe{media/beamNG_adequate_freeView.mp4}
 \videoframe{media/drivableArea_development.mp4}
 
 \begin{frame}{Analyze development of drivable area}
+    \centering
     \begin{tikzpicture}
         \node[anchor=south west,inner sep=0] at (0,0) {\includegraphics[height=.95\textheight, trim=700 0 130 90, clip]{media/drivableArea_development.png}};
         % \draw[red,thick,rounded corners]5 (3.7,5.7) rectangle (4.8,6.2);
