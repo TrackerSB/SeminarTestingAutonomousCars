@@ -20,13 +20,13 @@ arrowprops: Dict = dict(facecolor='black', width=3)
 
 def createDynamicObstaclesArtists(dynamic_obstacles: List[DynamicObstacle]) -> List[List[Artist]]:
     artists: List[List[Artist]] = []
-    for time_step in range(0, 51):
+    for time_step in range(0, 21):
         frame = []
         for obstacle in dynamic_obstacles:
             position: pltpat.Rectangle = DrawHelp.convert_to_drawable(obstacle, time_step)
             frame.append(DrawHelp.draw(position))
             frame.append(plt.annotate("participant", xy=(position.get_x() - 3, position.get_y()),
-                                      xytext=(position.get_x(), position.get_y() + 20),
+                                      xytext=(position.get_x(), position.get_y() + 7),
                                       arrowprops=arrowprops))
         artists.append(frame)
 
@@ -40,29 +40,29 @@ def extend_frames_with_prediction(initial_state: State, frames: List[List[Artist
         state_point: pltpat.Circle = pltpat.Circle(current_state.position, 2)
         frame.append(plt.gca().add_patch(state_point))
         center = state_point.get_center()
-        annotation = plt.annotate("ego_vehicle", xy=center - (0, 2), xytext=center - (-2, 20), arrowprops=arrowprops)
+        annotation = plt.annotate("ego_vehicle", xy=center - (0, 2), xytext=center - (-2, 7), arrowprops=arrowprops)
         frame.append(annotation)
 
         delta_x: float = np.cos(current_state.orientation) * current_state.velocity * delay_time_step_sec
         delta_y: float = np.sin(current_state.orientation) * current_state.velocity * delay_time_step_sec
         translation: np.ndarray = np.array([delta_x, delta_y])
-        current_state = current_state.translate_rotate(translation, 0)
+        #current_state = current_state.translate_rotate(translation, 0)
 
     return frames
 
 
 def main() -> None:
     figure = plt.figure(figsize=(19.20, 10.80), dpi=100)
-    plt.xlim([-200, 250])
-    plt.ylim([-100, 100])
-    file_path: os.path = os.path.join(os.getcwd(), '../scenarios/DEU_B471-1_1_T-1.xml')
+    plt.xlim([100, 220])
+    plt.ylim([25, 100])
+    file_path: os.path = os.path.join(os.getcwd(), '../scenarios/DEU_B471-1_1_T-1_mod_2.xml')
     common_road_input: Tuple[Scenario, PlanningProblemSet] = CommonRoadFileReader(file_path).open()
     scenario: Scenario = common_road_input[0]
     planning_problem: Optional[PlanningProblem] = common_road_input[1].planning_problem_dict.get(800)
 
     # Draw goal region
     DrawHelp.draw(DrawHelp.convert_to_drawable(planning_problem.goal))
-    plt.annotate("goal region", xy=(117, 45), xytext=(150, 35), arrowprops=arrowprops)
+    plt.annotate("goal region", xy=(156, 62), xytext=(160, 55), arrowprops=arrowprops)
 
     # Draw lanes
     DrawHelp.draw(DrawHelp.convert_to_drawable(scenario.lanelet_network))
@@ -71,7 +71,7 @@ def main() -> None:
     for obstacle in scenario.static_obstacles:
         DrawHelp.draw(DrawHelp.convert_to_drawable(obstacle))
         x, y = obstacle.occupancy_at_time(0).shape.center
-        plt.annotate("static obstacle", xy=(x + 2, y - 2), xytext=(x + 50, y - 20), arrowprops=arrowprops)
+        plt.annotate("static obstacle", xy=(x + 2, y + 3), xytext=(x, y + 9), arrowprops=arrowprops)
 
     # Generates frames of dynamic obstacles
     frames: List[List[Artist]] = createDynamicObstaclesArtists(scenario.dynamic_obstacles)
