@@ -29,7 +29,7 @@ def createDynamicObstaclesArtists(dynamic_obstacles: List[DynamicObstacle]) -> L
             frame.append(drawable)
             frame.append(plt.annotate("participant", xy=(position.get_x() - 3, position.get_y()),
                                       xytext=(position.get_x(), position.get_y() + 7),
-                                      arrowprops=arrowprops))
+                                      arrowprops=arrowprops, zorder=100000))
         artists.append(frame)
 
     return artists
