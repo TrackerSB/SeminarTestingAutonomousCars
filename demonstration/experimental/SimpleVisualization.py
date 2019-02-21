@@ -24,7 +24,9 @@ def createDynamicObstaclesArtists(dynamic_obstacles: List[DynamicObstacle]) -> L
         frame = []
         for obstacle in dynamic_obstacles:
             position: pltpat.Rectangle = DrawHelp.convert_to_drawable(obstacle, time_step)
-            frame.append(DrawHelp.draw(position))
+            drawable = DrawHelp.draw(position)
+            drawable.set_zorder(1000000)
+            frame.append(drawable)
             frame.append(plt.annotate("participant", xy=(position.get_x() - 3, position.get_y()),
                                       xytext=(position.get_x(), position.get_y() + 7),
                                       arrowprops=arrowprops))
