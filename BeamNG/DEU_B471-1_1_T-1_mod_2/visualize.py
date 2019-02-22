@@ -88,16 +88,16 @@ def main() -> None:
         bng_scenario.add_road(road)
 
     # Add ego vehicle
-    ego_vehicle = Vehicle('ego_vehicle', model='etk800', licence='EGO', color='White')
+    ego_vehicle = Vehicle('ego_vehicle', model='etk800', licence='EGO', color='Cornflowerblue')
     ego_init_state = cr_planning_problem.initial_state
-    ego_init_state.position[0] = 85.8235
-    ego_init_state.position[1] = 33.5786
+    ego_init_state.position[0] = 82.8235
+    ego_init_state.position[1] = 31.5786
     add_vehicle_to_bng_scenario(bng_scenario, ego_vehicle, ego_init_state, etk800_z_offset)
 
     obstacles_to_move = dict()
 
     # Add truck
-    semi = Vehicle('truck', model='semi')
+    semi = Vehicle('truck', model='semi', color='Red')
     semi_init_state = cr_scenario.obstacle_by_id(206).initial_state
     add_vehicle_to_bng_scenario(bng_scenario, semi, semi_init_state, semi_z_offset)
     obstacles_to_move[206] = semi
@@ -109,7 +109,7 @@ def main() -> None:
                                 tanker_init_state, tanker_z_offset)
 
     # Add other traffic participant
-    opponent = Vehicle('opponent', model='etk800', licence='VS', color='Red')
+    opponent = Vehicle('opponent', model='etk800', licence='VS', color='Cornflowerblue')
     add_vehicle_to_bng_scenario(bng_scenario, opponent, cr_scenario.obstacle_by_id(207).initial_state, etk800_z_offset)
     obstacles_to_move[207] = opponent
 
@@ -121,7 +121,7 @@ def main() -> None:
     for w in range(3):
         for h in range(3):
             for d in range(2):
-                obstacle = Vehicle('obstacle' + str(w) + str(h) + str(d), model='haybale', color='white')
+                obstacle = Vehicle('obstacle' + str(w) + str(h) + str(d), model='haybale', color='Red')
                 haybale_pos_diff = obstacle_pos \
                     + pol2cart(1.3 * d, obstacle_rot_rad + pi / 4) \
                     + pol2cart(2.2 * w, pi / 2 - obstacle_rot_rad)
