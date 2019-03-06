@@ -2,6 +2,8 @@
 
 \usepackage[english]{babel}
 \usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage{fontawesome}
 \usepackage{media9}
 \usepackage[absolute, overlay]{textpos}
 \usepackage{multicol}
@@ -48,7 +50,7 @@
 }
 
 \newcommand{\videoframeHref}[2]{%
-    \fsFrame{\href{#1}{#2}}
+    \fsFrame{\href{#1}{#2 \faExternalLink}}
 }
 
 \begin{document}
